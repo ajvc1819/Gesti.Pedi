@@ -114,7 +114,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvDNI" />
 
                 <EditText
-                    android:id="@+id/tvmNombre"
+                    android:id="@+id/etNombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -143,7 +143,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
 
                 <EditText
-                    android:id="@+id/tvmApellidos"
+                    android:id="@+id/etApellidos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -172,7 +172,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvApellidos" />
 
                 <EditText
-                    android:id="@+id/tvmEmpresa"
+                    android:id="@+id/etEmpresa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -201,7 +201,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvEmpresa" />
 
                 <EditText
-                    android:id="@+id/tvmCP"
+                    android:id="@+id/etCP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -231,7 +231,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvCP" />
 
                 <EditText
-                    android:id="@+id/tvmDireccion"
+                    android:id="@+id/etDireccion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -260,7 +260,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvDirección" />
 
                 <EditText
-                    android:id="@+id/tvmCiudad"
+                    android:id="@+id/etCiudad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -286,7 +286,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTelf" />
 
                 <EditText
-                    android:id="@+id/tvmPais"
+                    android:id="@+id/etPais"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -312,7 +312,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvCiudad" />
 
                 <EditText
-                    android:id="@+id/tvmTelf"
+                    android:id="@+id/etTelf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
@@ -341,7 +341,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvPais" />
 
                 <EditText
-                    android:id="@+id/tvmEmail"
+                    android:id="@+id/etEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"

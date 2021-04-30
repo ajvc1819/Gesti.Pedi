@@ -95,4 +95,30 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
         }
     }
+
+    public void editClient(int id, String dni, String nombre, String apellidos, String empresa, String direccion, String cp, String ciudad, String pais, String telefono, String correo){
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            try{
+                db.execSQL("UPDATE Clients SET dni = '" + dni + "', nombre = '" + nombre + "', apellidos = '" + apellidos + "', empresa = '" + empresa + "', direccion = '" + direccion + "', cp = '" + cp + "', ciudad = '" + ciudad +"', pais = '" + pais + "', telefono = '" + telefono +"', correo = '" + correo +"' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex){
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
+    public void deleteClient(int idClient){
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            try{
+                db.execSQL("DELETE FROM Clients WHERE id = '" + idClient + "'");
+                db.close();
+            } catch (Exception ex){
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
 }

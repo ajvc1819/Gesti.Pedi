@@ -28,10 +28,11 @@ public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.View
     }
 
     public static  class  ViewHolder extends  RecyclerView.ViewHolder{
-       private TextView nombre, telefono, correo;
+       private TextView empresa, nombre, telefono, correo;
 
        public ViewHolder(@NonNull View itemView) {
            super(itemView);
+           empresa = (TextView)itemView.findViewById(R.id.tvEmpresa);
            nombre= (TextView)itemView.findViewById(R.id.tvNombre);
            telefono = (TextView)itemView.findViewById(R.id.tvTelefono);
            correo = (TextView)itemView.findViewById(R.id.tvCorreo);
@@ -49,7 +50,8 @@ public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nombre.setText(clienteModeloList.get(position).getNombre());
+        holder.empresa.setText(clienteModeloList.get(position).getEmpresa());
+        holder.nombre.setText(clienteModeloList.get(position).getNombre() + " " + clienteModeloList.get(position).getApellidos());
         holder.telefono.setText(clienteModeloList.get(position).getTelefono());
         holder.correo.setText(clienteModeloList.get(position).getCorreo());
     }

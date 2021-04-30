@@ -40,6 +40,28 @@ public class ClientActivity extends AppCompatActivity {
         recyclerViewClient.setAdapter(clienteAdaptador);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        
+        final RecyclerView recyclerViewClient = findViewById(R.id.rvClient);
+        recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+
+        final ClienteAdaptador clienteAdaptador = new ClienteAdaptador(dbGestiPedi.mostrarClientes());
+
+        clienteAdaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                intent.putExtra(EXTRA_ID, clientId);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewClient.setAdapter(clienteAdaptador);
+    }
 
     public void anyadirCliente(View view) {
         Intent intent = new Intent(this, AnyadirCliente.class);
