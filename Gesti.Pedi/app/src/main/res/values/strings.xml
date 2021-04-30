@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Gesti.Pedi</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="Title">Gesti.Pedi</string>
+    <string name="stock_text">Stock</string>
+    <string name="informes_text">Informes</string>
+    <string name="pedidos_text">Pedidos</string>
+    <string name="clientes_text">Clientes</string>
+    <string name="logo">Logo</string>
+    <string name="imgstock">imgstock</string>
+    <string name="imgclientes">imgClientes</string>
+    <string name="imginformes">imgInformes</string>
+    <string name="imgpedidos">imgPedidos</string>
+    <string name="a_adir_cliente">Añadir Cliente</string>
+    <string name="clientes">Clientes</string>
+    <string name="email">Email:</string>
+    <string name="nombre">Nombre:</string>
+    <string name="dni">DNI:</string>
+    <string name="a_adir_clientes">Añadir Clientes</string>
+</resources>
