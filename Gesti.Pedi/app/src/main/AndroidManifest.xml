@@ -10,7 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditClient"
+        <activity android:name=".Register"
+            android:label="Registrarse"
+            android:parentActivityName=".InitSession">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.InitSession" />
+        </activity>
+        <activity android:name=".InitSession"
+            android:label="Iniciar Sesión"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.MainActivity" />
+        </activity>
+        <activity
+            android:name=".EditClient"
             android:label="Editar Cliente"
             android:parentActivityName=".ClienteDetalle">
             <meta-data

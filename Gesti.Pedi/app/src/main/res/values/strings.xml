@@ -26,4 +26,7 @@
     <string name="dni">DNI:</string>
     <string name="a_adir_clientes">Añadir Clientes</string>
     <string name="editar_cliente">Editar Cliente</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="registrarse">Registrarse</string>
 </resources>

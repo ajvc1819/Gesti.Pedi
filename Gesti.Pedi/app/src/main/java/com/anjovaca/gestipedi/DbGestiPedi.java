@@ -15,13 +15,14 @@ import java.util.List;
 
 public class DbGestiPedi extends SQLiteOpenHelper {
 
+    private static final String USERS_TABLE_CREATE = "CREATE TABLE Users(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellidos TEXT NOT NULL, usuario TEXT NOT NULL, contraseña TEXT NOT NULL, rol TEXT NOT NULL)";
     private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, idCategoria INTEGER NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB NOT NULL, FOREIGN KEY (idCategoria) REFERENCES Category(id))";
     private static final String CLIENTS_TABLE_CREATE = "CREATE TABLE Clients(id INTEGER PRIMARY KEY AUTOINCREMENT, dni TEXT NOT NULL, nombre TEXT NOT NULL, apellidos TEXT NOT NULL,empresa TEXT NOT NULL, direccion TEXT NOT NULL, cp TEXT NOT NULL, ciudad TEXT NOT NULL, pais TEXT NOT NULL, telefono TEXT NOT NULL, correo TEXT NOT NULL)";
     private static final String ORDERDETAIL_TABLE_CREATE = "CREATE TABLE OrderDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, precio DOUBLE NOT NULL, idPedido INTEGER NOT NULL, idProducto INTEGER NOT NULL, FOREIGN KEY (idPedido) REFERENCES Orders(id), FOREIGN KEY (idProducto) REFERENCES Products(id))";
-    private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TIMESTAMP NOT NULL, idCliente INTEGER NOT NULL, idEstado INTEGER NOT NULL, total DOUBLE NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idEstado) REFERENCES State(id))";
+    private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TIMESTAMP NOT NULL, idCliente INTEGER NOT NULL, idEstado INTEGER NOT NULL, total DOUBLE NOT NULL, idUsuario INTEGER NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idEstado) REFERENCES State(id), FOREIGN KEY (idUsuario) REFERENCES Users(id))";
     private static final String CATEGORY_TABLE_CREATE = "CREATE TABLE Category(id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)";
     private static final String STATE_TABLE_CREATE = "CREATE TABLE State(id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)";
-    private static final String DB_NAME = "GestiPedi";
+    private static final String DB_NAME = "GestiPedidb";
     private static final int DB_VERSION = 1;
 
     public DbGestiPedi(@Nullable Context context) {
@@ -30,6 +31,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(USERS_TABLE_CREATE);
         db.execSQL(PRODUCTS_TABLE_CREATE);
         db.execSQL(CLIENTS_TABLE_CREATE);
         db.execSQL(ORDERDETAIL_TABLE_CREATE);
@@ -120,5 +122,31 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             }
 
         }
+    }
+
+    public void insertUser(String nombre, String apellidos, String usuario, String contraseña){
+        SQLiteDatabase db = getWritableDatabase();
+        String rol = "Usuario";
+        if(db!=null){
+            try{
+                db.execSQL("IF NOT EXISTS(SELECT * FROM Users WHERE usuario = '"+ usuario + "') BEGIN INSERT INTO Users (nombre,apellidos,usuario,contraseña, rol) VALUES ('" + nombre + "','" + apellidos + "','" + usuario + "','" + contraseña + "','" + rol + "') END");
+                db.close();
+            } catch (Exception ex){
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
+    public List<UserModel> initSession(String usuario, String password){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + usuario + "', contraseña = '" + password + "'", null);
+        List<UserModel> users = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                users.add(new UserModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5)));
+            }while ((cursor.moveToNext()));
+        }
+        return users;
     }
 }
