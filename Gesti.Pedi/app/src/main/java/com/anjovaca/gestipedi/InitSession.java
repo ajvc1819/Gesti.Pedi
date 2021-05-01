@@ -9,8 +9,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class InitSession extends AppCompatActivity {
+    public static final String EXTRA_LOGED_IN =
+            "com.example.android.twoactivities.extra.login";
+    public List<UserModel> userModelList;
+    public boolean login;
     EditText username, password;
     DbGestiPedi dbGestiPedi;
     @Override
@@ -25,7 +32,19 @@ public class InitSession extends AppCompatActivity {
 
     public void initSession(View view) {
         try{
-            dbGestiPedi.initSession(username.getText().toString(),password.getText().toString());
+            userModelList = dbGestiPedi.initSession(username.getText().toString(), password.getText().toString());
+            if(!userModelList.isEmpty()){
+                login = true;
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra(EXTRA_LOGED_IN, login);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"El usuario introducido no es correcto.",Toast.LENGTH_SHORT).show();
+            }
+
+
         }catch (Exception e) {
             Log.d("TAG", e.toString());
         }

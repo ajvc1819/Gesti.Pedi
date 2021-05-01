@@ -26,7 +26,17 @@
     <string name="dni">DNI:</string>
     <string name="a_adir_clientes">Añadir Clientes</string>
     <string name="editar_cliente">Editar Cliente</string>
-    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="iniciar_sesion">Iniciar Sesión</string>
     <string name="iniciar_sesi_n">Iniciar Sesión</string>
     <string name="registrarse">Registrarse</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
 </resources>

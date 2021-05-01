@@ -85,6 +85,18 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return clientes;
     }
 
+    public List<ClienteModelo> checkClient(String dni, String telf, String correo){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Clients WHERE Dni = '" + dni + "' OR telefono = '"+ telf + "' OR correo = '" + correo + "'", null);
+        List<ClienteModelo> clientes = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                clientes.add(new ClienteModelo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10)));
+            }while ((cursor.moveToNext()));
+        }
+        return clientes;
+    }
+
     public void agregarCliente(String dni, String nombre, String apellidos, String empresa, String direccion, String cp, String ciudad, String pais, String telefono, String correo){
         SQLiteDatabase db = getWritableDatabase();
         if(db!=null){
@@ -124,12 +136,11 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
-    public void insertUser(String nombre, String apellidos, String usuario, String contraseña){
+    public void insertUser(String nombre, String apellidos, String usuario, String pass, String rol){
         SQLiteDatabase db = getWritableDatabase();
-        String rol = "Usuario";
         if(db!=null){
             try{
-                db.execSQL("IF NOT EXISTS(SELECT * FROM Users WHERE usuario = '"+ usuario + "') BEGIN INSERT INTO Users (nombre,apellidos,usuario,contraseña, rol) VALUES ('" + nombre + "','" + apellidos + "','" + usuario + "','" + contraseña + "','" + rol + "') END");
+                db.execSQL("INSERT INTO Users (nombre,apellidos,usuario,contraseña,rol) VALUES ('" + nombre + "','" + apellidos + "','" + usuario + "','" + pass + "','" + rol + "')");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
@@ -140,7 +151,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
     public List<UserModel> initSession(String usuario, String password){
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + usuario + "', contraseña = '" + password + "'", null);
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + usuario + "' AND contraseña = '" + password + "'", null);
+        List<UserModel> users = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                users.add(new UserModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5)));
+            }while ((cursor.moveToNext()));
+        }
+        return users;
+    }
+
+    public List<UserModel> checkUsers(String usuario){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + usuario + "'", null);
         List<UserModel> users = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{

@@ -7,8 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.List;
+
 public class Register extends AppCompatActivity {
 
+    public List<UserModel> userModelList;
     DbGestiPedi dbGestiPedi;
     EditText username, password, name, lastName;
 
@@ -27,7 +30,13 @@ public class Register extends AppCompatActivity {
 
     public void register(View view) {
         try{
-            dbGestiPedi.insertUser(username.getText().toString(), password.getText().toString(), name.getText().toString(), lastName.getText().toString());
+            userModelList = dbGestiPedi.checkUsers(username.getText().toString());
+            if(userModelList.isEmpty()){
+                dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(),"Usuario");
+            } else {
+              Log.d("TAG", "El usuario ya existe.");
+            }
+            finish();
         } catch (Exception e){
             Log.d("TAG", e.toString());
         }

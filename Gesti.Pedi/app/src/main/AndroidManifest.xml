@@ -10,14 +10,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Register"
+        <activity android:name=".LogOut"></activity>
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".Register"
             android:label="Registrarse"
             android:parentActivityName=".InitSession">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anjovaca.gestipedi.InitSession" />
         </activity>
-        <activity android:name=".InitSession"
+        <activity
+            android:name=".InitSession"
             android:label="Iniciar Sesión"
             android:parentActivityName=".MainActivity">
             <meta-data

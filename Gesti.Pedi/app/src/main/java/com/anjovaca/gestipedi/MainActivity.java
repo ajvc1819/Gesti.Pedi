@@ -17,12 +17,18 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     SQLiteDatabase db;
+    boolean login;
+    public static final String EXTRA_LOGED_IN =
+            "com.example.android.twoactivities.extra.login";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent intent = getIntent();
+        login = intent.getBooleanExtra(InitSession.EXTRA_LOGED_IN, false);
 
         DbGestiPedi dbHelper = new DbGestiPedi(this);
         db = dbHelper.getWritableDatabase();
@@ -44,8 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.initSession) {
-            Intent intent = new Intent(this, InitSession.class);
-            startActivity(intent);
+            if(login){
+                Intent intent = new Intent(getApplicationContext(),LogOut.class);
+                intent.putExtra(EXTRA_LOGED_IN, login);
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(this, InitSession.class);
+                startActivity(intent);
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
