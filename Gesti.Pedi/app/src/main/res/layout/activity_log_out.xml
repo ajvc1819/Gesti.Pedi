@@ -53,11 +53,17 @@
         app:layout_constraintTop_toBottomOf="@+id/txtTitulo" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnlogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/buttons_style"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
         android:onClick="logOut"
+        android:text="@string/cerrar_sesi_n"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCabecera" />
 

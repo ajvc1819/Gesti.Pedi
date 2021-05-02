@@ -1,11 +1,9 @@
 package com.anjovaca.gestipedi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,10 +14,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SharedPreferences mPreferences;
+    private final String LOG_KEY = "log";
+
     SQLiteDatabase db;
     boolean login;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,19 @@ public class MainActivity extends AppCompatActivity {
 
         DbGestiPedi dbHelper = new DbGestiPedi(this);
         db = dbHelper.getWritableDatabase();
+
+        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
+        login = mPreferences.getBoolean(LOG_KEY, login);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putBoolean(LOG_KEY, login);
+        preferencesEditor.apply();
     }
 
     @Override
@@ -50,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.initSession) {
+            Intent intent;
             if(login){
-                Intent intent = new Intent(getApplicationContext(),LogOut.class);
+                intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-                startActivity(intent);
             }else {
-                Intent intent = new Intent(this, InitSession.class);
-                startActivity(intent);
+                intent = new Intent(this, InitSession.class);
             }
+            startActivity(intent);
 
         }
 
@@ -65,22 +81,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchClientes(View view) {
-        Intent intent = new Intent(this, ClientActivity.class);
+        Intent intent;
+        if(login){
+            intent = new Intent(this, ClientActivity.class);
+        } else {
+            intent = new Intent(this, InitSession.class);
+        }
         startActivity(intent);
+
     }
 
     public void launchInformes(View view) {
-        Intent intent = new Intent(this, InformesActivity.class);
+        Intent intent;
+        if(login){
+            intent = new Intent(this, InformesActivity.class);
+        } else {
+            intent = new Intent(this, InitSession.class);
+        }
         startActivity(intent);
     }
 
     public void launchStock(View view) {
-        Intent intent = new Intent(this, StockActivity.class);
+        Intent intent;
+        if(login){
+            intent = new Intent(this, StockActivity.class);
+        } else {
+            intent = new Intent(this, InitSession.class);
+        }
         startActivity(intent);
+
     }
 
     public void launchPedidos(View view) {
-        Intent intent = new Intent(this, PedidosActivity.class);
+        Intent intent;
+        if(login){
+            intent = new Intent(this, PedidosActivity.class);
+        } else {
+            intent = new Intent(this, InitSession.class);
+        }
         startActivity(intent);
     }
 }

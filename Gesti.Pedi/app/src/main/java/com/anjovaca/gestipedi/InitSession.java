@@ -3,17 +3,18 @@ package com.anjovaca.gestipedi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 public class InitSession extends AppCompatActivity {
+
+    private SharedPreferences mPreferences;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
     public List<UserModel> userModelList;
@@ -27,14 +28,24 @@ public class InitSession extends AppCompatActivity {
         username = findViewById(R.id.etUsuario);
         password = findViewById(R.id.etContraseña);
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
+        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
     }
 
     public void initSession(View view) {
         try{
             userModelList = dbGestiPedi.initSession(username.getText().toString(), password.getText().toString());
+            int userId = userModelList.get(0).getId();
             if(!userModelList.isEmpty()){
                 login = true;
+
+                SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+                String LOG_KEY = "log";
+                preferencesEditor.putBoolean(LOG_KEY, login);
+                String USER_KEY = "user";
+                preferencesEditor.putInt(USER_KEY, userId);
+                preferencesEditor.apply();
+
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
                 startActivity(intent);
