@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.DB;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;

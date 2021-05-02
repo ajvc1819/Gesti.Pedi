@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.Main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.anjovaca.gestipedi.R;
 
 public class FirstFragment extends Fragment {
 

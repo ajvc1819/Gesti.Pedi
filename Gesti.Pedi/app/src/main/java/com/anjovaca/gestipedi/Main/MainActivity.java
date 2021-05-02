@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.Main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +12,15 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.anjovaca.gestipedi.Client.ClientActivity;
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.Order.PedidosActivity;
+import com.anjovaca.gestipedi.R;
+import com.anjovaca.gestipedi.Report.InformesActivity;
+import com.anjovaca.gestipedi.Stock.StockActivity;
 
 public class MainActivity extends AppCompatActivity {
 

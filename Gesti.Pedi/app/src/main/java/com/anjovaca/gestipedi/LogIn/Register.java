@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.LogIn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.R;
+import com.anjovaca.gestipedi.DB.Models.UserModel;
 
 import java.util.List;
 

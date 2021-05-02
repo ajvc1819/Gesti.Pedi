@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.Report;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class PedidosActivity extends AppCompatActivity {
+import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.R;
+
+public class InformesActivity extends AppCompatActivity {
 
     public boolean login;
     public static final String EXTRA_LOGED_IN =
@@ -17,7 +21,7 @@ public class PedidosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pedidos);
+        setContentView(R.layout.activity_informes);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);

@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.Client;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.R;
 
 public class ClientActivity extends AppCompatActivity {
 
@@ -106,7 +109,6 @@ public class ClientActivity extends AppCompatActivity {
             startActivity(intent);
 
         }
-
         return super.onOptionsItemSelected(item);
     }
 

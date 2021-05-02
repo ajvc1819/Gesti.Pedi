@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.Client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
@@ -139,7 +145,7 @@ public class ClienteDetalle extends AppCompatActivity {
     }
 
     public void editClient(View view) {
-        Intent intent = new Intent(getApplicationContext(),EditClient.class);
+        Intent intent = new Intent(getApplicationContext(), EditClient.class);
         intent.putExtra(EXTRA_ID, id);
         startActivity(intent);
     }

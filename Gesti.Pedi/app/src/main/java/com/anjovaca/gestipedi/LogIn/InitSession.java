@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.LogIn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.Main.MainActivity;
+import com.anjovaca.gestipedi.R;
+import com.anjovaca.gestipedi.DB.Models.UserModel;
 
 import java.util.List;
 
@@ -46,7 +51,7 @@ public class InitSession extends AppCompatActivity {
                 preferencesEditor.putInt(USER_KEY, userId);
                 preferencesEditor.apply();
 
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
                 startActivity(intent);
                 finish();
@@ -62,7 +67,7 @@ public class InitSession extends AppCompatActivity {
     }
 
     public void register(View view) {
-        Intent intent = new Intent(this,Register.class);
+        Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
 }

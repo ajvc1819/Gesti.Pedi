@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi;
+package com.anjovaca.gestipedi.DB.Models;
 
 public class ClienteModelo {
     int id;
