@@ -40,4 +40,9 @@
     <string name="login_failed">"Login failed"</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="cerrar_sesi_n">Cerrar Sesión</string>
+    <string-array name="labels_array">
+        <item>Perros</item>
+        <item>Gatos</item>
+        <item>Peces</item>
+    </string-array>
 </resources>

@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogIn.LogOut"
+        <activity android:name=".Stock.AddProduct"></activity>
+        <activity
+            android:name=".LogIn.LogOut"
             android:label="Cerrar Sesión"
             android:parentActivityName=".Main.MainActivity">
             <meta-data

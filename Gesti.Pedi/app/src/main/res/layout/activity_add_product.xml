@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Client.ClienteDetalle"
+    tools:context=".Stock.AddProduct"
     android:background="#2B2B2B">
 
     <ScrollView
@@ -52,15 +52,14 @@
                     app:layout_constraintTop_toTopOf="@+id/txtTitulo"
                     tools:srcCompat="@drawable/logotipo" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <TextView
-                android:id="@+id/tvDetalleCli"
+                android:id="@+id/tvAñadirCli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Detalles Cliente"
+                android:text="@string/a_adir_clientes"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,41 +67,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvDNI"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/dni"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDetalleCli" />
-
-                <TextView
-                    android:id="@+id/tvmDni"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:ems="10"
-                    android:maxLength="9"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvStockProd"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvStockProd" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvStockProd"
-                    android:layout_width="70dp"
+                    android:id="@+id/tvNombreProdA"
+                    android:layout_width="86dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:layout_marginStart="20dp"
@@ -113,16 +83,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDNI" />
 
-                <TextView
-                    android:id="@+id/tvmNombre"
+                <EditText
+                    android:id="@+id/etNombreProdA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:ems="10"
+                    android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvEmpresa"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCategoryProdA"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvEmpresa" />
+                    app:layout_constraintStart_toEndOf="@+id/tvCategoryProdA" />
 
             </LinearLayout>
 
@@ -132,25 +103,26 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvApellidos"
-                    android:layout_width="70dp"
+                    android:id="@+id/tvDescripcionProdA"
+                    android:layout_width="91dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Apellidos:"
+                    android:text="Descripción:"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvStockProd" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvNombreProdA" />
 
-                <TextView
-                    android:id="@+id/tvmApellidos"
+                <EditText
+                    android:id="@+id/etDescripcionProdA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:ems="10"
+                    android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvDirección"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvPrecioProdA"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvDirección" />
+                    app:layout_constraintStart_toEndOf="@+id/tvPrecioProdA" />
 
             </LinearLayout>
 
@@ -160,25 +132,22 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvEmpresa"
+                    android:id="@+id/tvCategoryProdA"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Empresa:"
+                    android:text="Categoria:"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvApellidos" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescripcionProdA" />
 
-                <TextView
-                    android:id="@+id/tvmEmpresa"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spnCategorias"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:ems="10"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCiudad"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvCiudad" />
+                    android:layout_weight="1"
+                    style="@style/Widget.AppCompat.Light.DropDownItem.Spinner" />
+
 
             </LinearLayout>
 
@@ -188,26 +157,27 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvCP"
+                    android:id="@+id/tvStockProdA"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="CP:"
+                    android:text="Stock:"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEmpresa" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCategoryProdA" />
 
-                <TextView
-                    android:id="@+id/tvmCP"
+                <EditText
+                    android:id="@+id/etStockProdA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:ems="10"
+                    android:inputType="textPostalAddress"
                     android:maxLength="5"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCP"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvStockProdA"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvCP" />
+                    app:layout_constraintStart_toEndOf="@+id/tvStockProdA" />
 
             </LinearLayout>
 
@@ -217,21 +187,22 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvDirección"
+                    android:id="@+id/tvPrecioProdA"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Dirección:"
+                    android:text="Precio:"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCP" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvStockProdA" />
 
-                <TextView
-                    android:id="@+id/tvmDireccion"
+                <EditText
+                    android:id="@+id/etDireccion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:ems="10"
+                    android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvTelf"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -244,104 +215,23 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvCiudad"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="Ciudad:"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDirección" />
-
-                <TextView
-                    android:id="@+id/tvmCiudad"
+                <ImageView
+                    android:id="@+id/imgImagenProdA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:ems="10"
-                    android:textColor="#FFFFFF" />
+                    android:layout_weight="1"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvPais"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="País:"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTelf" />
-
-                <TextView
-                    android:id="@+id/tvmPais"
+                <Button
+                    android:id="@+id/btnSelectImgProdA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:ems="10"
-                    android:textColor="#FFFFFF" />
+                    android:layout_weight="1"
+                    android:text="Seleccionar Imagen"
+                    android:onClick="selectImage"
+                    android:background="@drawable/buttons_style"
+                    android:textColor="#FFFFFF"/>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvTelf"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="Telefono:"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCiudad" />
-
-                <TextView
-                    android:id="@+id/tvmTelf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:ems="10"
-                    android:maxLength="9"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvPais"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvPais" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvEmail"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/email"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPais" />
-
-                <TextView
-                    android:id="@+id/tvmEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:ems="10"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvEmail"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvEmail" />
             </LinearLayout>
 
             <LinearLayout
@@ -355,10 +245,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:onClick="editClient"
+                    android:onClick="insertProduct"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
-                    android:text="Editar" />
+                    android:text="Añadir" />
 
                 <Button
                     android:id="@+id/btnCancelar"
@@ -367,14 +257,12 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:textColor="#FFFFFF"
+                    android:onClick="cancel"
                     android:background="@drawable/buttons_style"
-                    android:onClick="deleteClient"
-                    android:text="Eliminar"
-                    tools:ignore="OnClick" />
+                    android:text="Cancelar" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-
 
 </RelativeLayout>

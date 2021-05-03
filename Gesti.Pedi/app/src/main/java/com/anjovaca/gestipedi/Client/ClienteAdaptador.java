@@ -34,9 +34,9 @@ public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.View
        public ViewHolder(@NonNull View itemView) {
            super(itemView);
            empresa = (TextView)itemView.findViewById(R.id.tvEmpresa);
-           nombre= (TextView)itemView.findViewById(R.id.tvNombre);
+           nombre= (TextView)itemView.findViewById(R.id.tvStockProd);
            telefono = (TextView)itemView.findViewById(R.id.tvTelefono);
-           correo = (TextView)itemView.findViewById(R.id.tvCorreo);
+           correo = (TextView)itemView.findViewById(R.id.tvPrecioProd);
        }
     }
 

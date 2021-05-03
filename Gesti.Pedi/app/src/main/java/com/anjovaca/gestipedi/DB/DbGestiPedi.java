@@ -19,13 +19,13 @@ import java.util.List;
 public class DbGestiPedi extends SQLiteOpenHelper {
 
     private static final String USERS_TABLE_CREATE = "CREATE TABLE Users(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellidos TEXT NOT NULL, usuario TEXT NOT NULL, contraseña TEXT NOT NULL, rol TEXT NOT NULL)";
-    private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, idCategoria INTEGER NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB NOT NULL, FOREIGN KEY (idCategoria) REFERENCES Category(id))";
+    private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, idCategoria INTEGER NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB, FOREIGN KEY (idCategoria) REFERENCES Category(id))";
     private static final String CLIENTS_TABLE_CREATE = "CREATE TABLE Clients(id INTEGER PRIMARY KEY AUTOINCREMENT, dni TEXT NOT NULL, nombre TEXT NOT NULL, apellidos TEXT NOT NULL,empresa TEXT NOT NULL, direccion TEXT NOT NULL, cp TEXT NOT NULL, ciudad TEXT NOT NULL, pais TEXT NOT NULL, telefono TEXT NOT NULL, correo TEXT NOT NULL)";
     private static final String ORDERDETAIL_TABLE_CREATE = "CREATE TABLE OrderDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, precio DOUBLE NOT NULL, idPedido INTEGER NOT NULL, idProducto INTEGER NOT NULL, FOREIGN KEY (idPedido) REFERENCES Orders(id), FOREIGN KEY (idProducto) REFERENCES Products(id))";
     private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TIMESTAMP NOT NULL, idCliente INTEGER NOT NULL, idEstado INTEGER NOT NULL, total DOUBLE NOT NULL, idUsuario INTEGER NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idEstado) REFERENCES State(id), FOREIGN KEY (idUsuario) REFERENCES Users(id))";
     private static final String CATEGORY_TABLE_CREATE = "CREATE TABLE Category(id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)";
     private static final String STATE_TABLE_CREATE = "CREATE TABLE State(id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)";
-    private static final String DB_NAME = "GestiPedidb";
+    private static final String DB_NAME = "GestiPediDB";
     private static final int DB_VERSION = 1;
 
     public DbGestiPedi(@Nullable Context context) {

@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.anjovaca.gestipedi.Client.AnyadirCliente;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.R;
@@ -57,5 +59,10 @@ public class StockActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addProduct(View view) {
+        Intent intent = new Intent(this, AddProduct.class);
+        startActivity(intent);
     }
 }
