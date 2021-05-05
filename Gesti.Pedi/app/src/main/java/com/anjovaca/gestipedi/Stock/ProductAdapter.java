@@ -1,5 +1,8 @@
 package com.anjovaca.gestipedi.Stock;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +34,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     public static  class  ViewHolder extends  RecyclerView.ViewHolder{
         private TextView nombre, precio, stock;
-        //private ImageView image;
+        private ImageView image;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            precio = (TextView)itemView.findViewById(R.id.tvPrecioProd);
-            nombre= (TextView)itemView.findViewById(R.id.tvNombreProd);
-            stock = (TextView)itemView.findViewById(R.id.tvStockProd);
-            //image = (ImageView) itemView.findViewById(R.id.imgImageProd);
+            precio = itemView.findViewById(R.id.tvPrecioProd);
+            nombre= itemView.findViewById(R.id.tvNombreProd);
+            stock = itemView.findViewById(R.id.tvStockProd);
+            image =  itemView.findViewById(R.id.imgProd);
         }
     }
 
@@ -50,14 +53,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return viewHolder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
-        String precio = Double.toString(productsModelList.get(position).getPrecio());
-        String stock = Integer.toString(productsModelList.get(position).getStock());
-        holder.precio.setText(precio);
-        holder.nombre.setText(productsModelList.get(position).getNombre());
-        holder.stock.setText(stock);
-        //holder.image.setImageDrawable(productsModelList.get(position).getImg());
+        holder.precio.setText(Double.toString(productsModelList.get(position).getPrecio()) + "€");
+        holder.nombre.setText(productsModelList.get(position).getName());
+        holder.stock.setText("Stock: " + Integer.toString(productsModelList.get(position).getStock()));
+        holder.image.setImageURI(Uri.parse(productsModelList.get(position).getImg()));
     }
 
     public void  setOnClickListener(View.OnClickListener listener){

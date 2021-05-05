@@ -3,23 +3,38 @@ package com.anjovaca.gestipedi.DB.Models;
 import android.graphics.drawable.Drawable;
 
 public class ProductsModel {
-    int id, idCategoria, stock, cantidadVendida;
-    Drawable img;
-    String nombre, descripcion;
+    int id, stock, cantidadVendida;
+    String nombre, descripcion, categoria, img;
     double precio;
 
     public ProductsModel() {
     }
 
-    public ProductsModel(int id, int idCategoria, int stock, int cantidadVendida, Drawable img, String nombre, String descripcion, double precio) {
+    public ProductsModel(int id, String nombre, String categoria, String descripcion, int stock, double precio, int cantidadVendida,  String img) {
         this.id = id;
-        this.idCategoria = idCategoria;
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
         this.stock = stock;
+        this.precio = precio;
         this.cantidadVendida = cantidadVendida;
         this.img = img;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public int getId() {
@@ -30,13 +45,6 @@ public class ProductsModel {
         this.id = id;
     }
 
-    public int getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(int idCategoria) {
-        this.idCategoria = idCategoria;
-    }
 
     public int getStock() {
         return stock;
@@ -54,15 +62,7 @@ public class ProductsModel {
         this.cantidadVendida = cantidadVendida;
     }
 
-    public Drawable getImg() {
-        return img;
-    }
-
-    public void setImg(Drawable img) {
-        this.img = img;
-    }
-
-    public String getNombre() {
+    public String getName() {
         return nombre;
     }
 

@@ -6,26 +6,30 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.icu.text.BidiRun;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbGestiPedi extends SQLiteOpenHelper {
 
     private static final String USERS_TABLE_CREATE = "CREATE TABLE Users(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellidos TEXT NOT NULL, usuario TEXT NOT NULL, contraseña TEXT NOT NULL, rol TEXT NOT NULL)";
-    private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, idCategoria INTEGER NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB, FOREIGN KEY (idCategoria) REFERENCES Category(id))";
+    private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, Categoria TEXT NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB NOT NULL)";
     private static final String CLIENTS_TABLE_CREATE = "CREATE TABLE Clients(id INTEGER PRIMARY KEY AUTOINCREMENT, dni TEXT NOT NULL, nombre TEXT NOT NULL, apellidos TEXT NOT NULL,empresa TEXT NOT NULL, direccion TEXT NOT NULL, cp TEXT NOT NULL, ciudad TEXT NOT NULL, pais TEXT NOT NULL, telefono TEXT NOT NULL, correo TEXT NOT NULL)";
     private static final String ORDERDETAIL_TABLE_CREATE = "CREATE TABLE OrderDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, precio DOUBLE NOT NULL, idPedido INTEGER NOT NULL, idProducto INTEGER NOT NULL, FOREIGN KEY (idPedido) REFERENCES Orders(id), FOREIGN KEY (idProducto) REFERENCES Products(id))";
-    private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TIMESTAMP NOT NULL, idCliente INTEGER NOT NULL, idEstado INTEGER NOT NULL, total DOUBLE NOT NULL, idUsuario INTEGER NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idEstado) REFERENCES State(id), FOREIGN KEY (idUsuario) REFERENCES Users(id))";
-    private static final String CATEGORY_TABLE_CREATE = "CREATE TABLE Category(id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)";
-    private static final String STATE_TABLE_CREATE = "CREATE TABLE State(id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)";
-    private static final String DB_NAME = "GestiPediDB";
+    private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT NOT NULL, idCliente INTEGER NOT NULL, estado TEXT NOT NULL, total DOUBLE NOT NULL, idUsuario INTEGER NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idUsuario) REFERENCES Users(id))";
+    private static final String DB_NAME = "Gesti.Pedi.Dat";
     private static final int DB_VERSION = 1;
 
     public DbGestiPedi(@Nullable Context context) {
@@ -39,8 +43,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         db.execSQL(CLIENTS_TABLE_CREATE);
         db.execSQL(ORDERDETAIL_TABLE_CREATE);
         db.execSQL(ORDER_TABLE_CREATE);
-        db.execSQL(CATEGORY_TABLE_CREATE);
-        db.execSQL(STATE_TABLE_CREATE);
+
     }
 
     @Override
@@ -50,14 +53,12 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             String dropTablaClientes = "DROP TABLE IF EXISTS CLIENTS_TABLE_CREATE";
             String dropTablaDetallePedido = "DROP TABLE IF EXISTS ORDERDETAIL_TABLE_CREATE";
             String dropTablaPedido = "DROP TABLE IF EXISTS ORDER_TABLE_CREATE";
-            String dropTablaCategoria = "DROP TABLE IF EXISTS CATEGORY_TABLE_CREATE";
-            String dropTablaEstado = "DROP TABLE IF EXISTS STATE_TABLE_CREATE";
+
             db.execSQL(dropTablaProductos);
             db.execSQL(dropTablaClientes);
             db.execSQL(dropTablaDetallePedido);
             db.execSQL(dropTablaPedido);
-            db.execSQL(dropTablaCategoria);
-            db.execSQL(dropTablaEstado);
+
             onCreate(db);
         } catch (SQLiteException e) {
             Log.e("$TAG (onUpgrade)", e.toString());
@@ -130,7 +131,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         if(db!=null){
             try{
-                db.execSQL("DELETE FROM Clients WHERE id = '" + idClient + "'");
+                db.execSQL("DELETE FROM Products");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
@@ -174,5 +175,29 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             }while ((cursor.moveToNext()));
         }
         return users;
+    }
+
+    public void insertProduct(String nombre, String descripcion, int stock, double precio, String image, String categoria){
+        SQLiteDatabase db = getWritableDatabase();
+        int cantidadVendida = 0;
+        if(db!=null){
+
+                db.execSQL("INSERT INTO Products (nombre,Categoria,descripcion,stock,precio,cantidadVendida,foto) VALUES ('" + nombre + "', '" + categoria + "','" + descripcion + "','" + stock + "','" + precio + "','"  + cantidadVendida + "','" + image + "')");
+                db.close();
+
+
+        }
+    }
+
+    public List<ProductsModel> mostrarProducts(){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Products", null);
+        List<ProductsModel> products = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                products.add(new ProductsModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getInt(4),cursor.getDouble(5),cursor.getInt(6),cursor.getString(7)));
+            }while ((cursor.moveToNext()));
+        }
+        return products;
     }
 }

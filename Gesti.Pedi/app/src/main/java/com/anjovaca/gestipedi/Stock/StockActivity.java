@@ -1,6 +1,8 @@
 package com.anjovaca.gestipedi.Stock;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.anjovaca.gestipedi.Client.AnyadirCliente;
+import com.anjovaca.gestipedi.Client.ClienteAdaptador;
+import com.anjovaca.gestipedi.Client.ClienteDetalle;
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.R;
@@ -24,6 +29,50 @@ public class StockActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
+        final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
+        recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
+
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+
+        final ProductAdapter productAdapter = new ProductAdapter(dbGestiPedi.mostrarProducts());
+
+        productAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewProduct.setAdapter(productAdapter);
+
+        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
+        recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
+
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+
+        final ProductAdapter productAdapter = new ProductAdapter(dbGestiPedi.mostrarProducts());
+
+        productAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewProduct.setAdapter(productAdapter);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
