@@ -10,7 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Stock.AddProduct"></activity>
+        <activity android:name=".EditProduct"
+            android:label="Editar Producto"
+            android:parentActivityName=".Stock.ProductDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Stock.ProductDetail" />
+        </activity>
+        <activity
+            android:name=".Stock.ProductDetail"
+            android:label="Detalles Producto"
+            android:parentActivityName=".Stock.ProductDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Stock.StockActivity" />
+        </activity>
+        <activity android:name=".Stock.AddProduct" />
         <activity
             android:name=".LogIn.LogOut"
             android:label="Cerrar Sesión"

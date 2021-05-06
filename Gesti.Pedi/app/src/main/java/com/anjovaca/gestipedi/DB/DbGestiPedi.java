@@ -131,7 +131,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         if(db!=null){
             try{
-                db.execSQL("DELETE FROM Products");
+                db.execSQL("DELETE FROM Clients WHERE id = '"+ idClient + "'");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
@@ -199,5 +199,43 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             }while ((cursor.moveToNext()));
         }
         return products;
+    }
+
+    public List<ProductsModel> selectProductById(int idProduct){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Products WHERE id = '" + idProduct+ "' ", null);
+        List<ProductsModel> products = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                products.add(new ProductsModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getInt(4),cursor.getDouble(5),cursor.getInt(6),cursor.getString(7)));
+            }while ((cursor.moveToNext()));
+        }
+        return products;
+    }
+
+    public void editProduct(int id, String nombre, String descripcion, int stock, double precio, String image, String categoria){
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            try{
+                db.execSQL("UPDATE Products SET nombre = '" + nombre + "', descripcion = '" + descripcion + "', stock = '" + stock + "', precio = '" + precio + "', image = '" + image + "', categoria = '" + categoria + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex){
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
+    public void deleteProduct(int idProduct){
+        SQLiteDatabase db = getWritableDatabase();
+        if(db!=null){
+            try{
+                db.execSQL("DELETE FROM Products WHERE id = '"+ idProduct + "'");
+                db.close();
+            } catch (Exception ex){
+                Log.d("Tag", ex.toString());
+            }
+
+        }
     }
 }

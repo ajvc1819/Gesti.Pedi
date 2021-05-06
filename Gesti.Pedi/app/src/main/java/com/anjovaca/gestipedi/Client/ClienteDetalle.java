@@ -149,4 +149,6 @@ public class ClienteDetalle extends AppCompatActivity {
         intent.putExtra(EXTRA_ID, id);
         startActivity(intent);
     }
+
+
 }

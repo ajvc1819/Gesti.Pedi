@@ -24,7 +24,8 @@ public class StockActivity extends AppCompatActivity {
     public boolean login;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
-
+    public static final String EXTRA_PRODUCT_ID =
+            "com.example.android.twoactivities.extra.ID";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,9 @@ public class StockActivity extends AppCompatActivity {
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                int productId =  productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
+                intent.putExtra(EXTRA_PRODUCT_ID, productId);
                 startActivity(intent);
             }
         });
@@ -66,8 +68,9 @@ public class StockActivity extends AppCompatActivity {
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                int productId =  productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
+                intent.putExtra(EXTRA_PRODUCT_ID, productId);
                 startActivity(intent);
             }
         });
