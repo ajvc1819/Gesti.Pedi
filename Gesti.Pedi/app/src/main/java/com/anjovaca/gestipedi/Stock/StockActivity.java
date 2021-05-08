@@ -11,9 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.anjovaca.gestipedi.Client.AnyadirCliente;
-import com.anjovaca.gestipedi.Client.ClienteAdaptador;
-import com.anjovaca.gestipedi.Client.ClienteDetalle;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
@@ -35,7 +32,7 @@ public class StockActivity extends AppCompatActivity {
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final ProductAdapter productAdapter = new ProductAdapter(dbGestiPedi.mostrarProducts());
+        final ProductAdapter productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
 
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +60,7 @@ public class StockActivity extends AppCompatActivity {
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final ProductAdapter productAdapter = new ProductAdapter(dbGestiPedi.mostrarProducts());
+        final ProductAdapter productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
 
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override

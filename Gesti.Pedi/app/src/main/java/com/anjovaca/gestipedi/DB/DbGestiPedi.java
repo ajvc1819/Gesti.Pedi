@@ -6,19 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
-import android.graphics.Bitmap;
-import android.icu.text.BidiRun;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,21 +38,20 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         db.execSQL(CLIENTS_TABLE_CREATE);
         db.execSQL(ORDERDETAIL_TABLE_CREATE);
         db.execSQL(ORDER_TABLE_CREATE);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
-            String dropTablaProductos = "DROP TABLE IF EXISTS PRODUCTS_TABLE_CREATE";
-            String dropTablaClientes = "DROP TABLE IF EXISTS CLIENTS_TABLE_CREATE";
-            String dropTablaDetallePedido = "DROP TABLE IF EXISTS ORDERDETAIL_TABLE_CREATE";
-            String dropTablaPedido = "DROP TABLE IF EXISTS ORDER_TABLE_CREATE";
+            String dropTableProducts = "DROP TABLE IF EXISTS PRODUCTS_TABLE_CREATE";
+            String dropTableClients = "DROP TABLE IF EXISTS CLIENTS_TABLE_CREATE";
+            String dropTableOrderDetail = "DROP TABLE IF EXISTS ORDERDETAIL_TABLE_CREATE";
+            String dropTablaOrder = "DROP TABLE IF EXISTS ORDER_TABLE_CREATE";
 
-            db.execSQL(dropTablaProductos);
-            db.execSQL(dropTablaClientes);
-            db.execSQL(dropTablaDetallePedido);
-            db.execSQL(dropTablaPedido);
+            db.execSQL(dropTableProducts);
+            db.execSQL(dropTableClients);
+            db.execSQL(dropTableOrderDetail);
+            db.execSQL(dropTablaOrder);
 
             onCreate(db);
         } catch (SQLiteException e) {
@@ -65,47 +59,47 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
-    public List<ClienteModelo> mostrarClientePorId(int idCliente){
+    public List<ClientModel> getClientsById(int idClient){
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Clients WHERE id = '" + idCliente+ "' ", null);
-        List<ClienteModelo> clientes = new ArrayList<>();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Clients WHERE id = '" + idClient+ "' ", null);
+        List<ClientModel> clients = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                clientes.add(new ClienteModelo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9), cursor.getString(10)));
+                clients.add(new ClientModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9), cursor.getString(10)));
             }while ((cursor.moveToNext()));
         }
-        return clientes;
+        return clients;
     }
 
-    public List<ClienteModelo> mostrarClientes(){
+    public List<ClientModel> showClients(){
         SQLiteDatabase db = getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Clients", null);
-        List<ClienteModelo> clientes = new ArrayList<>();
+        List<ClientModel> clients = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                clientes.add(new ClienteModelo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10)));
+                clients.add(new ClientModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10)));
             }while ((cursor.moveToNext()));
         }
-        return clientes;
+        return clients;
     }
 
-    public List<ClienteModelo> checkClient(String dni, String telf, String correo){
+    public List<ClientModel> checkClient(String dni, String phone, String email){
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Clients WHERE Dni = '" + dni + "' OR telefono = '"+ telf + "' OR correo = '" + correo + "'", null);
-        List<ClienteModelo> clientes = new ArrayList<>();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Clients WHERE Dni = '" + dni + "' OR telefono = '"+ phone + "' OR correo = '" + email + "'", null);
+        List<ClientModel> clients = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                clientes.add(new ClienteModelo(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10)));
+                clients.add(new ClientModel(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10)));
             }while ((cursor.moveToNext()));
         }
-        return clientes;
+        return clients;
     }
 
-    public void agregarCliente(String dni, String nombre, String apellidos, String empresa, String direccion, String cp, String ciudad, String pais, String telefono, String correo){
+    public void insertClient(String dni, String name, String lastname, String enterprise, String address, String cp, String city, String country, String phone, String email){
         SQLiteDatabase db = getWritableDatabase();
-        if(db!=null){
+        if(db != null){
             try{
-                db.execSQL("INSERT INTO Clients (dni,nombre,apellidos,empresa,direccion,cp,ciudad,pais,telefono,correo) VALUES ('" + dni + "', '" + nombre + "','" + apellidos + "','" + empresa + "','" + direccion + "','" + cp + "','" + ciudad +"','" + pais + "','" + telefono +"','" + correo +"')");
+                db.execSQL("INSERT INTO Clients (dni,nombre,apellidos,empresa,direccion,cp,ciudad,pais,telefono,correo) VALUES ('" + dni + "', '" + name + "','" + lastname + "','" + enterprise + "','" + address + "','" + cp + "','" + city +"','" + country + "','" + phone +"','" + email +"')");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
@@ -114,11 +108,11 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
-    public void editClient(int id, String dni, String nombre, String apellidos, String empresa, String direccion, String cp, String ciudad, String pais, String telefono, String correo){
+    public void editClient(int id, String dni, String name, String lastname, String enterprise, String address, String cp, String city, String country, String phone, String email){
         SQLiteDatabase db = getWritableDatabase();
         if(db!=null){
             try{
-                db.execSQL("UPDATE Clients SET dni = '" + dni + "', nombre = '" + nombre + "', apellidos = '" + apellidos + "', empresa = '" + empresa + "', direccion = '" + direccion + "', cp = '" + cp + "', ciudad = '" + ciudad +"', pais = '" + pais + "', telefono = '" + telefono +"', correo = '" + correo +"' WHERE id = '" + id + "'");
+                db.execSQL("UPDATE Clients SET dni = '" + dni + "', nombre = '" + name + "', apellidos = '" + lastname + "', empresa = '" + enterprise + "', direccion = '" + address + "', cp = '" + cp + "', ciudad = '" + city +"', pais = '" + country + "', telefono = '" + phone +"', correo = '" + email +"' WHERE id = '" + id + "'");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
@@ -140,11 +134,11 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
-    public void insertUser(String nombre, String apellidos, String usuario, String pass, String rol){
+    public void insertUser(String name, String lastname, String username, String password, String rol){
         SQLiteDatabase db = getWritableDatabase();
         if(db!=null){
             try{
-                db.execSQL("INSERT INTO Users (nombre,apellidos,usuario,contraseña,rol) VALUES ('" + nombre + "','" + apellidos + "','" + usuario + "','" + pass + "','" + rol + "')");
+                db.execSQL("INSERT INTO Users (nombre,apellidos,usuario,contraseña,rol) VALUES ('" + name + "','" + lastname + "','" + username + "','" + password + "','" + rol + "')");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
@@ -153,9 +147,9 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
-    public List<UserModel> initSession(String usuario, String password){
+    public List<UserModel> initSession(String username, String password){
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + usuario + "' AND contraseña = '" + password + "'", null);
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + username + "' AND contraseña = '" + password + "'", null);
         List<UserModel> users = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
@@ -165,9 +159,9 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return users;
     }
 
-    public List<UserModel> checkUsers(String usuario){
+    public List<UserModel> checkUsers(String username){
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + usuario + "'", null);
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE usuario = '" + username + "'", null);
         List<UserModel> users = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
@@ -177,19 +171,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return users;
     }
 
-    public void insertProduct(String nombre, String descripcion, int stock, double precio, String image, String categoria){
+    public void insertProduct(String name, String description, int stock, double price, String image, String category){
         SQLiteDatabase db = getWritableDatabase();
-        int cantidadVendida = 0;
+        int sold = 0;
         if(db!=null){
 
-                db.execSQL("INSERT INTO Products (nombre,Categoria,descripcion,stock,precio,cantidadVendida,foto) VALUES ('" + nombre + "', '" + categoria + "','" + descripcion + "','" + stock + "','" + precio + "','"  + cantidadVendida + "','" + image + "')");
+                db.execSQL("INSERT INTO Products (nombre,Categoria,descripcion,stock,precio,cantidadVendida,foto) VALUES ('" + name + "', '" + category + "','" + description + "','" + stock + "','" + price + "','"  + sold + "','" + image + "')");
                 db.close();
 
 
         }
     }
 
-    public List<ProductsModel> mostrarProducts(){
+    public List<ProductsModel> showProducts(){
         SQLiteDatabase db = getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Products", null);
         List<ProductsModel> products = new ArrayList<>();
@@ -213,11 +207,11 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return products;
     }
 
-    public void editProduct(int id, String nombre, String descripcion, int stock, double precio, String image, String categoria){
+    public void editProduct(int id, String name, String description, int stock, double price, String image, String category){
         SQLiteDatabase db = getWritableDatabase();
         if(db!=null){
             try{
-                db.execSQL("UPDATE Products SET nombre = '" + nombre + "', descripcion = '" + descripcion + "', stock = '" + stock + "', precio = '" + precio + "', image = '" + image + "', categoria = '" + categoria + "' WHERE id = '" + id + "'");
+                db.execSQL("UPDATE Products SET nombre = '" + name + "', descripcion = '" + description + "', stock = '" + stock + "', precio = '" + price + "', foto = '" + image + "', categoria = '" + category + "' WHERE id = '" + id + "'");
                 db.close();
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());

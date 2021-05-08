@@ -2,6 +2,7 @@ package com.anjovaca.gestipedi.Stock;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,12 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.anjovaca.gestipedi.Client.ClientActivity;
-import com.anjovaca.gestipedi.Client.EditClient;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
-import com.anjovaca.gestipedi.EditProduct;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.R;
@@ -30,7 +27,7 @@ public class ProductDetail extends AppCompatActivity {
             "com.example.android.twoactivities.extra.id";
     DbGestiPedi dbGestiPedi;
     int id;
-    TextView nombre, descripcion, stock,precio, categoria;
+    TextView name, description, stock, price, category;
     ImageView imageProduct;
 
     public List<ProductsModel> productsModelList;
@@ -40,6 +37,7 @@ public class ProductDetail extends AppCompatActivity {
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +46,11 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
 
-        nombre =  findViewById(R.id.tvmNombreProdD);
-        descripcion =  findViewById(R.id.tvmDescProdD);
+        name =  findViewById(R.id.tvmNombreProdD);
+        description =  findViewById(R.id.tvmDescProdD);
         stock =  findViewById(R.id.tvmStockProdD);
-        precio =  findViewById(R.id.tvmPrecioProdD);
-        categoria =  findViewById(R.id.tvmCategoriaProdD);
+        price =  findViewById(R.id.tvmPrecioProdD);
+        category =  findViewById(R.id.tvmCategoriaProdD);
         imageProduct =  findViewById(R.id.imgProduct);
 
 
@@ -60,12 +58,12 @@ public class ProductDetail extends AppCompatActivity {
 
          productsModelList = dbGestiPedi.selectProductById(id);
 
-        nombre.setText(productsModelList.get(0).getName());
-        descripcion.setText(productsModelList.get(0).getDescripcion());
+        name.setText(productsModelList.get(0).getName());
+        description.setText(productsModelList.get(0).getDescription());
         stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        precio.setText(Double.toString(productsModelList.get(0).getPrecio()));
-        categoria.setText(productsModelList.get(0).getCategoria());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImg()));
+        price.setText(Double.toString(productsModelList.get(0).getPrice()));
+        category.setText(productsModelList.get(0).getCategory());
+        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -73,6 +71,7 @@ public class ProductDetail extends AppCompatActivity {
         login = mPreferences.getBoolean(LOG_KEY, login);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
@@ -80,11 +79,11 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
 
-        nombre =  findViewById(R.id.tvmNombreProdD);
-        descripcion =  findViewById(R.id.tvmDescProdD);
+        name =  findViewById(R.id.tvmNombreProdD);
+        description =  findViewById(R.id.tvmDescProdD);
         stock =  findViewById(R.id.tvmStockProdD);
-        precio =  findViewById(R.id.tvmPrecioProdD);
-        categoria =  findViewById(R.id.tvmCategoriaProdD);
+        price =  findViewById(R.id.tvmPrecioProdD);
+        category =  findViewById(R.id.tvmCategoriaProdD);
         imageProduct =  findViewById(R.id.imgProduct);
 
 
@@ -92,12 +91,12 @@ public class ProductDetail extends AppCompatActivity {
 
         productsModelList = dbGestiPedi.selectProductById(id);
 
-        nombre.setText(productsModelList.get(0).getName());
-        descripcion.setText(productsModelList.get(0).getDescripcion());
+        name.setText(productsModelList.get(0).getName());
+        description.setText(productsModelList.get(0).getDescription());
         stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        precio.setText(Double.toString(productsModelList.get(0).getPrecio()));
-        categoria.setText(productsModelList.get(0).getCategoria());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImg()));
+        price.setText(Double.toString(productsModelList.get(0).getPrice()));
+        category.setText(productsModelList.get(0).getCategory());
+        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -142,7 +141,7 @@ public class ProductDetail extends AppCompatActivity {
     }
 
     public void deleteProduct(View view) {
-        dbGestiPedi.deleteClient(id);
+        dbGestiPedi.deleteProduct(id);
         finish();
     }
 }

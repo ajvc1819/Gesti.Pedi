@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#2B2B2B">
@@ -25,7 +26,8 @@
                 android:text="TextView"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/tvStockProd"
                 android:layout_width="match_parent"
@@ -33,7 +35,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="#FFFFFF"
-                android:text="TextView" />
+                android:text="TextView"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/tvTelefono"
                 android:layout_width="match_parent"
@@ -41,7 +44,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="#FFFFFF"
-                android:text="TextView" />
+                android:text="TextView"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/tvPrecioProd"
@@ -51,7 +55,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="TextView"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

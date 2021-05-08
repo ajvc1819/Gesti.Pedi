@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
@@ -19,11 +19,11 @@ import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class AnyadirCliente extends AppCompatActivity {
+public class AddCliente extends AppCompatActivity {
 
-    List<ClienteModelo> clienteModeloList;
+    List<ClientModel> clientModelList;
     DbGestiPedi dbGestiPedi;
-    EditText dni, nombre, apellidos, empresa,cp, direccion, ciudad, pais, telefono, correo;
+    EditText dni, name, lastname, enterprise, cp, address, city, country, phone, email;
 
     public boolean login;
 
@@ -37,15 +37,15 @@ public class AnyadirCliente extends AppCompatActivity {
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
         dni = findViewById(R.id.etDni);
-        nombre =  findViewById(R.id.etNombre);
-        apellidos =  findViewById(R.id.etApellidos);
-        empresa =  findViewById(R.id.etEmpresa);
+        name =  findViewById(R.id.etNombre);
+        lastname =  findViewById(R.id.etApellidos);
+        enterprise =  findViewById(R.id.etEmpresa);
         cp =  findViewById(R.id.etCP);
-        direccion =  findViewById(R.id.etDireccion);
-        ciudad =  findViewById(R.id.etCiudad);
-        pais =  findViewById(R.id.etPais);
-        telefono =  findViewById(R.id.etTelf);
-        correo =  findViewById(R.id.etEmail);
+        address =  findViewById(R.id.etDireccion);
+        city =  findViewById(R.id.etCiudad);
+        country =  findViewById(R.id.etPais);
+        phone =  findViewById(R.id.etTelf);
+        email =  findViewById(R.id.etEmail);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -85,10 +85,10 @@ public class AnyadirCliente extends AppCompatActivity {
     }
 
     public void insertClient(View view) {
-        if(dni.getText().toString().length() == 9 && !nombre.getText().toString().isEmpty() && !apellidos.getText().toString().isEmpty() && !empresa.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !direccion.getText().toString().isEmpty() && !ciudad.getText().toString().isEmpty() && !pais.getText().toString().isEmpty() && telefono.getText().toString().length() == 9 && ! correo.getText().toString().isEmpty()){
-            clienteModeloList = dbGestiPedi.checkClient(dni.getText().toString(), telefono.getText().toString(), correo.getText().toString());
-            if(clienteModeloList.isEmpty()){
-                dbGestiPedi.agregarCliente(dni.getText().toString(), nombre.getText().toString(), apellidos.getText().toString(), empresa.getText().toString(),direccion.getText().toString(),cp.getText().toString(),ciudad.getText().toString(),pais.getText().toString(), telefono.getText().toString(), correo.getText().toString());
+        if(dni.getText().toString().length() == 9 && !name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty() && !enterprise.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !address.getText().toString().isEmpty() && !city.getText().toString().isEmpty() && !country.getText().toString().isEmpty() && phone.getText().toString().length() == 9 && ! email.getText().toString().isEmpty()){
+            clientModelList = dbGestiPedi.checkClient(dni.getText().toString(), phone.getText().toString(), email.getText().toString());
+            if(clientModelList.isEmpty()){
+                dbGestiPedi.insertClient(dni.getText().toString(), name.getText().toString(), lastname.getText().toString(), enterprise.getText().toString(),address.getText().toString(),cp.getText().toString(),city.getText().toString(),country.getText().toString(), phone.getText().toString(), email.getText().toString());
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(),"Alguno de los datos introducidos no es correcto o ya está en uso.", Toast.LENGTH_SHORT).show();

@@ -8,17 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.ViewHolder> implements View.OnClickListener {
+public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder> implements View.OnClickListener {
 
-    public List<ClienteModelo> clienteModeloList;
+    public List<ClientModel> clientModelList;
     private View.OnClickListener listener;
-    public ClienteAdaptador(List<ClienteModelo> clienteLista) {
-        this.clienteModeloList = clienteLista;
+    public ClientAdapter(List<ClientModel> clientList) {
+        this.clientModelList = clientList;
     }
 
     @Override
@@ -29,14 +29,14 @@ public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.View
     }
 
     public static  class  ViewHolder extends  RecyclerView.ViewHolder{
-       private TextView empresa, nombre, telefono, correo;
+       private TextView enterprise, name, phone, email;
 
        public ViewHolder(@NonNull View itemView) {
            super(itemView);
-           empresa = (TextView)itemView.findViewById(R.id.tvEmpresa);
-           nombre= (TextView)itemView.findViewById(R.id.tvStockProd);
-           telefono = (TextView)itemView.findViewById(R.id.tvTelefono);
-           correo = (TextView)itemView.findViewById(R.id.tvPrecioProd);
+           enterprise = (TextView)itemView.findViewById(R.id.tvEmpresa);
+           name= (TextView)itemView.findViewById(R.id.tvStockProd);
+           phone = (TextView)itemView.findViewById(R.id.tvTelefono);
+           email = (TextView)itemView.findViewById(R.id.tvPrecioProd);
        }
     }
 
@@ -51,10 +51,10 @@ public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.empresa.setText(clienteModeloList.get(position).getEmpresa());
-        holder.nombre.setText(clienteModeloList.get(position).getNombre() + " " + clienteModeloList.get(position).getApellidos());
-        holder.telefono.setText(clienteModeloList.get(position).getTelefono());
-        holder.correo.setText(clienteModeloList.get(position).getCorreo());
+        holder.enterprise.setText(clientModelList.get(position).getEnterprise());
+        holder.name.setText(clientModelList.get(position).getName() + " " + clientModelList.get(position).getLastname());
+        holder.phone.setText(clientModelList.get(position).getPhone());
+        holder.email.setText(clientModelList.get(position).getEmail());
     }
 
     public void  setOnClickListener(View.OnClickListener listener){
@@ -62,6 +62,6 @@ public class ClienteAdaptador extends RecyclerView.Adapter<ClienteAdaptador.View
     }
     @Override
     public int getItemCount() {
-        return clienteModeloList.size();
+        return clientModelList.size();
     }
 }

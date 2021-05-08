@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="461dp">
+        tools:layout_editor_absoluteY="461dp"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +61,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Detalles Producto"
+                android:text="@string/detalles_producto"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +77,9 @@
                     android:layout_width="500dp"
                     android:layout_height="250dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/logotipo" />
+                    app:srcCompat="@drawable/logotipo"
+                    android:contentDescription="@string/imageproduct"
+                    tools:ignore="InefficientWeight" />
             </LinearLayout>
 
             <LinearLayout
@@ -120,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Descripción:"
+                    android:text="@string/descripci_n"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvNomProdD" />
@@ -148,7 +151,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Stock:"
+                    android:text="@string/stock"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDescripcionProdD" />
@@ -176,7 +179,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Precio:"
+                    android:text="@string/precio"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStockProdD" />
@@ -205,7 +208,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Categoría:"
+                    android:text="@string/categoria"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvPrecioProdD" />
@@ -237,7 +240,8 @@
                     android:onClick="editProduct"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
-                    android:text="Editar" />
+                    android:text="@string/editar_producto"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnCancelar"
@@ -248,8 +252,8 @@
                     android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
                     android:onClick="deleteProduct"
-                    android:text="Eliminar"
-                    tools:ignore="OnClick" />
+                    android:text="@string/eliminar"
+                    tools:ignore="ButtonStyle,OnClick" />
             </LinearLayout>
 
         </LinearLayout>

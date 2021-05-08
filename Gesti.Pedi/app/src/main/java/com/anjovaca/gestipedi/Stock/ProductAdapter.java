@@ -1,7 +1,6 @@
 package com.anjovaca.gestipedi.Stock;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +32,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public static  class  ViewHolder extends  RecyclerView.ViewHolder{
-        private TextView nombre, precio, stock;
-        private ImageView image;
+        private final TextView name;
+        private final TextView price;
+        private final TextView stock;
+        private final ImageView image;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            precio = itemView.findViewById(R.id.tvPrecioProd);
-            nombre= itemView.findViewById(R.id.tvNombreProd);
+            price = itemView.findViewById(R.id.tvPrecioProd);
+            name = itemView.findViewById(R.id.tvNombreProd);
             stock = itemView.findViewById(R.id.tvStockProd);
             image =  itemView.findViewById(R.id.imgProd);
         }
@@ -56,10 +57,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
-        holder.precio.setText(Double.toString(productsModelList.get(position).getPrecio()) + "€");
-        holder.nombre.setText(productsModelList.get(position).getName());
+        holder.price.setText(Double.toString(productsModelList.get(position).getPrice()) + "€");
+        holder.name.setText(productsModelList.get(position).getName());
         holder.stock.setText("Stock: " + Integer.toString(productsModelList.get(position).getStock()));
-        holder.image.setImageURI(Uri.parse(productsModelList.get(position).getImg()));
+        holder.image.setImageURI(Uri.parse(productsModelList.get(position).getImage()));
     }
 
     public void  setOnClickListener(View.OnClickListener listener){

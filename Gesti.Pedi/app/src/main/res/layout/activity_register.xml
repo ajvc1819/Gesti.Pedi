@@ -46,7 +46,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="Registrarse"
+        android:text="@string/registrarse"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="32dp"
-        android:text="Usuario:"
+        android:text="@string/usuario"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCabecera" />
@@ -71,7 +71,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="32dp"
-        android:text="Contraseña:"
+        android:text="@string/contrase_a"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
@@ -83,7 +83,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="32dp"
-        android:text="Nombre:"
+        android:text="@string/nombre"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvContraseña" />
@@ -95,7 +95,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="32dp"
-        android:text="Apellidos:"
+        android:text="@string/apellidos"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStockProd" />
@@ -109,7 +109,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvUsuario" />
+        app:layout_constraintStart_toEndOf="@+id/tvUsuario"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/etContraseña"
@@ -120,7 +122,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvContraseña"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvContraseña" />
+        app:layout_constraintStart_toEndOf="@+id/tvContraseña"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/etNombreReg"
@@ -131,7 +135,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvStockProd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvStockProd" />
+        app:layout_constraintStart_toEndOf="@+id/tvStockProd"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/etApellidosReg"
@@ -142,7 +148,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvApellidos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvApellidos" />
+        app:layout_constraintStart_toEndOf="@+id/tvApellidos"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btnRegistrarse2"
@@ -153,7 +161,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/buttons_style"
         android:padding="5sp"
-        android:text="Registrarse"
+        android:text="@string/registrarse"
         android:onClick="register"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +174,7 @@
         android:background="@drawable/buttons_style"
         android:padding="5sp"
         android:onClick="cancel"
-        android:text="Cancelar"
+        android:text="@string/cancelar"
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnRegistrarse2"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Client.ClienteDetalle"
+    tools:context=".Client.ClienteDetail"
     android:background="#2B2B2B">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="461dp">
+        tools:layout_editor_absoluteY="461dp"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +61,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Detalles Cliente"
+                android:text="@string/detalles_cliente"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +137,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Apellidos:"
+                    android:text="@string/apellidos"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStockProd" />
@@ -164,7 +165,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Empresa:"
+                    android:text="@string/empresa"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvApellidos" />
@@ -192,7 +193,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="CP:"
+                    android:text="@string/cp"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvEmpresa" />
@@ -221,7 +222,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Dirección:"
+                    android:text="@string/direcci_n"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCP" />
@@ -249,7 +250,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Ciudad:"
+                    android:text="@string/ciudad"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDirección" />
@@ -274,7 +275,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="País:"
+                    android:text="@string/pa_s"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTelf" />
@@ -299,7 +300,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Telefono:"
+                    android:text="@string/telefono"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCiudad" />
@@ -358,7 +359,8 @@
                     android:onClick="editClient"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
-                    android:text="Editar" />
+                    android:text="@string/editar_cliente"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnCancelar"
@@ -368,9 +370,9 @@
                     android:layout_weight="1"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
-                    android:onClick="deleteProduct"
-                    android:text="Eliminar"
-                    tools:ignore="OnClick" />
+                    android:onClick="deleteClient"
+                    android:text="@string/eliminar"
+                    tools:ignore="ButtonStyle,OnClick" />
             </LinearLayout>
 
         </LinearLayout>

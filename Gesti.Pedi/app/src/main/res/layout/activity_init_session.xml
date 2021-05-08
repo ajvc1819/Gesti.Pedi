@@ -46,7 +46,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="Iniciar Sesión"
+        android:text="@string/iniciar_sesi_n"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="32dp"
-        android:text="Usuario:"
+        android:text="@string/usuario"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCabecera" />
@@ -71,7 +71,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
-        android:text="Contraseña:"
+        android:text="@string/contrase_a"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
@@ -85,7 +85,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvUsuario" />
+        app:layout_constraintStart_toEndOf="@+id/tvUsuario"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/etContraseña"
@@ -96,7 +98,9 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvContraseña"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvContraseña" />
+        app:layout_constraintStart_toEndOf="@+id/tvContraseña"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btnIniciarSesion"

@@ -19,7 +19,6 @@ import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.Order.PedidosActivity;
 import com.anjovaca.gestipedi.R;
-import com.anjovaca.gestipedi.Report.InformesActivity;
 import com.anjovaca.gestipedi.Stock.StockActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -98,16 +97,6 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(intent);
 
-    }
-
-    public void launchInformes(View view) {
-        Intent intent;
-        if(login){
-            intent = new Intent(this, InformesActivity.class);
-        } else {
-            intent = new Intent(this, InitSession.class);
-        }
-        startActivity(intent);
     }
 
     public void launchStock(View view) {

@@ -2,15 +2,15 @@ package com.anjovaca.gestipedi.DB.Models;
 
 public class UserModel {
     int id;
-    String nombre,apellidos, usuario, contraseña, rol;
+    String name, lastname, username, password, rol;
 
 
-    public UserModel(int id, String nombre, String apellidos, String usuario, String contraseña, String rol) {
+    public UserModel(int id, String name, String lastname, String username, String password, String rol) {
         this.id = id;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
+        this.name = name;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
         this.rol = rol;
     }
 
@@ -25,36 +25,36 @@ public class UserModel {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRol() {

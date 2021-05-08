@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
@@ -18,14 +18,14 @@ import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class ClienteDetalle extends AppCompatActivity {
+public class ClienteDetail extends AppCompatActivity {
 
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
     DbGestiPedi dbGestiPedi;
     int id;
-    TextView dni, nombre, apellidos, empresa,cp, direccion, ciudad, pais, telefono, correo;
-    public List<ClienteModelo> clienteModeloList;
+    TextView dni, name, lastname, enterprise, cp, address, city, country, phone, email;
+    public List<ClientModel> clientModelList;
 
     public boolean login;
 
@@ -40,30 +40,30 @@ public class ClienteDetalle extends AppCompatActivity {
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
 
         dni = findViewById(R.id.tvmDni);
-        nombre =  findViewById(R.id.tvmNombre);
-        apellidos =  findViewById(R.id.tvmApellidos);
-        empresa =  findViewById(R.id.tvmEmpresa);
+        name =  findViewById(R.id.tvmNombre);
+        lastname =  findViewById(R.id.tvmApellidos);
+        enterprise =  findViewById(R.id.tvmEmpresa);
         cp =  findViewById(R.id.tvmCP);
-        direccion =  findViewById(R.id.tvmDireccion);
-        ciudad =  findViewById(R.id.tvmCiudad);
-        pais =  findViewById(R.id.tvmPais);
-        telefono =  findViewById(R.id.tvmTelf);
-        correo =  findViewById(R.id.tvmEmail);
+        address =  findViewById(R.id.tvmDireccion);
+        city =  findViewById(R.id.tvmCiudad);
+        country =  findViewById(R.id.tvmPais);
+        phone =  findViewById(R.id.tvmTelf);
+        email =  findViewById(R.id.tvmEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        clienteModeloList = dbGestiPedi.mostrarClientePorId(id);
+        clientModelList = dbGestiPedi.getClientsById(id);
 
-        dni.setText(clienteModeloList.get(0).getDni());
-        nombre.setText(clienteModeloList.get(0).getNombre());
-        apellidos.setText(clienteModeloList.get(0).getApellidos());
-        empresa.setText(clienteModeloList.get(0).getEmpresa());
-        cp.setText(clienteModeloList.get(0).getCp());
-        direccion.setText(clienteModeloList.get(0).getDireccion());
-        ciudad.setText(clienteModeloList.get(0).getCiudad());
-        pais.setText(clienteModeloList.get(0).getPais());
-        telefono.setText(clienteModeloList.get(0).getTelefono());
-        correo.setText(clienteModeloList.get(0).getCorreo());
+        dni.setText(clientModelList.get(0).getDni());
+        name.setText(clientModelList.get(0).getName());
+        lastname.setText(clientModelList.get(0).getLastname());
+        enterprise.setText(clientModelList.get(0).getEnterprise());
+        cp.setText(clientModelList.get(0).getCp());
+        address.setText(clientModelList.get(0).getAddress());
+        city.setText(clientModelList.get(0).getCity());
+        country.setText(clientModelList.get(0).getCountry());
+        phone.setText(clientModelList.get(0).getPhone());
+        email.setText(clientModelList.get(0).getEmail());
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -78,30 +78,30 @@ public class ClienteDetalle extends AppCompatActivity {
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
 
         dni = findViewById(R.id.tvmDni);
-        nombre =  findViewById(R.id.tvmNombre);
-        apellidos =  findViewById(R.id.tvmApellidos);
-        empresa =  findViewById(R.id.tvmEmpresa);
+        name =  findViewById(R.id.tvmNombre);
+        lastname =  findViewById(R.id.tvmApellidos);
+        enterprise =  findViewById(R.id.tvmEmpresa);
         cp =  findViewById(R.id.tvmCP);
-        direccion =  findViewById(R.id.tvmDireccion);
-        ciudad =  findViewById(R.id.tvmCiudad);
-        pais =  findViewById(R.id.tvmPais);
-        telefono =  findViewById(R.id.tvmTelf);
-        correo =  findViewById(R.id.tvmEmail);
+        address =  findViewById(R.id.tvmDireccion);
+        city =  findViewById(R.id.tvmCiudad);
+        country =  findViewById(R.id.tvmPais);
+        phone =  findViewById(R.id.tvmTelf);
+        email =  findViewById(R.id.tvmEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        clienteModeloList = dbGestiPedi.mostrarClientePorId(id);
+        clientModelList = dbGestiPedi.getClientsById(id);
 
-        dni.setText(clienteModeloList.get(0).getDni());
-        nombre.setText(clienteModeloList.get(0).getNombre());
-        apellidos.setText(clienteModeloList.get(0).getApellidos());
-        empresa.setText(clienteModeloList.get(0).getEmpresa());
-        cp.setText(clienteModeloList.get(0).getCp());
-        direccion.setText(clienteModeloList.get(0).getDireccion());
-        ciudad.setText(clienteModeloList.get(0).getCiudad());
-        pais.setText(clienteModeloList.get(0).getPais());
-        telefono.setText(clienteModeloList.get(0).getTelefono());
-        correo.setText(clienteModeloList.get(0).getCorreo());
+        dni.setText(clientModelList.get(0).getDni());
+        name.setText(clientModelList.get(0).getName());
+        lastname.setText(clientModelList.get(0).getLastname());
+        enterprise.setText(clientModelList.get(0).getEnterprise());
+        cp.setText(clientModelList.get(0).getCp());
+        address.setText(clientModelList.get(0).getAddress());
+        city.setText(clientModelList.get(0).getCity());
+        country.setText(clientModelList.get(0).getCountry());
+        phone.setText(clientModelList.get(0).getPhone());
+        email.setText(clientModelList.get(0).getEmail());
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);

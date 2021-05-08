@@ -1,40 +1,38 @@
 package com.anjovaca.gestipedi.DB.Models;
 
-import android.graphics.drawable.Drawable;
-
 public class ProductsModel {
-    int id, stock, cantidadVendida;
-    String nombre, descripcion, categoria, img;
-    double precio;
+    int id, stock, sold;
+    String name, description, category, image;
+    double price;
 
     public ProductsModel() {
     }
 
-    public ProductsModel(int id, String nombre, String categoria, String descripcion, int stock, double precio, int cantidadVendida,  String img) {
+    public ProductsModel(int id, String name, String category, String description, int stock, double price, int sold, String image) {
         this.id = id;
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.descripcion = descripcion;
+        this.name = name;
+        this.category = category;
+        this.description = description;
         this.stock = stock;
-        this.precio = precio;
-        this.cantidadVendida = cantidadVendida;
-        this.img = img;
+        this.price = price;
+        this.sold = sold;
+        this.image = image;
     }
 
-    public String getImg() {
-        return img;
+    public String getImage() {
+        return image;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getId() {
@@ -54,35 +52,35 @@ public class ProductsModel {
         this.stock = stock;
     }
 
-    public int getCantidadVendida() {
-        return cantidadVendida;
+    public int getSold() {
+        return sold;
     }
 
-    public void setCantidadVendida(int cantidadVendida) {
-        this.cantidadVendida = cantidadVendida;
+    public void setSold(int sold) {
+        this.sold = sold;
     }
 
     public String getName() {
-        return nombre;
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

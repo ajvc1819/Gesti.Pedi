@@ -35,19 +35,19 @@ public class ClientActivity extends AppCompatActivity {
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final ClienteAdaptador clienteAdaptador = new ClienteAdaptador(dbGestiPedi.mostrarClientes());
+        final ClientAdapter clientAdapter = new ClientAdapter(dbGestiPedi.showClients());
 
-        clienteAdaptador.setOnClickListener(new View.OnClickListener() {
+        clientAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                int clientId =  clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ClienteDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
             }
         });
 
-        recyclerViewClient.setAdapter(clienteAdaptador);
+        recyclerViewClient.setAdapter(clientAdapter);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -63,19 +63,19 @@ public class ClientActivity extends AppCompatActivity {
         recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final ClienteAdaptador clienteAdaptador = new ClienteAdaptador(dbGestiPedi.mostrarClientes());
+        final ClientAdapter clientAdapter = new ClientAdapter(dbGestiPedi.showClients());
 
-        clienteAdaptador.setOnClickListener(new View.OnClickListener() {
+        clientAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  clienteAdaptador.clienteModeloList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClienteDetalle.class);
+                int clientId =  clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ClienteDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
             }
         });
 
-        recyclerViewClient.setAdapter(clienteAdaptador);
+        recyclerViewClient.setAdapter(clientAdapter);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -112,12 +112,9 @@ public class ClientActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void anyadirCliente(View view) {
-        Intent intent = new Intent(this, AnyadirCliente.class);
+    public void addClient(View view) {
+        Intent intent = new Intent(this, AddCliente.class);
         startActivity(intent);
     }
 
-    public void selectClient(View view) {
-
-    }
 }

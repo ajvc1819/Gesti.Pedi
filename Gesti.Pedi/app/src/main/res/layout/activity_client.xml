@@ -64,7 +64,7 @@
         android:background="@drawable/buttons_style"
         android:textColor="#FFFFFF"
         android:padding="5dp"
-        android:onClick="anyadirCliente"
+        android:onClick="addClient"
         android:text="@string/a_adir_cliente"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTitulo" />

@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.anjovaca.gestipedi.DB.Models.ClienteModelo;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
@@ -21,8 +21,8 @@ import java.util.List;
 public class EditClient extends AppCompatActivity {
     DbGestiPedi dbGestiPedi;
     int id;
-    EditText dni, nombre, apellidos, empresa,cp, direccion, ciudad, pais, telefono, correo;
-    public List<ClienteModelo> clienteModeloList;
+    EditText dni, name, lastname, enterprise, cp, address, city, country, phone, email;
+    public List<ClientModel> clientModelList;
 
     public boolean login;
 
@@ -34,33 +34,33 @@ public class EditClient extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_client);
         Intent intent = getIntent();
-        id = intent.getIntExtra(ClienteDetalle.EXTRA_ID, 0);
+        id = intent.getIntExtra(ClienteDetail.EXTRA_ID, 0);
 
         dni = findViewById(R.id.etDni);
-        nombre =  findViewById(R.id.etNombre);
-        apellidos =  findViewById(R.id.etApellidos);
-        empresa =  findViewById(R.id.etEmpresa);
+        name =  findViewById(R.id.etNombre);
+        lastname =  findViewById(R.id.etApellidos);
+        enterprise =  findViewById(R.id.etEmpresa);
         cp =  findViewById(R.id.etCP);
-        direccion =  findViewById(R.id.etDireccion);
-        ciudad =  findViewById(R.id.etCiudad);
-        pais =  findViewById(R.id.etPais);
-        telefono =  findViewById(R.id.etTelf);
-        correo =  findViewById(R.id.etEmail);
+        address =  findViewById(R.id.etDireccion);
+        city =  findViewById(R.id.etCiudad);
+        country =  findViewById(R.id.etPais);
+        phone =  findViewById(R.id.etTelf);
+        email =  findViewById(R.id.etEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        clienteModeloList = dbGestiPedi.mostrarClientePorId(id);
+        clientModelList = dbGestiPedi.getClientsById(id);
 
-        dni.setText(clienteModeloList.get(0).getDni());
-        nombre.setText(clienteModeloList.get(0).getNombre());
-        apellidos.setText(clienteModeloList.get(0).getApellidos());
-        empresa.setText(clienteModeloList.get(0).getEmpresa());
-        cp.setText(clienteModeloList.get(0).getCp());
-        direccion.setText(clienteModeloList.get(0).getDireccion());
-        ciudad.setText(clienteModeloList.get(0).getCiudad());
-        pais.setText(clienteModeloList.get(0).getPais());
-        telefono.setText(clienteModeloList.get(0).getTelefono());
-        correo.setText(clienteModeloList.get(0).getCorreo());
+        dni.setText(clientModelList.get(0).getDni());
+        name.setText(clientModelList.get(0).getName());
+        lastname.setText(clientModelList.get(0).getLastname());
+        enterprise.setText(clientModelList.get(0).getEnterprise());
+        cp.setText(clientModelList.get(0).getCp());
+        address.setText(clientModelList.get(0).getAddress());
+        city.setText(clientModelList.get(0).getCity());
+        country.setText(clientModelList.get(0).getCountry());
+        phone.setText(clientModelList.get(0).getPhone());
+        email.setText(clientModelList.get(0).getEmail());
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -104,8 +104,8 @@ public class EditClient extends AppCompatActivity {
     }
 
     public void editClient(View view) {
-        if(dni.getText().toString().length() == 9 && !nombre.getText().toString().isEmpty() && !apellidos.getText().toString().isEmpty() && !empresa.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !direccion.getText().toString().isEmpty() && !ciudad.getText().toString().isEmpty() && !pais.getText().toString().isEmpty() && telefono.getText().toString().length() == 9 && ! correo.getText().toString().isEmpty()){
-            dbGestiPedi.editClient(id, dni.getText().toString(), nombre.getText().toString(), apellidos.getText().toString(), empresa.getText().toString(),direccion.getText().toString(), cp.getText().toString(),ciudad.getText().toString(),pais.getText().toString(), telefono.getText().toString(), correo.getText().toString());
+        if(dni.getText().toString().length() == 9 && !name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty() && !enterprise.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !address.getText().toString().isEmpty() && !city.getText().toString().isEmpty() && !country.getText().toString().isEmpty() && phone.getText().toString().length() == 9 && ! email.getText().toString().isEmpty()){
+            dbGestiPedi.editClient(id, dni.getText().toString(), name.getText().toString(), lastname.getText().toString(), enterprise.getText().toString(), address.getText().toString(), cp.getText().toString(), city.getText().toString(), country.getText().toString(), phone.getText().toString(), email.getText().toString());
         }
         finish();
     }
