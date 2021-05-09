@@ -1,5 +1,6 @@
 package com.anjovaca.gestipedi.Client;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.R;
 
+import org.w3c.dom.ls.LSException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder> implements View.OnClickListener {
-
+    Context context;
     public List<ClientModel> clientModelList;
     private View.OnClickListener listener;
-    public ClientAdapter(List<ClientModel> clientList) {
+    public ClientAdapter(Context context, List<ClientModel> clientList) {
         this.clientModelList = clientList;
+        this.context = context;
     }
 
     @Override
@@ -63,5 +68,10 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return clientModelList.size();
+    }
+
+    public void filter(ArrayList<ClientModel> filterList){
+        this.clientModelList = filterList;
+        notifyDataSetChanged();
     }
 }

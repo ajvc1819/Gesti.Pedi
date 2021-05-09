@@ -41,6 +41,7 @@ public class InitSession extends AppCompatActivity {
         try{
             userModelList = dbGestiPedi.initSession(username.getText().toString(), password.getText().toString());
             int userId = userModelList.get(0).getId();
+            String rol = userModelList.get(0).getRol();
             if(!userModelList.isEmpty()){
                 login = true;
 
@@ -49,6 +50,8 @@ public class InitSession extends AppCompatActivity {
                 preferencesEditor.putBoolean(LOG_KEY, login);
                 String USER_KEY = "user";
                 preferencesEditor.putInt(USER_KEY, userId);
+                String ROL_KEY = "rol";
+                preferencesEditor.putString(ROL_KEY, rol);
                 preferencesEditor.apply();
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);

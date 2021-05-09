@@ -7,24 +7,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.R;
 
-public class ClientActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class ClientActivity extends AppCompatActivity {
+    public Button btnAddClient;
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
     public boolean login;
+    public List<ClientModel> clientModelList;
+    public String rol;
+    public String ROL_KEY = "rol";
 
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
-
+    public ClientAdapter clientAdapter;
+    EditText buscar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +47,27 @@ public class ClientActivity extends AppCompatActivity {
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final ClientAdapter clientAdapter = new ClientAdapter(dbGestiPedi.showClients());
+        buscar = findViewById(R.id.etBuscar);
+        buscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filtrar(s.toString());
+            }
+        });
+
+        clientAdapter = new ClientAdapter(ClientActivity.this,dbGestiPedi.showClients());
+
+        clientModelList = dbGestiPedi.showClients();
 
         clientAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +85,25 @@ public class ClientActivity extends AppCompatActivity {
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        rol = mPreferences.getString(ROL_KEY, rol);
+        btnAddClient = findViewById(R.id.btnAddClient);
+
+        if(!rol.equals("Administrador")){
+            btnAddClient.setVisibility(View.INVISIBLE);
+        }
+
+
+    }
+
+    public void filtrar(String text){
+        ArrayList<ClientModel> filterList = new ArrayList<>();
+
+        for(ClientModel client : clientModelList){
+            if(client.getEnterprise().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(client);
+            }
+        }
+        clientAdapter.filter(filterList);
     }
 
     @Override
@@ -63,7 +114,24 @@ public class ClientActivity extends AppCompatActivity {
         recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final ClientAdapter clientAdapter = new ClientAdapter(dbGestiPedi.showClients());
+        buscar = findViewById(R.id.etBuscar);
+        buscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filtrar(s.toString());
+            }
+        });
+        clientAdapter = new ClientAdapter(ClientActivity.this,dbGestiPedi.showClients());
 
         clientAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +183,10 @@ public class ClientActivity extends AppCompatActivity {
     public void addClient(View view) {
         Intent intent = new Intent(this, AddCliente.class);
         startActivity(intent);
+    }
+
+    public void deleteText(View view) {
+        buscar.setText("");
     }
 
 }

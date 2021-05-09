@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
@@ -26,9 +27,9 @@ public class ClienteDetail extends AppCompatActivity {
     int id;
     TextView dni, name, lastname, enterprise, cp, address, city, country, phone, email;
     public List<ClientModel> clientModelList;
-
+    public String rol;
     public boolean login;
-
+    Button btnEdit, btnDelete;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
@@ -69,6 +70,16 @@ public class ClienteDetail extends AppCompatActivity {
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+
+        btnEdit = findViewById(R.id.btnEditClient);
+        btnDelete = findViewById(R.id.btnDeleteClient);
+
+        if(!rol.equals("Administrador")){
+            btnDelete.setVisibility(View.INVISIBLE);
+            btnEdit.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

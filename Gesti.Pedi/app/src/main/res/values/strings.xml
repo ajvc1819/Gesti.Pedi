@@ -88,7 +88,17 @@
     <string name="registrarse1">Registrarse</string>
     <string name="a_adir_producto">Añadir Producto</string>
     <string name="productos">Productos</string>
+    <string name="buscar">Buscar</string>
+    <string name="buscar_por_nombre">Buscar por Nombre</string>
+    <string name="buscar_por_nombre2">Buscar por Nombre</string>
     <string-array name="labels_array">
+        <item>Perros</item>
+        <item>Gatos</item>
+        <item>Peces</item>
+    </string-array>
+
+    <string-array name="labels_array_search">
+        <item>All</item>
         <item>Perros</item>
         <item>Gatos</item>
         <item>Peces</item>

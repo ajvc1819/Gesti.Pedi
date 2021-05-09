@@ -78,7 +78,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="109dp"
         android:background="@drawable/buttons_border"
         android:gravity="bottom|center"
         android:onClick="launchPedidos"

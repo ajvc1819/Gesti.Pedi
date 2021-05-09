@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +34,9 @@ public class ProductDetail extends AppCompatActivity {
     public List<ProductsModel> productsModelList;
 
     public boolean login;
+    public String rol;
 
+    public Button btnEdit, btnDelete;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
@@ -69,6 +72,15 @@ public class ProductDetail extends AppCompatActivity {
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+        btnDelete = findViewById(R.id.btnDeleteProduct);
+        btnEdit = findViewById((R.id.btnEditProd));
+
+        if(!rol.equals("Administrador")){
+            btnDelete.setVisibility(View.INVISIBLE);
+            btnEdit.setVisibility(View.INVISIBLE);
+        }
     }
 
     @SuppressLint("SetTextI18n")
