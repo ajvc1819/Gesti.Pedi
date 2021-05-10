@@ -13,8 +13,13 @@ import androidx.annotation.Nullable;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
+import com.anjovaca.gestipedi.Order.OrderActivity;
+import com.anjovaca.gestipedi.Order.OrderModel;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DbGestiPedi extends SQLiteOpenHelper {
@@ -229,6 +234,34 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             } catch (Exception ex){
                 Log.d("Tag", ex.toString());
             }
+
+        }
+    }
+
+    public List<OrderModel> showOrders(){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Orders", null);
+        List<OrderModel> orders = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                orders.add(new OrderModel(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getDouble(5)));
+            }while ((cursor.moveToNext()));
+        }
+        return orders;
+    }
+
+    public void insertOrder(int idClient, int idUser){
+        SQLiteDatabase db = getWritableDatabase();
+        double total = 0;
+        String state = "En Proceso";
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = currentTime.toString();
+
+        if(db!=null){
+
+            db.execSQL("INSERT INTO Orders (fecha,idCliente,estado,total,idUsuario) VALUES ('" + date + "', '" + idClient + "','" + state + "','" + total + "','" + idUser + "')");
+            db.close();
+
 
         }
     }

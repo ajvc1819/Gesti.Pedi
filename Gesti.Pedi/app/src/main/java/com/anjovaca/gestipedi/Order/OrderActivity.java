@@ -1,32 +1,67 @@
 package com.anjovaca.gestipedi.Order;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.R;
 
-public class PedidosActivity extends AppCompatActivity {
+import java.util.List;
 
+public class OrderActivity extends AppCompatActivity {
+
+    public static final String EXTRA_ID =
+            "com.example.android.twoactivities.extra.id";
     public boolean login;
+    public List<OrderModel> orderModelList;
+    public String rol;
+    public String ROL_KEY = "rol";
+
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
+    public OrderAdapter orderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedidos);
 
+        final RecyclerView recyclerViewClient = findViewById(R.id.rvOrders);
+        recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
+
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+
+        orderAdapter = new OrderAdapter(OrderActivity.this,dbGestiPedi.showOrders());
+
+        orderModelList = dbGestiPedi.showOrders();
+
+        orderAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int orderId =  orderAdapter.orderModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
+                intent.putExtra(EXTRA_ID, orderId);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewClient.setAdapter(orderAdapter);
+
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+
     }
 
     @Override

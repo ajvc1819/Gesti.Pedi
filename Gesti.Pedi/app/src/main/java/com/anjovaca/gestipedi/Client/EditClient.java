@@ -34,7 +34,7 @@ public class EditClient extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_client);
         Intent intent = getIntent();
-        id = intent.getIntExtra(ClienteDetail.EXTRA_ID, 0);
+        id = intent.getIntExtra(ClientDetail.EXTRA_ID, 0);
 
         dni = findViewById(R.id.etDni);
         name =  findViewById(R.id.etNombre);

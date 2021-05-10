@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".Stock.EditProduct"
+        <activity android:name=".Order.OrderDetail"></activity>
+        <activity
+            android:name=".Stock.EditProduct"
             android:label="Editar Producto"
             android:parentActivityName=".Stock.ProductDetail">
             <meta-data
@@ -26,7 +28,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anjovaca.gestipedi.Stock.StockActivity" />
         </activity>
-        <activity android:name=".Stock.AddProduct"
+        <activity
+            android:name=".Stock.AddProduct"
             android:label="Añadir Producto"
             android:parentActivityName=".Stock.StockActivity">
             <meta-data
@@ -60,13 +63,13 @@
         <activity
             android:name=".Client.EditClient"
             android:label="Editar Cliente"
-            android:parentActivityName=".Client.ClienteDetail">
+            android:parentActivityName=".Client.ClientDetail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anjovaca.gestipedi.Client.ClienteDetail" />
+                android:value="com.anjovaca.gestipedi.Client.ClientDetail" />
         </activity>
         <activity
-            android:name=".Client.ClienteDetail"
+            android:name=".Client.ClientDetail"
             android:label="Detalle Cliente"
             android:parentActivityName=".Client.ClientActivity">
             <meta-data
@@ -90,7 +93,7 @@
                 android:value="com.anjovaca.gestipedi.Main.MainActivity" />
         </activity>
         <activity
-            android:name=".Order.PedidosActivity"
+            android:name=".Order.OrderActivity"
             android:label="Pedidos"
             android:parentActivityName=".Main.MainActivity">
             <meta-data

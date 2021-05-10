@@ -17,7 +17,7 @@ import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
-import com.anjovaca.gestipedi.Order.PedidosActivity;
+import com.anjovaca.gestipedi.Order.OrderActivity;
 import com.anjovaca.gestipedi.R;
 import com.anjovaca.gestipedi.Stock.StockActivity;
 
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public void launchPedidos(View view) {
         Intent intent;
         if(login){
-            intent = new Intent(this, PedidosActivity.class);
+            intent = new Intent(this, OrderActivity.class);
         } else {
             intent = new Intent(this, InitSession.class);
         }

@@ -19,12 +19,12 @@ import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class ClienteDetail extends AppCompatActivity {
+public class ClientDetail extends AppCompatActivity {
 
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
     DbGestiPedi dbGestiPedi;
-    int id;
+    int id, idUser;
     TextView dni, name, lastname, enterprise, cp, address, city, country, phone, email;
     public List<ClientModel> clientModelList;
     public String rol;
@@ -32,6 +32,9 @@ public class ClienteDetail extends AppCompatActivity {
     Button btnEdit, btnDelete;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
+
+    String sharedPrefFile = "com.example.android.hellosharedprefs";
+    SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +69,7 @@ public class ClienteDetail extends AppCompatActivity {
         phone.setText(clientModelList.get(0).getPhone());
         email.setText(clientModelList.get(0).getEmail());
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ROL_KEY = "rol";
@@ -114,8 +116,7 @@ public class ClienteDetail extends AppCompatActivity {
         phone.setText(clientModelList.get(0).getPhone());
         email.setText(clientModelList.get(0).getEmail());
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
     }
@@ -162,4 +163,12 @@ public class ClienteDetail extends AppCompatActivity {
     }
 
 
+    public void addOrder(View view) {
+        String USER_KEY = "user";
+        idUser = mPreferences.getInt(USER_KEY, idUser);
+        int idClient = clientModelList.get(0).getId();
+
+        dbGestiPedi.insertOrder(idClient,idUser);
+
+    }
 }

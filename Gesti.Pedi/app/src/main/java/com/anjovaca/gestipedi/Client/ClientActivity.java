@@ -73,7 +73,7 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int clientId =  clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClienteDetail.class);
+                Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
             }
@@ -137,7 +137,7 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int clientId =  clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClienteDetail.class);
+                Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
             }
