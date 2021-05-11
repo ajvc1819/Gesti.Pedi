@@ -8,7 +8,7 @@ public class OrderModel {
     public OrderModel() {
     }
 
-    public OrderModel(int id, int idClient, int idUser, String date, String state, double total) {
+    public OrderModel(int id, String date, int idClient, String state, double total, int idUser) {
         this.id = id;
         this.idClient = idClient;
         this.idUser = idUser;

@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".Order.OrderDetail"></activity>
+        <activity android:name=".Order.ShoppingCart"></activity>
+        <activity android:name=".Order.OrderDetail" />
         <activity
             android:name=".Stock.EditProduct"
             android:label="Editar Producto"

@@ -93,6 +93,7 @@
     <string name="buscar_por_nombre2">Buscar por Nombre</string>
     <string name="pedidos">Pedidos</string>
     <string name="crear_pedido">Crear Pedido</string>
+    <string name="carrito">Carrito</string>
     <string-array name="labels_array">
         <item>Perros</item>
         <item>Gatos</item>

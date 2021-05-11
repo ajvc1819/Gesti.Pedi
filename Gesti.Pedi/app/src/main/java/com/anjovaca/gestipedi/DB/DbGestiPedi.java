@@ -14,6 +14,7 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
 import com.anjovaca.gestipedi.Order.OrderActivity;
+import com.anjovaca.gestipedi.Order.OrderDetailModel;
 import com.anjovaca.gestipedi.Order.OrderModel;
 
 import java.sql.Time;
@@ -244,7 +245,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         List<OrderModel> orders = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                orders.add(new OrderModel(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getDouble(5)));
+                orders.add(new OrderModel(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getString(3),cursor.getDouble(4),cursor.getInt(5)));
             }while ((cursor.moveToNext()));
         }
         return orders;
@@ -264,5 +265,16 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
 
         }
+    }
+    public List<OrderDetailModel> showOrderDetail(){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM OrderDetails", null);
+        List<OrderDetailModel> details = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                details.add(new OrderDetailModel(cursor.getInt(0),cursor.getInt(1),cursor.getDouble(2),cursor.getInt(3),cursor.getInt(4)));
+            }while ((cursor.moveToNext()));
+        }
+        return details;
     }
 }
