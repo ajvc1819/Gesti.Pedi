@@ -54,8 +54,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.date.setText(orderDetailModelList.get(position).getQuantity());
-        holder.state.setText(orderDetailModelList.get(position).getIdProduct());
+        holder.date.setText(Integer.toString(orderDetailModelList.get(position).getQuantity()));
+        holder.state.setText(Integer.toString(orderDetailModelList.get(position).getIdProduct()));
         holder.total.setText(Double.toString(orderDetailModelList.get(position).getPrice()));
     }
 

@@ -266,9 +266,10 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
         }
     }
-    public List<OrderDetailModel> showOrderDetail(){
+
+    public List<OrderDetailModel> showOrderDetail(int idOrder){
         SQLiteDatabase db = getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM OrderDetails", null);
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM OrderDetails WHERE idPedido = '" + idOrder + "' ", null);
         List<OrderDetailModel> details = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
@@ -276,5 +277,27 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             }while ((cursor.moveToNext()));
         }
         return details;
+    }
+
+    public void insertOrderDetail(double price, int idOrder, int idProduct){
+        SQLiteDatabase db = getWritableDatabase();
+        int quantity = 1;
+
+        if(db!=null){
+            db.execSQL("INSERT INTO OrderDetails (cantidad, precio, idPedido, idProducto) VALUES ('" + quantity + "', '" + price + "','" + idOrder + "','" + idProduct + "')");
+            db.close();
+        }
+    }
+
+    public List<OrderModel> selectLastOrder(){
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Orders ORDER by id DESC LIMIT 1", null);
+        List<OrderModel> orders = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                orders.add(new OrderModel(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getString(3),cursor.getDouble(4),cursor.getInt(5)));
+            }while ((cursor.moveToNext()));
+        }
+        return orders;
     }
 }

@@ -11,8 +11,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".Order.ShoppingCart"></activity>
-        <activity android:name=".Order.OrderDetail" />
+        <activity android:name=".Order.AddProductToShoppingCart"
+            android:label="Añadir Producto al Carrito"
+            android:parentActivityName=".Order.ShoppingCart">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Order.ShoppingCart" />
+        </activity>
+        <activity android:name=".Order.ShoppingCart"
+            android:label="Carrito"
+            android:parentActivityName=".Client.ClientDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Client.ClientDetail" />
+        </activity>
+        <activity android:name=".Order.OrderDetail"
+            android:label="Detalle Pedido"
+            android:parentActivityName=".Order.OrderActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Order.OrderActivity" />
+        </activity>
         <activity
             android:name=".Stock.EditProduct"
             android:label="Editar Producto"
@@ -96,14 +115,6 @@
         <activity
             android:name=".Order.OrderActivity"
             android:label="Pedidos"
-            android:parentActivityName=".Main.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.anjovaca.gestipedi.Main.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Report.InformesActivity"
-            android:label="Informes"
             android:parentActivityName=".Main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

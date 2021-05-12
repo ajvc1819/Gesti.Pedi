@@ -15,6 +15,9 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.Order.OrderDetailModel;
+import com.anjovaca.gestipedi.Order.OrderModel;
+import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -170,5 +173,15 @@ public class ClientDetail extends AppCompatActivity {
 
         dbGestiPedi.insertOrder(idClient,idUser);
 
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        List<OrderModel> orderDetailModelList = dbGestiPedi.selectLastOrder();
+        int id = orderDetailModelList.get(0).getId();
+
+        String ORDER_ID_KEY = "id";
+        preferencesEditor.putInt(ORDER_ID_KEY, id);
+        preferencesEditor.apply();
+
+        Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+        startActivity(intent);
     }
 }
