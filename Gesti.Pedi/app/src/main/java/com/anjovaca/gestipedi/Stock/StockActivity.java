@@ -23,6 +23,7 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class StockActivity extends AppCompatActivity implements
             "com.example.android.twoactivities.extra.login";
     public static final String EXTRA_PRODUCT_ID =
             "com.example.android.twoactivities.extra.ID";
+    int orderId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class StockActivity extends AppCompatActivity implements
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
 
         btnAddProduct = findViewById(R.id.btnAddProduct);
         rol = mPreferences.getString(ROL_KEY,rol);
@@ -172,6 +176,9 @@ public class StockActivity extends AppCompatActivity implements
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+
         buscar = findViewById(R.id.etBuscarN);
         buscar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -195,6 +202,11 @@ public class StockActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.ShoppingCart);
+
+        if(orderId == 0){
+            item.setVisible(false);
+        }
         return true;
     }
 
@@ -203,10 +215,10 @@ public class StockActivity extends AppCompatActivity implements
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
+        int idLogin = item.getItemId();
+        int idShopping = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.initSession) {
+        if (idLogin == R.id.initSession) {
             Intent intent;
             if(login){
                 intent = new Intent(getApplicationContext(), LogOut.class);
@@ -215,9 +227,12 @@ public class StockActivity extends AppCompatActivity implements
                 intent = new Intent(this, InitSession.class);
             }
             startActivity(intent);
-
         }
 
+        if(idShopping == R.id.ShoppingCart){
+            Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

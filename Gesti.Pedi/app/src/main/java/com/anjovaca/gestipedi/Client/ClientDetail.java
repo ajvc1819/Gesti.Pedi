@@ -15,7 +15,6 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
-import com.anjovaca.gestipedi.Order.OrderDetailModel;
 import com.anjovaca.gestipedi.Order.OrderModel;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
@@ -38,6 +37,7 @@ public class ClientDetail extends AppCompatActivity {
 
     String sharedPrefFile = "com.example.android.hellosharedprefs";
     SharedPreferences mPreferences;
+    int orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,8 @@ public class ClientDetail extends AppCompatActivity {
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
 
         btnEdit = findViewById(R.id.btnEditClient);
         btnDelete = findViewById(R.id.btnDeleteClient);
@@ -128,6 +130,11 @@ public class ClientDetail extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.ShoppingCart);
+
+        if(orderId == 0){
+            item.setVisible(false);
+        }
         return true;
     }
 
@@ -136,10 +143,10 @@ public class ClientDetail extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
+        int idLogin = item.getItemId();
+        int idShopping = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.initSession) {
+        if (idLogin == R.id.initSession) {
             Intent intent;
             if(login){
                 intent = new Intent(getApplicationContext(), LogOut.class);
@@ -148,8 +155,14 @@ public class ClientDetail extends AppCompatActivity {
                 intent = new Intent(this, InitSession.class);
             }
             startActivity(intent);
-
         }
+
+        if(idShopping == R.id.ShoppingCart){
+            Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+            startActivity(intent);
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }

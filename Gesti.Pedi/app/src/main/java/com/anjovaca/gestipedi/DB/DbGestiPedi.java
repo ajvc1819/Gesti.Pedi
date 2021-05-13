@@ -267,6 +267,20 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
+    public void confirmOrder(int id){
+        SQLiteDatabase db = getWritableDatabase();
+        String state = "Confirmado";
+        if(db!=null){
+            try{
+                db.execSQL("UPDATE Orders SET estado = '" + state + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex){
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
     public List<OrderDetailModel> showOrderDetail(int idOrder){
         SQLiteDatabase db = getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM OrderDetails WHERE idPedido = '" + idOrder + "' ", null);
@@ -300,4 +314,6 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
         return orders;
     }
+
+
 }

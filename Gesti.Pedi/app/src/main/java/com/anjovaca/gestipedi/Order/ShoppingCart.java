@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -24,11 +26,12 @@ public class ShoppingCart extends AppCompatActivity {
     public String rol;
     public String ROL_KEY = "rol";
     int idOrder;
-
+    public DbGestiPedi dbGestiPedi;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
     public ShoppingCartAdapter orderAdapter;
-
+    private final String ORDER_ID_KEY = "id";
+    int orderId;
     String sharedPrefFile = "com.example.android.hellosharedprefs";
     SharedPreferences mPreferences;
 
@@ -41,7 +44,7 @@ public class ShoppingCart extends AppCompatActivity {
         String ORDER_ID_KEY = "id";
         idOrder = mPreferences.getInt(ORDER_ID_KEY, idOrder);
 
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewShopping = findViewById(R.id.rvShoppingCart);
         recyclerViewShopping.setLayoutManager(new LinearLayoutManager(this));
 
@@ -65,7 +68,7 @@ public class ShoppingCart extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewShopping = findViewById(R.id.rvShoppingCart);
         recyclerViewShopping.setLayoutManager(new LinearLayoutManager(this));
 
@@ -90,8 +93,30 @@ public class ShoppingCart extends AppCompatActivity {
         recyclerViewShopping.setAdapter(orderAdapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void addProduct(View view) {
         Intent intent = new Intent(getApplicationContext(), AddProductToShoppingCart.class);
+        startActivity(intent);
+    }
+
+    public void confirmOrder(View view) {
+        dbGestiPedi.confirmOrder(idOrder);
+        orderId = 0;
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putInt(ORDER_ID_KEY, orderId);
+        preferencesEditor.apply();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

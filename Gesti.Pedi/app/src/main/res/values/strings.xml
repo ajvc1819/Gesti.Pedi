@@ -95,6 +95,8 @@
     <string name="crear_pedido">Crear Pedido</string>
     <string name="carrito">Carrito</string>
     <string name="a_adir_producto2">Añadir Producto</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="confirmar_pedido">Confirmar Pedido</string>
     <string-array name="labels_array">
         <item>Perros</item>
         <item>Gatos</item>

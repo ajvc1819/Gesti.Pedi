@@ -15,6 +15,7 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.InitSession;
 import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class AddCliente extends AppCompatActivity {
     List<ClientModel> clientModelList;
     DbGestiPedi dbGestiPedi;
     EditText dni, name, lastname, enterprise, cp, address, city, country, phone, email;
-
+    int orderId;
     public boolean login;
 
     public static final String EXTRA_LOGED_IN =
@@ -51,37 +52,7 @@ public class AddCliente extends AppCompatActivity {
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.initSession) {
-            Intent intent;
-            if(login){
-                intent = new Intent(getApplicationContext(), LogOut.class);
-                intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
-            }
-            startActivity(intent);
-
-        }
-
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void insertClient(View view) {

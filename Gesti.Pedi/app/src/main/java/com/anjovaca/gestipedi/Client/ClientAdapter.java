@@ -21,6 +21,8 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
     Context context;
     public List<ClientModel> clientModelList;
     private View.OnClickListener listener;
+
+
     public ClientAdapter(Context context, List<ClientModel> clientList) {
         this.clientModelList = clientList;
         this.context = context;
