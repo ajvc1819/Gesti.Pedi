@@ -10,20 +10,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
 
-import com.anjovaca.gestipedi.Client.ClientActivity;
-import com.anjovaca.gestipedi.Client.ClientAdapter;
-import com.anjovaca.gestipedi.Client.ClientDetail;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.DB.Models.OrderModel;
+import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
-
 
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
@@ -44,15 +40,14 @@ public class OrderActivity extends AppCompatActivity {
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
         recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
 
-        orderAdapter = new OrderAdapter(OrderActivity.this,dbGestiPedi.showOrders());
-
+        orderAdapter = new OrderAdapter(OrderActivity.this, dbGestiPedi.showOrders());
 
         orderModelList = dbGestiPedi.showOrders();
 
         orderAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
+                int clientId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
@@ -66,8 +61,7 @@ public class OrderActivity extends AppCompatActivity {
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
-
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     @Override
@@ -76,7 +70,7 @@ public class OrderActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.ShoppingCart);
 
-        if(orderId == 0){
+        if (orderId == 0) {
             item.setVisible(false);
         }
         return true;
@@ -92,16 +86,16 @@ public class OrderActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (idLogin == R.id.initSession) {
             Intent intent;
-            if(login){
+            if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
+            } else {
+                intent = new Intent(this, LogIn.class);
             }
             startActivity(intent);
         }
 
-        if(idShopping == R.id.ShoppingCart){
+        if (idShopping == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }

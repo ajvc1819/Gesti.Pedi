@@ -9,12 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements View.OnClickListener{
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements View.OnClickListener {
     Context context;
     public List<OrderModel> orderModelList;
     private View.OnClickListener listener;
@@ -26,26 +27,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onClick(View v) {
-        if(listener!=null){
+        if (listener != null) {
             listener.onClick(v);
         }
     }
 
-    public static  class  ViewHolder extends  RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView date, state, total;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            date = (TextView)itemView.findViewById(R.id.tvFecha);
-            state= (TextView)itemView.findViewById(R.id.tvEstado);
-            total = (TextView)itemView.findViewById(R.id.tvTotal);
+            date = (TextView) itemView.findViewById(R.id.tvFecha);
+            state = (TextView) itemView.findViewById(R.id.tvEstado);
+            total = (TextView) itemView.findViewById(R.id.tvTotal);
         }
     }
 
     @NonNull
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_order,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_order, parent, false);
         view.setOnClickListener(this);
         OrderAdapter.ViewHolder viewHolder = new OrderAdapter.ViewHolder(view);
         return viewHolder;
@@ -59,15 +60,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.total.setText(total);
     }
 
-    public void  setOnClickListener(View.OnClickListener listener){
+    public void setOnClickListener(View.OnClickListener listener) {
         this.listener = listener;
     }
+
     @Override
     public int getItemCount() {
         return orderModelList.size();
     }
 
-    public void filter(ArrayList<OrderModel> filterList){
+    public void filter(ArrayList<OrderModel> filterList) {
         this.orderModelList = filterList;
         notifyDataSetChanged();
     }

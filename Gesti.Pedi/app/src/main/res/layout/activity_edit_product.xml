@@ -10,9 +10,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="UselessParent"
         tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="461dp"
-        tools:ignore="UselessParent">
+        tools:layout_editor_absoluteY="461dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,16 +92,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvCategoryProdA"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvCategoryProdA"
-                    tools:targetApi="lollipop"
-                    android:autofillHints=""
-                    tools:ignore="LabelFor" />
+                    tools:ignore="LabelFor"
+                    tools:targetApi="lollipop" />
 
             </LinearLayout>
 
@@ -125,14 +125,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvPrecioProdA"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvPrecioProdA"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -199,15 +199,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:ems="10"
+                    android:autofillHints=""
                     android:backgroundTint="#FFFFFF"
+                    android:ems="10"
                     android:inputType="textPostalAddress"
                     android:maxLength="5"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvStockProdA"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvStockProdA"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -233,14 +233,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvTelf"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvTelf"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -256,8 +256,8 @@
                     android:layout_width="250dp"
                     android:layout_height="250dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars"
-                    android:contentDescription="@string/imageproduct" />
+                    android:contentDescription="@string/imageproduct"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <Button
                     android:id="@+id/btnSelectImgProdE"

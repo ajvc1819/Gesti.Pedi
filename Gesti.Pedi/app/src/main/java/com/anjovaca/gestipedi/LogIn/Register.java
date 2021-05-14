@@ -33,15 +33,15 @@ public class Register extends AppCompatActivity {
     }
 
     public void register(View view) {
-        try{
+        try {
             userModelList = dbGestiPedi.checkUsers(username.getText().toString());
-            if(userModelList.isEmpty()){
-                dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(),"Usuario");
+            if (userModelList.isEmpty()) {
+                dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Usuario");
             } else {
-              Log.d("TAG", "El usuario ya existe.");
+                Log.d("TAG", "El usuario ya existe.");
             }
             finish();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.d("TAG", e.toString());
         }
     }

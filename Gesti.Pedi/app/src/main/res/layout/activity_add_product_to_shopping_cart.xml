@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Order.AddProductToShoppingCart"
-    android:background="#2B2B2B">
+    android:background="#2B2B2B"
+    tools:context=".Order.AddProductToShoppingCart">
 
     <TextView
         android:id="@+id/txtTitulo"

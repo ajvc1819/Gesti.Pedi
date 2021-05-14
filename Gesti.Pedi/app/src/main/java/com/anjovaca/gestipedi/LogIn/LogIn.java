@@ -17,7 +17,7 @@ import com.anjovaca.gestipedi.DB.Models.UserModel;
 
 import java.util.List;
 
-public class InitSession extends AppCompatActivity {
+public class LogIn extends AppCompatActivity {
 
     private SharedPreferences mPreferences;
     public static final String EXTRA_LOGED_IN =
@@ -26,6 +26,7 @@ public class InitSession extends AppCompatActivity {
     public boolean login;
     EditText username, password;
     DbGestiPedi dbGestiPedi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +39,11 @@ public class InitSession extends AppCompatActivity {
     }
 
     public void initSession(View view) {
-        try{
+        try {
             userModelList = dbGestiPedi.initSession(username.getText().toString(), password.getText().toString());
             int userId = userModelList.get(0).getId();
             String rol = userModelList.get(0).getRol();
-            if(!userModelList.isEmpty()){
+            if (!userModelList.isEmpty()) {
                 login = true;
 
                 SharedPreferences.Editor preferencesEditor = mPreferences.edit();
@@ -58,13 +59,12 @@ public class InitSession extends AppCompatActivity {
                 intent.putExtra(EXTRA_LOGED_IN, login);
                 startActivity(intent);
                 finish();
-            }
-            else {
-                Toast.makeText(getApplicationContext(),"El usuario introducido no es correcto.",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "El usuario introducido no es correcto.", Toast.LENGTH_SHORT).show();
             }
 
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             Log.d("TAG", e.toString());
         }
     }

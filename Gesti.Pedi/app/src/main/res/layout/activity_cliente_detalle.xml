@@ -4,23 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Client.ClientDetail"
-    android:background="#2B2B2B">
+    android:background="#2B2B2B"
+    tools:context=".Client.ClientDetail">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="UselessParent"
         tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="461dp"
-        tools:ignore="UselessParent">
+        tools:layout_editor_absoluteY="461dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/txtTitulo"
                     android:layout_width="match_parent"
@@ -356,10 +358,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:onClick="editClient"
-                    android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
+                    android:onClick="editClient"
                     android:text="@string/editar_cliente"
+                    android:textColor="#FFFFFF"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -368,10 +370,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
                     android:onClick="deleteClient"
                     android:text="@string/eliminar"
+                    android:textColor="#FFFFFF"
                     tools:ignore="ButtonStyle,OnClick" />
             </LinearLayout>
 
@@ -384,12 +386,12 @@
                     android:id="@+id/btnCreateOrder"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_margin="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/buttons_style"
-                    android:textColor="#FFFFFF"
                     android:onClick="addOrder"
-                    android:text="@string/crear_pedido" />
+                    android:text="@string/crear_pedido"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
         </LinearLayout>

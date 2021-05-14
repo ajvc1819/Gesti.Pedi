@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi.Order;
+package com.anjovaca.gestipedi.DB.Models;
 
 public class OrderDetailModel {
     int id, quantity, idOrder, idProduct;

@@ -19,9 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
-import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener{
+        AdapterView.OnItemSelectedListener {
     Button btnAddProduct;
     public ProductAdapter productAdapter;
     String category;
@@ -44,6 +43,7 @@ public class StockActivity extends AppCompatActivity implements
     public static final String EXTRA_PRODUCT_ID =
             "com.example.android.twoactivities.extra.ID";
     int orderId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +72,7 @@ public class StockActivity extends AppCompatActivity implements
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int productId =  productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                int productId = productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
                 intent.putExtra(EXTRA_PRODUCT_ID, productId);
                 startActivity(intent);
@@ -86,12 +86,12 @@ public class StockActivity extends AppCompatActivity implements
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
 
         btnAddProduct = findViewById(R.id.btnAddProduct);
-        rol = mPreferences.getString(ROL_KEY,rol);
+        rol = mPreferences.getString(ROL_KEY, rol);
 
-        if(!rol.equals("Administrador")){
+        if (!rol.equals("Administrador")) {
             btnAddProduct.setVisibility(View.INVISIBLE);
         }
 
@@ -109,33 +109,28 @@ public class StockActivity extends AppCompatActivity implements
 
             @Override
             public void afterTextChanged(Editable s) {
-                filter(s.toString(),category);
+                filter(s.toString(), category);
             }
         });
-
-
-
     }
-    public void filter(String nombre, String category){
+
+    public void filter(String nombre, String category) {
         ArrayList<ProductsModel> filterList = new ArrayList<>();
-            if(!category.equals("All")){
-                for(ProductsModel product : productsModelList){
-                    if(product.getName().toLowerCase().contains(nombre.toLowerCase()) && product.getCategory().toLowerCase().contains(category.toLowerCase())){
-                        filterList.add(product);
-                    }
+        if (!category.equals("All")) {
+            for (ProductsModel product : productsModelList) {
+                if (product.getName().toLowerCase().contains(nombre.toLowerCase()) && product.getCategory().toLowerCase().contains(category.toLowerCase())) {
+                    filterList.add(product);
                 }
             }
-            else {
-                for(ProductsModel product : productsModelList){
-                    if(product.getName().toLowerCase().contains(nombre.toLowerCase())){
-                        filterList.add(product);
-                    }
+        } else {
+            for (ProductsModel product : productsModelList) {
+                if (product.getName().toLowerCase().contains(nombre.toLowerCase())) {
+                    filterList.add(product);
                 }
             }
+        }
 
-            productAdapter.filter(filterList);
-
-
+        productAdapter.filter(filterList);
     }
 
     @Override
@@ -163,7 +158,7 @@ public class StockActivity extends AppCompatActivity implements
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int productId =  productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                int productId = productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
                 intent.putExtra(EXTRA_PRODUCT_ID, productId);
                 startActivity(intent);
@@ -177,7 +172,7 @@ public class StockActivity extends AppCompatActivity implements
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
 
         buscar = findViewById(R.id.etBuscarN);
         buscar.addTextChangedListener(new TextWatcher() {
@@ -193,7 +188,7 @@ public class StockActivity extends AppCompatActivity implements
 
             @Override
             public void afterTextChanged(Editable s) {
-                filter(s.toString(),category);
+                filter(s.toString(), category);
             }
         });
     }
@@ -204,7 +199,7 @@ public class StockActivity extends AppCompatActivity implements
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.ShoppingCart);
 
-        if(orderId == 0){
+        if (orderId == 0) {
             item.setVisible(false);
         }
         return true;
@@ -220,16 +215,16 @@ public class StockActivity extends AppCompatActivity implements
         //noinspection SimplifiableIfStatement
         if (idLogin == R.id.initSession) {
             Intent intent;
-            if(login){
+            if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
+            } else {
+                intent = new Intent(this, LogIn.class);
             }
             startActivity(intent);
         }
 
-        if(idShopping == R.id.ShoppingCart){
+        if (idShopping == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }
@@ -244,8 +239,7 @@ public class StockActivity extends AppCompatActivity implements
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         category = parent.getItemAtPosition(position).toString();
-        filter(buscar.getText().toString(),category);
-
+        filter(buscar.getText().toString(), category);
     }
 
     @Override

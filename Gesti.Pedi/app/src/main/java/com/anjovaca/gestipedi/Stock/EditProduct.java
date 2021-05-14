@@ -23,7 +23,7 @@ import com.anjovaca.gestipedi.R;
 import java.util.List;
 
 public class EditProduct extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener{
+        AdapterView.OnItemSelectedListener {
 
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
@@ -72,7 +72,6 @@ public class EditProduct extends AppCompatActivity implements
         stock.setText(Integer.toString(productsModelList.get(0).getStock()));
         price.setText(Double.toString(productsModelList.get(0).getPrice()));
         image.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
-
     }
 
     public void editProduct(View view) {
@@ -80,10 +79,10 @@ public class EditProduct extends AppCompatActivity implements
         double priceDouble;
         stockInt = Integer.parseInt(stock.getText().toString());
         priceDouble = Double.parseDouble(price.getText().toString());
-        if(imageUri == null){
-            dbGestiPedi.editProduct(id, name.getText().toString(), description.getText().toString(), stockInt,priceDouble,productsModelList.get(0).getImage(), category);
+        if (imageUri == null) {
+            dbGestiPedi.editProduct(id, name.getText().toString(), description.getText().toString(), stockInt, priceDouble, productsModelList.get(0).getImage(), category);
         } else {
-            dbGestiPedi.editProduct(id, name.getText().toString(), description.getText().toString(), stockInt,priceDouble,imageUri.toString(), category);
+            dbGestiPedi.editProduct(id, name.getText().toString(), description.getText().toString(), stockInt, priceDouble, imageUri.toString(), category);
         }
         finish();
     }

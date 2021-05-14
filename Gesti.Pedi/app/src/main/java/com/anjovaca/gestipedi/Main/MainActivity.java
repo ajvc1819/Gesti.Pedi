@@ -1,6 +1,5 @@
 package com.anjovaca.gestipedi.Main;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -17,7 +15,7 @@ import android.view.MenuItem;
 
 import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.Order.OrderActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        login = intent.getBooleanExtra(InitSession.EXTRA_LOGED_IN, false);
+        login = intent.getBooleanExtra(LogIn.EXTRA_LOGED_IN, false);
 
         DbGestiPedi dbHelper = new DbGestiPedi(this);
         db = dbHelper.getWritableDatabase();
@@ -52,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         login = mPreferences.getBoolean(LOG_KEY, login);
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
-
-
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     @Override
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.ShoppingCart);
 
-        if(orderId == 0){
+        if (orderId == 0) {
             item.setVisible(false);
         }
         return true;
@@ -87,51 +83,49 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (idLogin == R.id.initSession) {
             Intent intent;
-            if(login){
+            if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
+            } else {
+                intent = new Intent(this, LogIn.class);
             }
             startActivity(intent);
         }
 
-            if(idShopping == R.id.ShoppingCart){
-                Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
-                startActivity(intent);
-            }
+        if (idShopping == R.id.ShoppingCart) {
+            Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void launchClientes(View view) {
         Intent intent;
-        if(login){
+        if (login) {
             intent = new Intent(this, ClientActivity.class);
         } else {
-            intent = new Intent(this, InitSession.class);
+            intent = new Intent(this, LogIn.class);
         }
         startActivity(intent);
-
     }
 
     public void launchStock(View view) {
         Intent intent;
-        if(login){
+        if (login) {
             intent = new Intent(this, StockActivity.class);
         } else {
-            intent = new Intent(this, InitSession.class);
+            intent = new Intent(this, LogIn.class);
         }
         startActivity(intent);
-
     }
 
     public void launchPedidos(View view) {
         Intent intent;
-        if(login){
+        if (login) {
             intent = new Intent(this, OrderActivity.class);
         } else {
-            intent = new Intent(this, InitSession.class);
+            intent = new Intent(this, LogIn.class);
         }
         startActivity(intent);
     }

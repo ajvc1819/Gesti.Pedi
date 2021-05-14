@@ -17,7 +17,7 @@ import android.widget.EditText;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
-import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
@@ -38,6 +38,7 @@ public class ClientActivity extends AppCompatActivity {
             "com.example.android.twoactivities.extra.login";
     public ClientAdapter clientAdapter;
     EditText buscar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,14 +67,14 @@ public class ClientActivity extends AppCompatActivity {
             }
         });
 
-        clientAdapter = new ClientAdapter(ClientActivity.this,dbGestiPedi.showClients());
+        clientAdapter = new ClientAdapter(ClientActivity.this, dbGestiPedi.showClients());
 
         clientModelList = dbGestiPedi.showClients();
 
         clientAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                int clientId = clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
@@ -88,21 +89,19 @@ public class ClientActivity extends AppCompatActivity {
         login = mPreferences.getBoolean(LOG_KEY, login);
         rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
         btnAddClient = findViewById(R.id.btnAddClient);
 
-        if(!rol.equals("Administrador")){
+        if (!rol.equals("Administrador")) {
             btnAddClient.setVisibility(View.INVISIBLE);
         }
-
-
     }
 
-    public void filtrar(String text){
+    public void filtrar(String text) {
         ArrayList<ClientModel> filterList = new ArrayList<>();
 
-        for(ClientModel client : clientModelList){
-            if(client.getEnterprise().toLowerCase().contains(text.toLowerCase())){
+        for (ClientModel client : clientModelList) {
+            if (client.getEnterprise().toLowerCase().contains(text.toLowerCase())) {
                 filterList.add(client);
             }
         }
@@ -112,7 +111,7 @@ public class ClientActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        
+
         final RecyclerView recyclerViewClient = findViewById(R.id.rvClient);
         recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
@@ -134,12 +133,12 @@ public class ClientActivity extends AppCompatActivity {
                 filtrar(s.toString());
             }
         });
-        clientAdapter = new ClientAdapter(ClientActivity.this,dbGestiPedi.showClients());
+        clientAdapter = new ClientAdapter(ClientActivity.this, dbGestiPedi.showClients());
 
         clientAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                int clientId = clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
@@ -160,7 +159,7 @@ public class ClientActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.ShoppingCart);
 
-        if(orderId == 0){
+        if (orderId == 0) {
             item.setVisible(false);
         }
         return true;
@@ -176,16 +175,16 @@ public class ClientActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (idLogin == R.id.initSession) {
             Intent intent;
-            if(login){
+            if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
+            } else {
+                intent = new Intent(this, LogIn.class);
             }
             startActivity(intent);
         }
 
-        if(idShopping == R.id.ShoppingCart){
+        if (idShopping == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }
@@ -194,7 +193,7 @@ public class ClientActivity extends AppCompatActivity {
     }
 
     public void addClient(View view) {
-        Intent intent = new Intent(this, AddCliente.class);
+        Intent intent = new Intent(this, AddClient.class);
         startActivity(intent);
     }
 

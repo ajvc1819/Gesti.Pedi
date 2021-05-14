@@ -4,67 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Client.AddCliente"
-    android:background="#2B2B2B">
+    android:background="#2B2B2B"
+    tools:context=".Client.AddClient">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="UselessParent"
         tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="461dp"
-        tools:ignore="UselessParent">
+        tools:layout_editor_absoluteY="461dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/txtTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/title_border"
-                android:gravity="center|center_vertical"
-                android:text="@string/Title"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imgLogo"
-                android:layout_width="107dp"
-                android:layout_height="101dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:contentDescription="@string/logo"
-                android:src="@drawable/logotipo"
-                app:layout_constraintBottom_toBottomOf="@+id/txtTitulo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtTitulo"
-                tools:srcCompat="@drawable/logotipo" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <TextView
-                    android:id="@+id/tvAñadirCli"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/txtTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/a_adir_clientes"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/title_border"
+                    android:gravity="center|center_vertical"
+                    android:text="@string/Title"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTitulo" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imgLogo"
+                    android:layout_width="107dp"
+                    android:layout_height="101dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:contentDescription="@string/logo"
+                    android:src="@drawable/logotipo"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtTitulo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txtTitulo"
+                    tools:srcCompat="@drawable/logotipo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvAñadirCli"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/a_adir_clientes"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitulo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,15 +89,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:maxLength="9"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvStockProd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvStockProd"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -123,14 +126,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvEmpresa"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvEmpresa"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -156,14 +159,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvDirección"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvDirección"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -189,14 +192,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvCiudad"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvCiudad"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -222,15 +225,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPostalAddress"
                     android:maxLength="5"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvCP"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvCP"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -256,16 +259,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvTelf"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvTelf"
                     tools:ignore="LabelFor"
-                    tools:targetApi="lollipop"
-                    android:autofillHints="" />
+                    tools:targetApi="lollipop" />
 
             </LinearLayout>
 
@@ -289,13 +292,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     tools:ignore="LabelFor"
-                    tools:targetApi="lollipop"
-                    android:autofillHints="" />
+                    tools:targetApi="lollipop" />
 
             </LinearLayout>
 
@@ -319,10 +322,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     tools:ignore="Autofill,LabelFor"
                     tools:targetApi="lollipop" />
 
@@ -338,9 +341,9 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:backgroundTint="#FFFFFF"
                     android:text="@string/telefono"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCiudad"
                     tools:targetApi="lollipop" />
@@ -350,15 +353,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="phone"
                     android:maxLength="9"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvPais"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvPais"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
             </LinearLayout>
@@ -383,14 +386,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
+                    android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textEmailAddress"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvEmail"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvEmail"
-                    android:autofillHints=""
                     tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
             </LinearLayout>
@@ -406,10 +409,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:onClick="insertClient"
-                    android:textColor="#FFFFFF"
                     android:background="@drawable/buttons_style"
+                    android:onClick="insertClient"
                     android:text="@string/a_adir"
+                    android:textColor="#FFFFFF"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -418,10 +421,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:textColor="#FFFFFF"
-                    android:onClick="cancel"
                     android:background="@drawable/buttons_style"
+                    android:onClick="cancel"
                     android:text="@string/cancelar"
+                    android:textColor="#FFFFFF"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
 

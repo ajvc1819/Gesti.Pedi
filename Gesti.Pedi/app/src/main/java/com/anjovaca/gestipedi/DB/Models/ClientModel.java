@@ -4,7 +4,7 @@ public class ClientModel {
     int id;
     String dni, name, lastname, enterprise, address, cp, city, country, phone, email;
 
-    public ClientModel(){
+    public ClientModel() {
 
     }
 

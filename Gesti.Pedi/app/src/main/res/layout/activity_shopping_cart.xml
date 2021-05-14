@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Order.ShoppingCart"
-    android:background="#2B2B2B">
+    android:background="#2B2B2B"
+    tools:context=".Order.ShoppingCart">
 
     <TextView
         android:id="@+id/txtTitulo"
@@ -73,9 +73,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/buttons_style"
+        android:onClick="addProduct"
         android:text="@string/a_adir_producto"
         android:textColor="#FFFFFF"
-        android:onClick="addProduct"
         app:layout_constraintBottom_toTopOf="@+id/rvShoppingCart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.967"
@@ -87,12 +87,12 @@
         android:id="@+id/btnConfirmar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/confirmar_pedido"
         android:background="@drawable/buttons_style"
+        android:onClick="confirmOrder"
+        android:text="@string/confirmar_pedido"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="confirmOrder"
         app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toStartOf="parent" />
 

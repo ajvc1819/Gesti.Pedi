@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
-import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
@@ -50,17 +50,16 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
 
-        name =  findViewById(R.id.tvmNombreProdD);
-        description =  findViewById(R.id.tvmDescProdD);
-        stock =  findViewById(R.id.tvmStockProdD);
-        price =  findViewById(R.id.tvmPrecioProdD);
-        category =  findViewById(R.id.tvmCategoriaProdD);
-        imageProduct =  findViewById(R.id.imgProduct);
-
+        name = findViewById(R.id.tvmNombreProdD);
+        description = findViewById(R.id.tvmDescProdD);
+        stock = findViewById(R.id.tvmStockProdD);
+        price = findViewById(R.id.tvmPrecioProdD);
+        category = findViewById(R.id.tvmCategoriaProdD);
+        imageProduct = findViewById(R.id.imgProduct);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-         productsModelList = dbGestiPedi.selectProductById(id);
+        productsModelList = dbGestiPedi.selectProductById(id);
 
         name.setText(productsModelList.get(0).getName());
         description.setText(productsModelList.get(0).getDescription());
@@ -76,12 +75,12 @@ public class ProductDetail extends AppCompatActivity {
         String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
 
         btnDelete = findViewById(R.id.btnDeleteProduct);
         btnEdit = findViewById((R.id.btnEditProd));
 
-        if(!rol.equals("Administrador")){
+        if (!rol.equals("Administrador")) {
             btnDelete.setVisibility(View.INVISIBLE);
             btnEdit.setVisibility(View.INVISIBLE);
         }
@@ -95,13 +94,12 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
 
-        name =  findViewById(R.id.tvmNombreProdD);
-        description =  findViewById(R.id.tvmDescProdD);
-        stock =  findViewById(R.id.tvmStockProdD);
-        price =  findViewById(R.id.tvmPrecioProdD);
-        category =  findViewById(R.id.tvmCategoriaProdD);
-        imageProduct =  findViewById(R.id.imgProduct);
-
+        name = findViewById(R.id.tvmNombreProdD);
+        description = findViewById(R.id.tvmDescProdD);
+        stock = findViewById(R.id.tvmStockProdD);
+        price = findViewById(R.id.tvmPrecioProdD);
+        category = findViewById(R.id.tvmCategoriaProdD);
+        imageProduct = findViewById(R.id.imgProduct);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
@@ -119,7 +117,7 @@ public class ProductDetail extends AppCompatActivity {
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     @Override
@@ -128,7 +126,7 @@ public class ProductDetail extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.ShoppingCart);
 
-        if(orderId == 0){
+        if (orderId == 0) {
             item.setVisible(false);
         }
         return true;
@@ -144,16 +142,16 @@ public class ProductDetail extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (idLogin == R.id.initSession) {
             Intent intent;
-            if(login){
+            if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
+            } else {
+                intent = new Intent(this, LogIn.class);
             }
             startActivity(intent);
         }
 
-        if(idShopping == R.id.ShoppingCart){
+        if (idShopping == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }

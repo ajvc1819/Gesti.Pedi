@@ -17,9 +17,6 @@ public class LogOut extends AppCompatActivity {
             "com.example.android.twoactivities.extra.login";
 
     private SharedPreferences mPreferences;
-    private String sharedPrefFile =
-            "com.example.android.hellosharedprefs";
-    private final String LOG_KEY = "log";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +24,18 @@ public class LogOut extends AppCompatActivity {
         setContentView(R.layout.activity_log_out);
         Intent intent = getIntent();
         login = intent.getBooleanExtra(MainActivity.EXTRA_LOGED_IN, false);
+        String sharedPrefFile = "com.example.android.hellosharedprefs";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public void logOut(View view) {
@@ -49,8 +45,8 @@ public class LogOut extends AppCompatActivity {
         preferencesEditor.clear();
         preferencesEditor.apply();
 
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-        intent.putExtra(EXTRA_LOGED_IN,login);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra(EXTRA_LOGED_IN, login);
         startActivity(intent);
     }
 }

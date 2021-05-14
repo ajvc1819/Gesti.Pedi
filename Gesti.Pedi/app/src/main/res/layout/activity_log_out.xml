@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogIn.LogOut"
-    android:background="#2B2B2B">
+    android:background="#2B2B2B"
+    tools:context=".LogIn.LogOut">
 
     <TextView
         android:id="@+id/txtTitulo"
@@ -60,10 +60,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/buttons_style"
-        android:padding="5dp"
-        android:textColor="#FFFFFF"
         android:onClick="logOut"
+        android:padding="5dp"
         android:text="@string/cerrar_sesi_n"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCabecera" />
 

@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi.Order;
+package com.anjovaca.gestipedi.DB.Models;
 
 public class OrderModel {
     int id, idClient, idUser;

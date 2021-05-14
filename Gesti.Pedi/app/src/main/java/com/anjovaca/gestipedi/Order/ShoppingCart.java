@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
+import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
@@ -18,19 +20,15 @@ import java.util.List;
 
 public class ShoppingCart extends AppCompatActivity {
 
-
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
     public boolean login;
     public List<OrderDetailModel> orderDetailModelList;
-    public String rol;
-    public String ROL_KEY = "rol";
     int idOrder;
     public DbGestiPedi dbGestiPedi;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
     public ShoppingCartAdapter orderAdapter;
-    private final String ORDER_ID_KEY = "id";
     int orderId;
     String sharedPrefFile = "com.example.android.hellosharedprefs";
     SharedPreferences mPreferences;
@@ -48,14 +46,14 @@ public class ShoppingCart extends AppCompatActivity {
         final RecyclerView recyclerViewShopping = findViewById(R.id.rvShoppingCart);
         recyclerViewShopping.setLayoutManager(new LinearLayoutManager(this));
 
-        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this,dbGestiPedi.showOrderDetail(idOrder));
+        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this, dbGestiPedi.showOrderDetail(idOrder));
 
         orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
 
         orderAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  orderAdapter.orderDetailModelList.get(recyclerViewShopping.getChildAdapterPosition(v)).getId();
+                int clientId = orderAdapter.orderDetailModelList.get(recyclerViewShopping.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
@@ -76,14 +74,14 @@ public class ShoppingCart extends AppCompatActivity {
         String ORDER_ID_KEY = "id";
         idOrder = mPreferences.getInt(ORDER_ID_KEY, idOrder);
 
-        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this,dbGestiPedi.showOrderDetail(idOrder));
+        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this, dbGestiPedi.showOrderDetail(idOrder));
 
         orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
 
         orderAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId =  orderAdapter.orderDetailModelList.get(recyclerViewShopping.getChildAdapterPosition(v)).getId();
+                int clientId = orderAdapter.orderDetailModelList.get(recyclerViewShopping.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
                 intent.putExtra(EXTRA_ID, clientId);
                 startActivity(intent);
@@ -95,13 +93,11 @@ public class ShoppingCart extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public void addProduct(View view) {
@@ -110,9 +106,23 @@ public class ShoppingCart extends AppCompatActivity {
     }
 
     public void confirmOrder(View view) {
+        List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
+
+        for (OrderDetailModel orderDetailModel : orderDetailModelList) {
+            int quantity = orderDetailModel.getQuantity();
+            int idProd = orderDetailModel.getIdProduct();
+
+            List<ProductsModel> products = dbGestiPedi.selectProductById(idProd);
+            int stock = products.get(0).getStock();
+
+            dbGestiPedi.decreaseStock(idProd, quantity, stock);
+
+        }
+
         dbGestiPedi.confirmOrder(idOrder);
         orderId = 0;
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        String ORDER_ID_KEY = "id";
         preferencesEditor.putInt(ORDER_ID_KEY, orderId);
         preferencesEditor.apply();
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogIn.InitSession"
-    android:background="#2B2B2B">
+    android:background="#2B2B2B"
+    tools:context=".LogIn.LogIn">
 
     <TextView
         android:id="@+id/txtTitulo"
@@ -80,26 +80,26 @@
         android:id="@+id/etUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvUsuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvUsuario"
-        android:autofillHints=""
         tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/etContraseña"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="10"
         android:inputType="textPassword"
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvContraseña"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvContraseña"
-        android:autofillHints=""
         tools:ignore="LabelFor" />
 
     <Button
@@ -109,13 +109,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
-        android:text="@string/iniciar_sesi_n"
-        android:padding="5sp"
-        android:textColor="#FFFFFF"
+        android:background="@drawable/buttons_style"
         android:onClick="initSession"
+        android:padding="5sp"
+        android:text="@string/iniciar_sesi_n"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etContraseña"
-        android:background="@drawable/buttons_style"/>
+        app:layout_constraintTop_toBottomOf="@+id/etContraseña" />
 
     <Button
         android:id="@+id/btnRegistrarse"
@@ -123,14 +123,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:padding="5sp"
-        android:textColor="#FFFFFF"
+        android:background="@drawable/buttons_style"
         android:onClick="register"
+        android:padding="5sp"
         android:text="@string/registrarse"
+        android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnIniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btnIniciarSesion"
-        android:background="@drawable/buttons_style"/>
+        app:layout_constraintStart_toEndOf="@+id/btnIniciarSesion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

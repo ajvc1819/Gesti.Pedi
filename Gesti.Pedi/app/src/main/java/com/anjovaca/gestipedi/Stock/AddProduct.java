@@ -18,10 +18,9 @@ import android.widget.Spinner;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.R;
 
-import java.io.IOException;
 
 public class AddProduct extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener{
+        AdapterView.OnItemSelectedListener {
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
     ImageView image;
@@ -53,7 +52,6 @@ public class AddProduct extends AppCompatActivity implements
         price = findViewById(R.id.etPrecioProdA);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
     }
 
     @Override
@@ -65,19 +63,17 @@ public class AddProduct extends AppCompatActivity implements
         }
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void selectImage(View view) {
         Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
-
-    public void insertProduct(View view) throws IOException {
+    public void insertProduct(View view) {
         int stockInt = Integer.parseInt(stock.getText().toString());
         double priceDouble = Double.parseDouble(price.getText().toString());
 
-        dbGestiPedi.insertProduct(name.getText().toString(), description.getText().toString(), stockInt,priceDouble,imageUri.toString(), category);
+        dbGestiPedi.insertProduct(name.getText().toString(), description.getText().toString(), stockInt, priceDouble, imageUri.toString(), category);
         finish();
     }
 

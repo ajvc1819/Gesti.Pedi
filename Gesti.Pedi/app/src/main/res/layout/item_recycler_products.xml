@@ -30,8 +30,8 @@
                     android:layout_height="130dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/logotipo"
-                    android:contentDescription="@string/imageproduct" />
+                    android:contentDescription="@string/imageproduct"
+                    app:srcCompat="@drawable/logotipo" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

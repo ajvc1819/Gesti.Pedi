@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.LogIn.InitSession;
+import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
-import com.anjovaca.gestipedi.Order.OrderModel;
+import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -47,15 +47,15 @@ public class ClientDetail extends AppCompatActivity {
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
 
         dni = findViewById(R.id.tvmDni);
-        name =  findViewById(R.id.tvmNombre);
-        lastname =  findViewById(R.id.tvmApellidos);
-        enterprise =  findViewById(R.id.tvmEmpresa);
-        cp =  findViewById(R.id.tvmCP);
-        address =  findViewById(R.id.tvmDireccion);
-        city =  findViewById(R.id.tvmCiudad);
-        country =  findViewById(R.id.tvmPais);
-        phone =  findViewById(R.id.tvmTelf);
-        email =  findViewById(R.id.tvmEmail);
+        name = findViewById(R.id.tvmNombre);
+        lastname = findViewById(R.id.tvmApellidos);
+        enterprise = findViewById(R.id.tvmEmpresa);
+        cp = findViewById(R.id.tvmCP);
+        address = findViewById(R.id.tvmDireccion);
+        city = findViewById(R.id.tvmCiudad);
+        country = findViewById(R.id.tvmPais);
+        phone = findViewById(R.id.tvmTelf);
+        email = findViewById(R.id.tvmEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
@@ -78,12 +78,12 @@ public class ClientDetail extends AppCompatActivity {
         String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY,orderId);
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
 
         btnEdit = findViewById(R.id.btnEditClient);
         btnDelete = findViewById(R.id.btnDeleteClient);
 
-        if(!rol.equals("Administrador")){
+        if (!rol.equals("Administrador")) {
             btnDelete.setVisibility(View.INVISIBLE);
             btnEdit.setVisibility(View.INVISIBLE);
         }
@@ -96,15 +96,15 @@ public class ClientDetail extends AppCompatActivity {
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
 
         dni = findViewById(R.id.tvmDni);
-        name =  findViewById(R.id.tvmNombre);
-        lastname =  findViewById(R.id.tvmApellidos);
-        enterprise =  findViewById(R.id.tvmEmpresa);
-        cp =  findViewById(R.id.tvmCP);
-        address =  findViewById(R.id.tvmDireccion);
-        city =  findViewById(R.id.tvmCiudad);
-        country =  findViewById(R.id.tvmPais);
-        phone =  findViewById(R.id.tvmTelf);
-        email =  findViewById(R.id.tvmEmail);
+        name = findViewById(R.id.tvmNombre);
+        lastname = findViewById(R.id.tvmApellidos);
+        enterprise = findViewById(R.id.tvmEmpresa);
+        cp = findViewById(R.id.tvmCP);
+        address = findViewById(R.id.tvmDireccion);
+        city = findViewById(R.id.tvmCiudad);
+        country = findViewById(R.id.tvmPais);
+        phone = findViewById(R.id.tvmTelf);
+        email = findViewById(R.id.tvmEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
@@ -132,7 +132,7 @@ public class ClientDetail extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.ShoppingCart);
 
-        if(orderId == 0){
+        if (orderId == 0) {
             item.setVisible(false);
         }
         return true;
@@ -148,22 +148,19 @@ public class ClientDetail extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (idLogin == R.id.initSession) {
             Intent intent;
-            if(login){
+            if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
-            }else {
-                intent = new Intent(this, InitSession.class);
+            } else {
+                intent = new Intent(this, LogIn.class);
             }
             startActivity(intent);
         }
 
-        if(idShopping == R.id.ShoppingCart){
+        if (idShopping == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }
-
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -184,7 +181,7 @@ public class ClientDetail extends AppCompatActivity {
         idUser = mPreferences.getInt(USER_KEY, idUser);
         int idClient = clientModelList.get(0).getId();
 
-        dbGestiPedi.insertOrder(idClient,idUser);
+        dbGestiPedi.insertOrder(idClient, idUser);
 
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         List<OrderModel> orderDetailModelList = dbGestiPedi.selectLastOrder();

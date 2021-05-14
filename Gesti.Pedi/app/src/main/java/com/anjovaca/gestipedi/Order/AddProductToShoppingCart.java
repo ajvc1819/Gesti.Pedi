@@ -4,16 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.R;
 import com.anjovaca.gestipedi.Stock.ProductAdapter;
-import com.anjovaca.gestipedi.Stock.ProductDetail;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class AddProductToShoppingCart extends AppCompatActivity {
             "com.example.android.twoactivities.extra.ID";
     public List<ProductsModel> productsModelList;
     public int orderId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +47,21 @@ public class AddProductToShoppingCart extends AppCompatActivity {
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int productId =  productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
+                int productId = productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
                 List<ProductsModel> productsModelList = dbGestiPedi.selectProductById(productId);
+                List<OrderDetailModel> orderDetailModelList = dbGestiPedi.checkOrderDetail(productId, orderId);
                 double price = productsModelList.get(0).getPrice();
-                dbGestiPedi.insertOrderDetail(price, orderId, productId);
+                if (!orderDetailModelList.isEmpty()) {
+                    int id = orderDetailModelList.get(0).getId();
+                    int quantity = orderDetailModelList.get(0).getQuantity();
+                    dbGestiPedi.increaseQuantity(id, quantity);
+                } else {
+                    dbGestiPedi.insertOrderDetail(price, orderId, productId);
+                }
                 finish();
             }
         });
 
         recyclerViewProduct.setAdapter(productAdapter);
-
-
     }
 }
