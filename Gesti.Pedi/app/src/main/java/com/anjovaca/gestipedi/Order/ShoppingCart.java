@@ -107,7 +107,6 @@ public class ShoppingCart extends AppCompatActivity {
 
     public void confirmOrder(View view) {
         List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
-
         for (OrderDetailModel orderDetailModel : orderDetailModelList) {
             int quantity = orderDetailModel.getQuantity();
             int idProd = orderDetailModel.getIdProduct();

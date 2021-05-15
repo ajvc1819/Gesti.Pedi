@@ -97,6 +97,18 @@
     <string name="a_adir_producto2">Añadir Producto</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="confirmar_pedido">Confirmar Pedido</string>
+    <string name="users">Users</string>
+    <string name="categorias">Categorias</string>
+    <string name="a_adir_categoria">Añadir Categoria</string>
+
+    <string name="nombreCatA">Nombre:</string>
+    <string name="detalle_categoria">Detalle Categoria</string>
+    <string name="nameCatD">Nombre:</string>
+    <string name="edit_category">Editar Categoria</string>
+    <string name="NameCatE">Nombre:</string>
+    <string name="editCategoryE">Editar Categoria</string>
+    <string name="registrar_administrador">Registrar Administrador</string>
+
     <string-array name="labels_array">
         <item>Perros</item>
         <item>Gatos</item>

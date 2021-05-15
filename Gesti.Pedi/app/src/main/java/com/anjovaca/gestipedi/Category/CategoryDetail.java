@@ -1,23 +1,20 @@
-package com.anjovaca.gestipedi.Stock;
+package com.anjovaca.gestipedi.Category;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.anjovaca.gestipedi.Category.CategoryActivity;
+import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
-import com.anjovaca.gestipedi.DB.Models.ProductsModel;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
@@ -26,102 +23,66 @@ import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class ProductDetail extends AppCompatActivity {
-
+public class CategoryDetail extends AppCompatActivity {
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
     DbGestiPedi dbGestiPedi;
     int id;
-    TextView name, description, stock, price, category;
-    ImageView imageProduct;
-
-    public List<ProductsModel> productsModelList;
-    int orderId;
-    public boolean login;
+    TextView dni, name, lastname, enterprise, cp, address, city, country, phone, email;
+    public List<CategoryModel> categoryModelList;
     public String rol;
-    List<CategoryModel> categoryModelList;
-    public Button btnEdit, btnDelete;
+    public boolean login;
+    Button btnEdit, btnDelete;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
-    @SuppressLint("SetTextI18n")
+    String sharedPrefFile = "com.example.android.hellosharedprefs";
+    SharedPreferences mPreferences;
+    int orderId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_detail);
-
+        setContentView(R.layout.activity_category_detail);
         Intent intent = getIntent();
-        id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
+        id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
 
-        name = findViewById(R.id.tvmNombreProdD);
-        description = findViewById(R.id.tvmDescProdD);
-        stock = findViewById(R.id.tvmStockProdD);
-        price = findViewById(R.id.tvmPrecioProdD);
-        category = findViewById(R.id.tvmCategoriaProdD);
-        imageProduct = findViewById(R.id.imgProduct);
+        name = findViewById(R.id.tvmName);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        productsModelList = dbGestiPedi.selectProductById(id);
-        categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
+        categoryModelList = dbGestiPedi.selectCategoryById(id);
 
-        name.setText(productsModelList.get(0).getName());
-        description.setText(productsModelList.get(0).getDescription());
-        stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        price.setText(Double.toString(productsModelList.get(0).getPrice()));
-        category.setText(categoryModelList.get(0).getName());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
+        name.setText(categoryModelList.get(0).getName());
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
         String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-
-        btnDelete = findViewById(R.id.btnDeleteProduct);
-        btnEdit = findViewById((R.id.btnEditProd));
-
-        if (!rol.equals("Administrador")) {
-            btnDelete.setVisibility(View.INVISIBLE);
-            btnEdit.setVisibility(View.INVISIBLE);
-        }
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
-
         Intent intent = getIntent();
-        id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
+        id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
 
-        name = findViewById(R.id.tvmNombreProdD);
-        description = findViewById(R.id.tvmDescProdD);
-        stock = findViewById(R.id.tvmStockProdD);
-        price = findViewById(R.id.tvmPrecioProdD);
-        category = findViewById(R.id.tvmCategoriaProdD);
-        imageProduct = findViewById(R.id.imgProduct);
+        name = findViewById(R.id.tvmName);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        productsModelList = dbGestiPedi.selectProductById(id);
-        categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
+        categoryModelList = dbGestiPedi.selectCategoryById(id);
 
+        name.setText(categoryModelList.get(0).getName());
 
-        name.setText(productsModelList.get(0).getName());
-        description.setText(productsModelList.get(0).getDescription());
-        stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        price.setText(Double.toString(productsModelList.get(0).getPrice()));
-        category.setText(categoryModelList.get(0).getName());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
-
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
@@ -183,14 +144,14 @@ public class ProductDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void editProduct(View view) {
-        Intent intent = new Intent(getApplicationContext(), EditProduct.class);
-        intent.putExtra(EXTRA_ID, id);
-        startActivity(intent);
+    public void deleteCategory(View view) {
+        dbGestiPedi.deleteCategory(id);
+        finish();
     }
 
-    public void deleteProduct(View view) {
-        dbGestiPedi.deleteProduct(id);
-        finish();
+    public void editCategory(View view) {
+        Intent intent = new Intent(getApplicationContext(), EditCategory.class);
+        intent.putExtra(EXTRA_ID, id);
+        startActivity(intent);
     }
 }

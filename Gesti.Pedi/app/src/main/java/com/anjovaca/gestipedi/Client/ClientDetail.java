@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
+import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -130,11 +132,19 @@ public class ClientDetail extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.ShoppingCart);
+        MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
+        MenuItem addAdmin = menu.findItem(R.id.Users);
+        MenuItem categories = menu.findItem(R.id.Category);
 
         if (orderId == 0) {
-            item.setVisible(false);
+            shoppingCart.setVisible(false);
         }
+
+        if (rol == null || !rol.equals("Administrador")) {
+            addAdmin.setVisible(false);
+            categories.setVisible(false);
+        }
+
         return true;
     }
 
@@ -143,10 +153,10 @@ public class ClientDetail extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int idLogin = item.getItemId();
-        int idShopping = item.getItemId();
+        int id = item.getItemId();
+
         //noinspection SimplifiableIfStatement
-        if (idLogin == R.id.initSession) {
+        if (id == R.id.initSession) {
             Intent intent;
             if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
@@ -157,10 +167,21 @@ public class ClientDetail extends AppCompatActivity {
             startActivity(intent);
         }
 
-        if (idShopping == R.id.ShoppingCart) {
+        if (id == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }
+
+        if (id == R.id.Users) {
+            Intent intent = new Intent(getApplicationContext(), RegisterAdministrator.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.Category) {
+            Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

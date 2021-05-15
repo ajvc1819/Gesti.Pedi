@@ -18,10 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -34,6 +37,8 @@ public class StockActivity extends AppCompatActivity implements
     public ProductAdapter productAdapter;
     String category;
     public List<ProductsModel> productsModelList;
+    List<CategoryModel> categoryModelList;
+    ArrayList<String> categoryList;
     EditText buscar;
     public boolean login;
     public String rol;
@@ -43,18 +48,20 @@ public class StockActivity extends AppCompatActivity implements
     public static final String EXTRA_PRODUCT_ID =
             "com.example.android.twoactivities.extra.ID";
     int orderId;
+    DbGestiPedi dbGestiPedi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
-
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryModelList = dbGestiPedi.getCategories();
+        obtenerLista();
         Spinner spinner = findViewById(R.id.spnSearchCategory);
         if (spinner != null) {
             spinner.setOnItemSelectedListener(this);
         }
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.labels_array_search, R.layout.spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
         adapter.setDropDownViewResource
                 (R.layout.spinner_item);
         if (spinner != null) {
@@ -64,11 +71,11 @@ public class StockActivity extends AppCompatActivity implements
         final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
 
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
         productsModelList = dbGestiPedi.showProducts();
 
         productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
-
+        categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
+        category = categoryModelList.get(0).getName();
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,9 +123,10 @@ public class StockActivity extends AppCompatActivity implements
 
     public void filter(String nombre, String category) {
         ArrayList<ProductsModel> filterList = new ArrayList<>();
-        if (!category.equals("All")) {
+        if (!category.equals("Todos")) {
             for (ProductsModel product : productsModelList) {
-                if (product.getName().toLowerCase().contains(nombre.toLowerCase()) && product.getCategory().toLowerCase().contains(category.toLowerCase())) {
+                List<CategoryModel> categoryModelList = dbGestiPedi.selectCategoryById(product.getCategory());
+                if (product.getName().toLowerCase().contains(nombre.toLowerCase()) && categoryModelList.get(0).getName().toLowerCase().contains(category.toLowerCase())) {
                     filterList.add(product);
                 }
             }
@@ -137,21 +145,23 @@ public class StockActivity extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
         final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
-        recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
+        recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
+        categoryModelList = dbGestiPedi.getCategories();
+        obtenerLista();
         Spinner spinner = findViewById(R.id.spnSearchCategory);
         if (spinner != null) {
             spinner.setOnItemSelectedListener(this);
         }
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.labels_array_search, R.layout.spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
         adapter.setDropDownViewResource
                 (R.layout.spinner_item);
         if (spinner != null) {
             spinner.setAdapter(adapter);
         }
 
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+
         productsModelList = dbGestiPedi.showProducts();
         productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
 
@@ -193,15 +203,32 @@ public class StockActivity extends AppCompatActivity implements
         });
     }
 
+    public void obtenerLista() {
+        categoryList = new ArrayList<String>();
+        categoryList.add("Todos");
+        for (CategoryModel category : categoryModelList){
+            categoryList.add(category.getName());
+        }
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.ShoppingCart);
+        MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
+        MenuItem addAdmin = menu.findItem(R.id.Users);
+        MenuItem categories = menu.findItem(R.id.Category);
 
         if (orderId == 0) {
-            item.setVisible(false);
+            shoppingCart.setVisible(false);
         }
+
+        if (rol == null || !rol.equals("Administrador")) {
+            addAdmin.setVisible(false);
+            categories.setVisible(false);
+        }
+
         return true;
     }
 
@@ -210,10 +237,10 @@ public class StockActivity extends AppCompatActivity implements
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int idLogin = item.getItemId();
-        int idShopping = item.getItemId();
+        int id = item.getItemId();
+
         //noinspection SimplifiableIfStatement
-        if (idLogin == R.id.initSession) {
+        if (id == R.id.initSession) {
             Intent intent;
             if (login) {
                 intent = new Intent(getApplicationContext(), LogOut.class);
@@ -224,10 +251,21 @@ public class StockActivity extends AppCompatActivity implements
             startActivity(intent);
         }
 
-        if (idShopping == R.id.ShoppingCart) {
+        if (id == R.id.ShoppingCart) {
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             startActivity(intent);
         }
+
+        if (id == R.id.Users) {
+            Intent intent = new Intent(getApplicationContext(), RegisterAdministrator.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.Category) {
+            Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

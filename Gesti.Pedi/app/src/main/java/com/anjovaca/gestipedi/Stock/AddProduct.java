@@ -16,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddProduct extends AppCompatActivity implements
@@ -26,19 +30,22 @@ public class AddProduct extends AppCompatActivity implements
     ImageView image;
     EditText name, description, stock, price;
     DbGestiPedi dbGestiPedi;
-    String category;
+    int category;
+    List<CategoryModel> categoryModelList;
+    ArrayList<String> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
-
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryModelList = dbGestiPedi.getCategories();
+        obtenerLista();
         Spinner spinner = findViewById(R.id.spnCategorias);
         if (spinner != null) {
             spinner.setOnItemSelectedListener(this);
         }
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.labels_array, R.layout.spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
         adapter.setDropDownViewResource
                 (R.layout.spinner_item);
         if (spinner != null) {
@@ -50,8 +57,6 @@ public class AddProduct extends AppCompatActivity implements
         description = findViewById(R.id.etDescripcionProdA);
         stock = findViewById(R.id.etStockProdA);
         price = findViewById(R.id.etPrecioProdA);
-
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
     }
 
     @Override
@@ -63,6 +68,14 @@ public class AddProduct extends AppCompatActivity implements
         }
     }
 
+    public void obtenerLista() {
+        categoryList = new ArrayList<String>();
+
+        for (CategoryModel category : categoryModelList){
+            categoryList.add(category.getName());
+        }
+
+    }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void selectImage(View view) {
         Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -83,7 +96,7 @@ public class AddProduct extends AppCompatActivity implements
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        category = parent.getItemAtPosition(position).toString();
+        category = categoryModelList.get(position).getId();
     }
 
     @Override

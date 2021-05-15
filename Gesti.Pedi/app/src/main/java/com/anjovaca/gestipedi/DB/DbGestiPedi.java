@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
@@ -24,11 +25,12 @@ import java.util.List;
 public class DbGestiPedi extends SQLiteOpenHelper {
 
     private static final String USERS_TABLE_CREATE = "CREATE TABLE Users(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellidos TEXT NOT NULL, usuario TEXT NOT NULL, contraseña TEXT NOT NULL, rol TEXT NOT NULL)";
-    private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, Categoria TEXT NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB NOT NULL)";
+    private static final String PRODUCTS_TABLE_CREATE = "CREATE TABLE Products(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL,idCategoria INTEGER NOT NULL, descripcion TEXT NOT NULL, stock INTEGER NOT NULL, precio DOUBLE NOT NULL,cantidadVendida INTEGER NOT NULL, foto BLOB NOT NULL, FOREIGN KEY (idCategoria) REFERENCES Categories(id))";
     private static final String CLIENTS_TABLE_CREATE = "CREATE TABLE Clients(id INTEGER PRIMARY KEY AUTOINCREMENT, dni TEXT NOT NULL, nombre TEXT NOT NULL, apellidos TEXT NOT NULL,empresa TEXT NOT NULL, direccion TEXT NOT NULL, cp TEXT NOT NULL, ciudad TEXT NOT NULL, pais TEXT NOT NULL, telefono TEXT NOT NULL, correo TEXT NOT NULL)";
     private static final String ORDERDETAIL_TABLE_CREATE = "CREATE TABLE OrderDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, precio DOUBLE NOT NULL, idPedido INTEGER NOT NULL, idProducto INTEGER NOT NULL, FOREIGN KEY (idPedido) REFERENCES Orders(id), FOREIGN KEY (idProducto) REFERENCES Products(id))";
     private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT NOT NULL, idCliente INTEGER NOT NULL, estado TEXT NOT NULL, total DOUBLE NOT NULL, idUsuario INTEGER NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idUsuario) REFERENCES Users(id))";
-    private static final String DB_NAME = "Gesti.Pedi.Dat";
+    private static final String CATEGORY_TABLE_CREATE = "CREATE TABLE Categories(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL)";
+    private static final String DB_NAME = "Gesti.Pedi.DataB";
     private static final int DB_VERSION = 1;
 
     public DbGestiPedi(@Nullable Context context) {
@@ -42,6 +44,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         db.execSQL(CLIENTS_TABLE_CREATE);
         db.execSQL(ORDERDETAIL_TABLE_CREATE);
         db.execSQL(ORDER_TABLE_CREATE);
+        db.execSQL(CATEGORY_TABLE_CREATE);
     }
 
     @Override
@@ -179,12 +182,12 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return users;
     }
 
-    public void insertProduct(String name, String description, int stock, double price, String image, String category) {
+    public void insertProduct(String name, String description, int stock, double price, String image, int category) {
         SQLiteDatabase db = getWritableDatabase();
         int sold = 0;
 
         if (db != null) {
-            db.execSQL("INSERT INTO Products (nombre,Categoria,descripcion,stock,precio,cantidadVendida,foto) VALUES ('" + name + "', '" + category + "','" + description + "','" + stock + "','" + price + "','" + sold + "','" + image + "')");
+            db.execSQL("INSERT INTO Products (nombre,idCategoria,descripcion,stock,precio,cantidadVendida,foto) VALUES ('" + name + "', '" + category + "','" + description + "','" + stock + "','" + price + "','" + sold + "','" + image + "')");
             db.close();
         }
     }
@@ -196,7 +199,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                products.add(new ProductsModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getDouble(5), cursor.getInt(6), cursor.getString(7)));
+                products.add(new ProductsModel(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getInt(4), cursor.getDouble(5), cursor.getInt(6), cursor.getString(7)));
             } while ((cursor.moveToNext()));
         }
         return products;
@@ -209,18 +212,18 @@ public class DbGestiPedi extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                products.add(new ProductsModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getDouble(5), cursor.getInt(6), cursor.getString(7)));
+                products.add(new ProductsModel(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getInt(4), cursor.getDouble(5), cursor.getInt(6), cursor.getString(7)));
             } while ((cursor.moveToNext()));
         }
         return products;
     }
 
-    public void editProduct(int id, String name, String description, int stock, double price, String image, String category) {
+    public void editProduct(int id, String name, String description, int stock, double price, String image, int category) {
         SQLiteDatabase db = getWritableDatabase();
 
         if (db != null) {
             try {
-                db.execSQL("UPDATE Products SET nombre = '" + name + "', descripcion = '" + description + "', stock = '" + stock + "', precio = '" + price + "', foto = '" + image + "', categoria = '" + category + "' WHERE id = '" + id + "'");
+                db.execSQL("UPDATE Products SET nombre = '" + name + "', descripcion = '" + description + "', stock = '" + stock + "', precio = '" + price + "', foto = '" + image + "', idCategoria = '" + category + "' WHERE id = '" + id + "'");
                 db.close();
             } catch (Exception ex) {
                 Log.d("Tag", ex.toString());
@@ -284,6 +287,20 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
+    public void updateTotalPrice(int id, double totalPrice) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        if (db != null) {
+            try {
+                db.execSQL("UPDATE Orders SET total = '" + totalPrice + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
     public List<OrderDetailModel> showOrderDetail(int idOrder) {
         SQLiteDatabase db = getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM OrderDetails WHERE idPedido = '" + idOrder + "' ", null);
@@ -333,13 +350,13 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return details;
     }
 
-    public void increaseQuantity(int id, int quantity) {
+    public void increaseQuantity(int id, int quantity, double priceDetail, double priceProduct) {
         SQLiteDatabase db = getWritableDatabase();
         quantity = quantity + 1;
-
+        priceDetail = priceDetail + priceProduct;
         if (db != null) {
             try {
-                db.execSQL("UPDATE OrderDetails SET cantidad = '" + quantity + "' WHERE id = '" + id + "'");
+                db.execSQL("UPDATE OrderDetails SET cantidad = '" + quantity + "', precio = '" + priceDetail + "' WHERE id = '" + id + "'");
                 db.close();
             } catch (Exception ex) {
                 Log.d("Tag", ex.toString());
@@ -360,5 +377,61 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
+    public void addCategory(String name) {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            db.execSQL("INSERT INTO Categories (nombre) VALUES ('" + name + "')");
+            db.close();
+        }
+    }
 
+    public List<CategoryModel> getCategories() {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Categories", null);
+        List<CategoryModel> categories = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(new CategoryModel(cursor.getInt(0), cursor.getString(1)));
+            } while ((cursor.moveToNext()));
+        }
+        return categories;
+    }
+
+    public void updateCategory(int id, String name) {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            try {
+                db.execSQL("UPDATE Categories SET nombre = '" + name + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+        }
+    }
+
+    public void deleteCategory(int idCategory) {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            try {
+                db.execSQL("DELETE FROM Categories WHERE id = '" + idCategory + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+        }
+    }
+
+    public List<CategoryModel> selectCategoryById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Categories WHERE id = '" + id + "' ", null);
+        List<CategoryModel> categories = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                categories.add(new CategoryModel(cursor.getInt(0), cursor.getString(1)));
+            } while ((cursor.moveToNext()));
+        }
+        return categories;
+    }
 }

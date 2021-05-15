@@ -1,14 +1,14 @@
 package com.anjovaca.gestipedi.DB.Models;
 
 public class ProductsModel {
-    int id, stock, sold;
-    String name, description, category, image;
+    int id, stock, sold, category;
+    String name, description, image;
     double price;
 
     public ProductsModel() {
     }
 
-    public ProductsModel(int id, String name, String category, String description, int stock, double price, int sold, String image) {
+    public ProductsModel(int id, String name, int category, String description, int stock, double price, int sold, String image) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -27,11 +27,11 @@ public class ProductsModel {
         this.image = image;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

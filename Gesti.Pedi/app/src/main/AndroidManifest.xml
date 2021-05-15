@@ -11,21 +11,57 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".Order.AddProductToShoppingCart"
+        <activity android:name=".LogIn.RegisterAdministrator"></activity>
+        <activity
+            android:name=".Category.EditCategory"
+            android:label="Editar Categoría"
+            android:parentActivityName=".Category.CategoryDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Category.CategoryDetail" />
+        </activity>
+        <activity
+            android:name=".Category.CategoryDetail"
+            android:label="Detalle Categoría"
+            android:parentActivityName=".Category.CategoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Category.CategoryActivity" />
+        </activity>
+        <activity
+            android:name=".Category.AddCategory"
+            android:label="Añadir Categoría"
+            android:parentActivityName=".Category.CategoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Category.CategoryActivity" />
+        </activity>
+        <activity
+            android:name=".Category.CategoryActivity"
+            android:label="Categorias"
+            android:parentActivityName=".Main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Order.AddProductToShoppingCart"
             android:label="Añadir Producto al Carrito"
             android:parentActivityName=".Order.ShoppingCart">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anjovaca.gestipedi.Order.ShoppingCart" />
         </activity>
-        <activity android:name=".Order.ShoppingCart"
+        <activity
+            android:name=".Order.ShoppingCart"
             android:label="Carrito"
             android:parentActivityName=".Client.ClientDetail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anjovaca.gestipedi.Client.ClientDetail" />
         </activity>
-        <activity android:name=".Order.OrderDetail"
+        <activity
+            android:name=".Order.OrderDetail"
             android:label="Detalle Pedido"
             android:parentActivityName=".Order.OrderActivity">
             <meta-data

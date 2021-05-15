@@ -19,11 +19,9 @@ import java.util.List;
 public class AddProductToShoppingCart extends AppCompatActivity {
     public ProductAdapter productAdapter;
     public boolean login;
-    public static final String EXTRA_PRODUCT_ID =
-            "com.example.android.twoactivities.extra.ID";
     public List<ProductsModel> productsModelList;
     public int orderId;
-
+    DbGestiPedi dbGestiPedi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +37,7 @@ public class AddProductToShoppingCart extends AppCompatActivity {
         final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
 
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         productsModelList = dbGestiPedi.showProducts();
 
         productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
@@ -50,18 +48,34 @@ public class AddProductToShoppingCart extends AppCompatActivity {
                 int productId = productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
                 List<ProductsModel> productsModelList = dbGestiPedi.selectProductById(productId);
                 List<OrderDetailModel> orderDetailModelList = dbGestiPedi.checkOrderDetail(productId, orderId);
-                double price = productsModelList.get(0).getPrice();
+                double priceProduct = productsModelList.get(0).getPrice();
+
                 if (!orderDetailModelList.isEmpty()) {
                     int id = orderDetailModelList.get(0).getId();
                     int quantity = orderDetailModelList.get(0).getQuantity();
-                    dbGestiPedi.increaseQuantity(id, quantity);
+                    double priceDetail = orderDetailModelList.get(0).getPrice();
+                    dbGestiPedi.increaseQuantity(id, quantity, priceDetail, priceProduct);
                 } else {
-                    dbGestiPedi.insertOrderDetail(price, orderId, productId);
+                    dbGestiPedi.insertOrderDetail(priceProduct, orderId, productId);
                 }
+                double totalPrice = updateTotalPriceOrder();
+                dbGestiPedi.updateTotalPrice(orderId, totalPrice);
                 finish();
             }
         });
 
         recyclerViewProduct.setAdapter(productAdapter);
+    }
+
+    public double updateTotalPriceOrder(){
+        double totalPrice = 0;
+        List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(orderId);
+
+        for (OrderDetailModel orderDetail : orderDetailModelList){
+            double price = orderDetail.getPrice();
+            totalPrice += price;
+        }
+
+        return totalPrice;
     }
 }

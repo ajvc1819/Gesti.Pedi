@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditProduct extends AppCompatActivity implements
@@ -30,9 +33,12 @@ public class EditProduct extends AppCompatActivity implements
     ImageView image;
     EditText name, description, stock, price;
     DbGestiPedi dbGestiPedi;
-    String category;
+    int category;
     int id;
     public List<ProductsModel> productsModelList;
+    List<CategoryModel> categoryModelList;
+    List<CategoryModel> categoryModelListId;
+    ArrayList<String> categoryList;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -47,19 +53,23 @@ public class EditProduct extends AppCompatActivity implements
 
         productsModelList = dbGestiPedi.selectProductById(id);
 
+        categoryModelList = dbGestiPedi.getCategories();
+        obtenerLista();
+
         Spinner spinner = findViewById(R.id.spnCategoriasProdE);
         if (spinner != null) {
             spinner.setOnItemSelectedListener(this);
         }
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.labels_array, R.layout.spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
         adapter.setDropDownViewResource
                 (R.layout.spinner_item);
         if (spinner != null) {
             spinner.setAdapter(adapter);
         }
+        categoryModelListId = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
 
-        selectValue(spinner, productsModelList.get(0).getCategory());
+        assert spinner != null;
+        selectValue(spinner, categoryModelListId.get(0).getName());
 
         image = findViewById(R.id.imgImageProdE);
         name = findViewById(R.id.etNameProdE);
@@ -87,6 +97,15 @@ public class EditProduct extends AppCompatActivity implements
         finish();
     }
 
+    public void obtenerLista() {
+        categoryList = new ArrayList<>();
+
+        for (CategoryModel category : categoryModelList) {
+            categoryList.add(category.getName());
+        }
+
+    }
+
     public void cancel(View view) {
         finish();
     }
@@ -107,8 +126,17 @@ public class EditProduct extends AppCompatActivity implements
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        category = parent.getItemAtPosition(position).toString();
+        category = categoryModelList.get(position).getId();
     }
 
     @Override

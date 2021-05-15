@@ -1,23 +1,24 @@
-package com.anjovaca.gestipedi.Stock;
+package com.anjovaca.gestipedi.Category;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.EditText;
 
-import com.anjovaca.gestipedi.Category.CategoryActivity;
+import com.anjovaca.gestipedi.Client.ClientActivity;
+import com.anjovaca.gestipedi.Client.ClientAdapter;
+import com.anjovaca.gestipedi.Client.ClientDetail;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
-import com.anjovaca.gestipedi.DB.Models.ProductsModel;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
@@ -26,106 +27,82 @@ import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class ProductDetail extends AppCompatActivity {
-
+public class CategoryActivity extends AppCompatActivity {
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
-    DbGestiPedi dbGestiPedi;
-    int id;
-    TextView name, description, stock, price, category;
-    ImageView imageProduct;
-
-    public List<ProductsModel> productsModelList;
-    int orderId;
     public boolean login;
+    public List<CategoryModel> categoryModelList;
     public String rol;
-    List<CategoryModel> categoryModelList;
-    public Button btnEdit, btnDelete;
+    public String ROL_KEY = "rol";
+    int orderId;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
-
-    @SuppressLint("SetTextI18n")
+    public CategoryAdapter categoryAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_detail);
+        setContentView(R.layout.activity_category);
 
-        Intent intent = getIntent();
-        id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
+        final RecyclerView recyclerView = findViewById(R.id.rvCategory);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        name = findViewById(R.id.tvmNombreProdD);
-        description = findViewById(R.id.tvmDescProdD);
-        stock = findViewById(R.id.tvmStockProdD);
-        price = findViewById(R.id.tvmPrecioProdD);
-        category = findViewById(R.id.tvmCategoriaProdD);
-        imageProduct = findViewById(R.id.imgProduct);
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryAdapter = new CategoryAdapter(CategoryActivity.this, dbGestiPedi.getCategories());
 
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryModelList = dbGestiPedi.getCategories();
 
-        productsModelList = dbGestiPedi.selectProductById(id);
-        categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
+        categoryAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int categoryId = categoryAdapter.categoryModelList.get(recyclerView.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), CategoryDetail.class);
+                intent.putExtra(EXTRA_ID, categoryId);
+                startActivity(intent);
+            }
+        });
 
-        name.setText(productsModelList.get(0).getName());
-        description.setText(productsModelList.get(0).getDescription());
-        stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        price.setText(Double.toString(productsModelList.get(0).getPrice()));
-        category.setText(categoryModelList.get(0).getName());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
+        recyclerView.setAdapter(categoryAdapter);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-
-        btnDelete = findViewById(R.id.btnDeleteProduct);
-        btnEdit = findViewById((R.id.btnEditProd));
-
-        if (!rol.equals("Administrador")) {
-            btnDelete.setVisibility(View.INVISIBLE);
-            btnEdit.setVisibility(View.INVISIBLE);
-        }
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
+        final RecyclerView recyclerView = findViewById(R.id.rvCategory);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Intent intent = getIntent();
-        id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryAdapter = new CategoryAdapter(CategoryActivity.this, dbGestiPedi.getCategories());
 
-        name = findViewById(R.id.tvmNombreProdD);
-        description = findViewById(R.id.tvmDescProdD);
-        stock = findViewById(R.id.tvmStockProdD);
-        price = findViewById(R.id.tvmPrecioProdD);
-        category = findViewById(R.id.tvmCategoriaProdD);
-        imageProduct = findViewById(R.id.imgProduct);
+        categoryModelList = dbGestiPedi.getCategories();
 
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int categoryId = categoryAdapter.categoryModelList.get(recyclerView.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), CategoryDetail.class);
+                intent.putExtra(EXTRA_ID, categoryId);
+                startActivity(intent);
+            }
+        });
 
-        productsModelList = dbGestiPedi.selectProductById(id);
-        categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
-
-
-        name.setText(productsModelList.get(0).getName());
-        description.setText(productsModelList.get(0).getDescription());
-        stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        price.setText(Double.toString(productsModelList.get(0).getPrice()));
-        category.setText(categoryModelList.get(0).getName());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
+        recyclerView.setAdapter(categoryAdapter);
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
+        rol = mPreferences.getString(ROL_KEY, rol);
         String ORDER_ID_KEY = "id";
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -182,15 +159,8 @@ public class ProductDetail extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void editProduct(View view) {
-        Intent intent = new Intent(getApplicationContext(), EditProduct.class);
-        intent.putExtra(EXTRA_ID, id);
+    public void addCategory(View view) {
+        Intent intent = new Intent(getApplicationContext(),AddCategory.class);
         startActivity(intent);
-    }
-
-    public void deleteProduct(View view) {
-        dbGestiPedi.deleteProduct(id);
-        finish();
     }
 }
