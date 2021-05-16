@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.anjovaca.gestipedi.Client.ClientDetail;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
@@ -24,6 +25,7 @@ public class ShoppingCart extends AppCompatActivity {
             "com.example.android.twoactivities.extra.id";
     public boolean login;
     public List<OrderDetailModel> orderDetailModelList;
+    public List<ProductsModel> productsModelList;
     int idOrder;
     public DbGestiPedi dbGestiPedi;
     public static final String EXTRA_LOGED_IN =
@@ -32,6 +34,7 @@ public class ShoppingCart extends AppCompatActivity {
     int orderId;
     String sharedPrefFile = "com.example.android.hellosharedprefs";
     SharedPreferences mPreferences;
+    RecyclerView recyclerViewShopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +46,12 @@ public class ShoppingCart extends AppCompatActivity {
         idOrder = mPreferences.getInt(ORDER_ID_KEY, idOrder);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        final RecyclerView recyclerViewShopping = findViewById(R.id.rvShoppingCart);
+        recyclerViewShopping = findViewById(R.id.rvShoppingCart);
         recyclerViewShopping.setLayoutManager(new LinearLayoutManager(this));
-
-        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this, dbGestiPedi.showOrderDetail(idOrder));
 
         orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
 
-        orderAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int clientId = orderAdapter.orderDetailModelList.get(recyclerViewShopping.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
-                intent.putExtra(EXTRA_ID, clientId);
-                startActivity(intent);
-            }
-        });
+        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this, dbGestiPedi.showOrderDetail(idOrder), dbGestiPedi.showProducts(), idOrder);
 
         recyclerViewShopping.setAdapter(orderAdapter);
     }
@@ -67,26 +60,16 @@ public class ShoppingCart extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        final RecyclerView recyclerViewShopping = findViewById(R.id.rvShoppingCart);
+        recyclerViewShopping = findViewById(R.id.rvShoppingCart);
         recyclerViewShopping.setLayoutManager(new LinearLayoutManager(this));
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String ORDER_ID_KEY = "id";
         idOrder = mPreferences.getInt(ORDER_ID_KEY, idOrder);
 
-        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this, dbGestiPedi.showOrderDetail(idOrder));
+        orderAdapter = new ShoppingCartAdapter(ShoppingCart.this, dbGestiPedi.showOrderDetail(idOrder), dbGestiPedi.showProducts(), idOrder);
 
         orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
-
-        orderAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int clientId = orderAdapter.orderDetailModelList.get(recyclerViewShopping.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
-                intent.putExtra(EXTRA_ID, clientId);
-                startActivity(intent);
-            }
-        });
 
         recyclerViewShopping.setAdapter(orderAdapter);
     }

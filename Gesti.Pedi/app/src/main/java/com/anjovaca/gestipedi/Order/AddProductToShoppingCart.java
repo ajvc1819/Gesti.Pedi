@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
@@ -22,6 +23,7 @@ public class AddProductToShoppingCart extends AppCompatActivity {
     public List<ProductsModel> productsModelList;
     public int orderId;
     DbGestiPedi dbGestiPedi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,29 +51,36 @@ public class AddProductToShoppingCart extends AppCompatActivity {
                 List<ProductsModel> productsModelList = dbGestiPedi.selectProductById(productId);
                 List<OrderDetailModel> orderDetailModelList = dbGestiPedi.checkOrderDetail(productId, orderId);
                 double priceProduct = productsModelList.get(0).getPrice();
+                int stock = productsModelList.get(0).getStock();
 
                 if (!orderDetailModelList.isEmpty()) {
                     int id = orderDetailModelList.get(0).getId();
                     int quantity = orderDetailModelList.get(0).getQuantity();
                     double priceDetail = orderDetailModelList.get(0).getPrice();
-                    dbGestiPedi.increaseQuantity(id, quantity, priceDetail, priceProduct);
+                    dbGestiPedi.increaseQuantity(id, stock, quantity, priceDetail, priceProduct);
+
                 } else {
-                    dbGestiPedi.insertOrderDetail(priceProduct, orderId, productId);
+                    if (stock > 0) {
+                        dbGestiPedi.insertOrderDetail(priceProduct, orderId, productId);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No se puede añadir el producto al carrito por que no hay existencias en el almacen.", Toast.LENGTH_SHORT).show();
+                    }
                 }
+                finish();
                 double totalPrice = updateTotalPriceOrder();
                 dbGestiPedi.updateTotalPrice(orderId, totalPrice);
-                finish();
+
             }
         });
 
         recyclerViewProduct.setAdapter(productAdapter);
     }
 
-    public double updateTotalPriceOrder(){
+    public double updateTotalPriceOrder() {
         double totalPrice = 0;
         List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(orderId);
 
-        for (OrderDetailModel orderDetail : orderDetailModelList){
+        for (OrderDetailModel orderDetail : orderDetailModelList) {
             double price = orderDetail.getPrice();
             totalPrice += price;
         }

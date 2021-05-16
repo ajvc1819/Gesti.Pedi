@@ -314,6 +314,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return details;
     }
 
+    public List<OrderDetailModel> getOrderDetailById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM OrderDetails WHERE id = '" + id + "' ", null);
+        List<OrderDetailModel> details = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                details.add(new OrderDetailModel(cursor.getInt(0), cursor.getInt(1), cursor.getDouble(2), cursor.getInt(3), cursor.getInt(4)));
+            } while ((cursor.moveToNext()));
+        }
+        return details;
+    }
+
     public void insertOrderDetail(double price, int idOrder, int idProduct) {
         SQLiteDatabase db = getWritableDatabase();
         int quantity = 1;
@@ -324,6 +337,14 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
+    public void deleteOrderDetail(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        if (db != null) {
+            db.execSQL("DELETE FROM OrderDetails WHERE id = '" + id + "'");
+            db.close();
+        }
+    }
     public List<OrderModel> selectLastOrder() {
         SQLiteDatabase db = getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Orders ORDER by id DESC LIMIT 1", null);
@@ -350,18 +371,38 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return details;
     }
 
-    public void increaseQuantity(int id, int quantity, double priceDetail, double priceProduct) {
+    public void increaseQuantity(int id,int stock, int quantity, double priceDetail, double priceProduct) {
         SQLiteDatabase db = getWritableDatabase();
-        quantity = quantity + 1;
-        priceDetail = priceDetail + priceProduct;
-        if (db != null) {
-            try {
-                db.execSQL("UPDATE OrderDetails SET cantidad = '" + quantity + "', precio = '" + priceDetail + "' WHERE id = '" + id + "'");
-                db.close();
-            } catch (Exception ex) {
-                Log.d("Tag", ex.toString());
+        if(stock != quantity){
+            quantity = quantity + 1;
+            priceDetail = priceDetail + priceProduct;
+            if (db != null) {
+                try {
+                    db.execSQL("UPDATE OrderDetails SET cantidad = '" + quantity + "', precio = '" + priceDetail + "' WHERE id = '" + id + "'");
+                    db.close();
+                } catch (Exception ex) {
+                    Log.d("Tag", ex.toString());
+                }
             }
         }
+
+    }
+
+    public void decreaseQuantity(int id, int quantity, double priceDetail, double priceProduct) {
+        SQLiteDatabase db = getWritableDatabase();
+        if(quantity > 1){
+            quantity = quantity - 1;
+            priceDetail = priceDetail - priceProduct;
+            if (db != null) {
+                try {
+                    db.execSQL("UPDATE OrderDetails SET cantidad = '" + quantity + "', precio = '" + priceDetail + "' WHERE id = '" + id + "'");
+                    db.close();
+                } catch (Exception ex) {
+                    Log.d("Tag", ex.toString());
+                }
+            }
+        }
+
     }
 
     public void decreaseStock(int id, int quantity, int stock) {

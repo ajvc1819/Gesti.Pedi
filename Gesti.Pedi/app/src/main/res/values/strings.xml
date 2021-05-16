@@ -108,6 +108,9 @@
     <string name="NameCatE">Nombre:</string>
     <string name="editCategoryE">Editar Categoria</string>
     <string name="registrar_administrador">Registrar Administrador</string>
+    <string name="increase">increase</string>
+    <string name="decrease">decrease</string>
+
 
     <string-array name="labels_array">
         <item>Perros</item>
