@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
@@ -27,8 +28,8 @@ public class OrderActivity extends AppCompatActivity {
             "com.example.android.twoactivities.extra.id";
     public boolean login;
     public List<OrderModel> orderModelList;
+    public List<ClientModel> clientModelList;
     public String rol;
-    public String ROL_KEY = "rol";
     int orderId;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
@@ -42,7 +43,8 @@ public class OrderActivity extends AppCompatActivity {
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
         recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
 
-        orderAdapter = new OrderAdapter(OrderActivity.this, dbGestiPedi.showOrders());
+        clientModelList = dbGestiPedi.showClients();
+        orderAdapter = new OrderAdapter(OrderActivity.this, dbGestiPedi.showOrders(), clientModelList);
 
         orderModelList = dbGestiPedi.showOrders();
 

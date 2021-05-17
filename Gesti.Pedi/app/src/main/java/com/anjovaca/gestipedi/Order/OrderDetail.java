@@ -3,6 +3,7 @@ package com.anjovaca.gestipedi.Order;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.anjovaca.gestipedi.R;
 
@@ -15,4 +16,9 @@ public class OrderDetail extends AppCompatActivity {
     }
 
 
+    public void editOrder(View view) {
+    }
+
+    public void deleteOrder(View view) {
+    }
 }

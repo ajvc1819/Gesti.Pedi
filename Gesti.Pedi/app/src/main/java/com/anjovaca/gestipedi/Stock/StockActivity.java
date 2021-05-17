@@ -74,8 +74,7 @@ public class StockActivity extends AppCompatActivity implements
         productsModelList = dbGestiPedi.showProducts();
 
         productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
-        categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
-        category = categoryModelList.get(0).getName();
+
         productAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
