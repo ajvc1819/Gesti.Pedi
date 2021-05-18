@@ -51,9 +51,42 @@ public class OrderActivity extends AppCompatActivity {
         orderAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clientId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
+                int orderId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
                 Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
-                intent.putExtra(EXTRA_ID, clientId);
+                intent.putExtra(EXTRA_ID, orderId);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewOrder.setAdapter(orderAdapter);
+
+        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
+        recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
+
+        clientModelList = dbGestiPedi.showClients();
+        orderAdapter = new OrderAdapter(OrderActivity.this, dbGestiPedi.showOrders(), clientModelList);
+
+        orderModelList = dbGestiPedi.showOrders();
+
+        orderAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int orderId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
+                intent.putExtra(EXTRA_ID, orderId);
                 startActivity(intent);
             }
         });

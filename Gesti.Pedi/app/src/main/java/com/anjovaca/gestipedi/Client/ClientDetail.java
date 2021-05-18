@@ -47,7 +47,6 @@ public class ClientDetail extends AppCompatActivity {
         setContentView(R.layout.activity_cliente_detalle);
         Intent intent = getIntent();
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
-
         dni = findViewById(R.id.tvmDni);
         name = findViewById(R.id.tvmNombre);
         lastname = findViewById(R.id.tvmApellidos);

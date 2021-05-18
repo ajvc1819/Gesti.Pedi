@@ -57,18 +57,22 @@ public class AddProductToShoppingCart extends AppCompatActivity {
                     int id = orderDetailModelList.get(0).getId();
                     int quantity = orderDetailModelList.get(0).getQuantity();
                     double priceDetail = orderDetailModelList.get(0).getPrice();
-                    dbGestiPedi.increaseQuantity(id, stock, quantity, priceDetail, priceProduct);
+                    dbGestiPedi.increaseQuantity(id, stock, quantity, priceDetail, priceProduct, orderId);
+                    double totalPrice = updateTotalPriceOrder();
+                    dbGestiPedi.updateTotalPrice(orderId, totalPrice);
 
                 } else {
                     if (stock > 0) {
                         dbGestiPedi.insertOrderDetail(priceProduct, orderId, productId);
+                        double totalPrice = updateTotalPriceOrder();
+                        dbGestiPedi.updateTotalPrice(orderId, totalPrice);
                     } else {
                         Toast.makeText(getApplicationContext(), "No se puede añadir el producto al carrito por que no hay existencias en el almacen.", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 finish();
-                double totalPrice = updateTotalPriceOrder();
-                dbGestiPedi.updateTotalPrice(orderId, totalPrice);
+
 
             }
         });

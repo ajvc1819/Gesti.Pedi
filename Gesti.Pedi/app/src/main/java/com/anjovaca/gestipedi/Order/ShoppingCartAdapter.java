@@ -78,30 +78,51 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         public void onClick(View v) {
             int orderDetailId = Integer.parseInt((String) idDetail.getText());
             DbGestiPedi db = new DbGestiPedi(context);
+            double priceDetail;
+            double priceProduct;
+            List<OrderDetailModel> currentOrderDetail = db.getOrderDetailById(orderDetailId);
+            List<ProductsModel> currentProduct = db.selectProductById(currentOrderDetail.get(0).getIdProduct());
+            int quantity = currentOrderDetail.get(0).getQuantity();
+            priceDetail = currentOrderDetail.get(0).getPrice();
+            priceProduct = currentProduct.get(0).getPrice();
 
             if (v.getId() == R.id.btnIncreaseQuantity || v.getId() == R.id.btnDecreaseQuantity) {
-                List<OrderDetailModel> currentOrderDetail = db.getOrderDetailById(orderDetailId);
-                List<ProductsModel> currentProduct = db.selectProductById(currentOrderDetail.get(0).getIdProduct());
-                int quantity = currentOrderDetail.get(0).getQuantity();
-                double priceDetail = currentOrderDetail.get(0).getPrice();
-                double priceProduct = currentProduct.get(0).getPrice();
 
                 if (v.getId() == R.id.btnIncreaseQuantity) {
-                    db.increaseQuantity(orderDetailId,stock, quantity, priceDetail, priceProduct);
+                    db.increaseQuantity(orderDetailId,stock, quantity, priceDetail, priceProduct, idOrder);
+
                 } else {
-                    db.decreaseQuantity(orderDetailId, quantity, priceDetail, priceProduct);
+                    db.decreaseQuantity(orderDetailId, quantity, priceDetail, priceProduct, idOrder);
+
                 }
+
 
                 orderDetailModelList = db.showOrderDetail(idOrder);
 
                 update(orderDetailModelList);
+                quantity = orderDetailModelList.get(0).getQuantity();
+                double totalPrice = updateTotalPriceOrder();
+                db.updateTotalPrice(idOrder, totalPrice);
 
             } else if (v.getId() == R.id.deleteDetail) {
-                db.deleteOrderDetail(orderDetailId);
+                db.deleteOrderDetail(orderDetailId, quantity, priceDetail, priceProduct, idOrder);
                 orderDetailModelList = db.showOrderDetail(idOrder);
+                double totalPrice = updateTotalPriceOrder();
+                db.updateTotalPrice(idOrder, totalPrice);
                 update(orderDetailModelList);
             }
         }
+    }
+
+    public double updateTotalPriceOrder() {
+        double totalPrice = 0;
+
+        for (OrderDetailModel orderDetail : orderDetailModelList) {
+            double price = orderDetail.getPrice();
+            totalPrice += price;
+        }
+
+        return totalPrice;
     }
 
     @NonNull

@@ -257,6 +257,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return orders;
     }
 
+    public List<OrderModel> getOrderById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Orders WHERE id = '" + id + "'", null);
+        List<OrderModel> orders = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                orders.add(new OrderModel(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getDouble(4), cursor.getInt(5)));
+            } while ((cursor.moveToNext()));
+        }
+        return orders;
+    }
+
     public void insertOrder(int idClient, int idUser) {
         SQLiteDatabase db = getWritableDatabase();
         double total = 0;
@@ -336,15 +349,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO OrderDetails (cantidad, precio, idPedido, idProducto) VALUES ('" + quantity + "', '" + price + "','" + idOrder + "','" + idProduct + "')");
             db.close();
         }
+
+        updateTotalPrice(idOrder, price);
     }
 
-    public void deleteOrderDetail(int id) {
+    public void deleteOrderDetail(int id, int quantity, double priceDetail, double priceProduct, int idOrder) {
         SQLiteDatabase db = getWritableDatabase();
-
+        priceDetail = priceDetail - (priceProduct * quantity);
         if (db != null) {
             db.execSQL("DELETE FROM OrderDetails WHERE id = '" + id + "'");
             db.close();
         }
+
+        updateTotalPrice(idOrder, priceDetail);
     }
     public List<OrderModel> selectLastOrder() {
         SQLiteDatabase db = getReadableDatabase();
@@ -372,7 +389,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return details;
     }
 
-    public void increaseQuantity(int id,int stock, int quantity, double priceDetail, double priceProduct) {
+    public void increaseQuantity(int id,int stock, int quantity, double priceDetail, double priceProduct, int idOrder) {
         SQLiteDatabase db = getWritableDatabase();
         if(stock != quantity){
             quantity = quantity + 1;
@@ -387,9 +404,11 @@ public class DbGestiPedi extends SQLiteOpenHelper {
             }
         }
 
+        updateTotalPrice(idOrder, priceDetail);
+
     }
 
-    public void decreaseQuantity(int id, int quantity, double priceDetail, double priceProduct) {
+    public void decreaseQuantity(int id, int quantity, double priceDetail, double priceProduct, int idOrder) {
         SQLiteDatabase db = getWritableDatabase();
         if(quantity > 1){
             quantity = quantity - 1;
@@ -403,7 +422,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
                 }
             }
         }
-
+        updateTotalPrice(idOrder, priceDetail);
     }
 
     public void decreaseStock(int id, int quantity, int stock) {
