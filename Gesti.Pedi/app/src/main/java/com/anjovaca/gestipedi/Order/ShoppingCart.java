@@ -111,4 +111,15 @@ public class ShoppingCart extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
+
+    public void cancelOrder(View view) {
+        dbGestiPedi.deleteOrder(idOrder);
+        orderId = 0;
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        String ORDER_ID_KEY = "id";
+        preferencesEditor.putInt(ORDER_ID_KEY, orderId);
+        preferencesEditor.apply();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
 }

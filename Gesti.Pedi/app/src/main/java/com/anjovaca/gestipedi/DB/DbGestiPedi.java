@@ -183,6 +183,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return users;
     }
 
+    public List<UserModel> getUserById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE id = '" + id + "'", null);
+        List<UserModel> users = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                users.add(new UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+            } while ((cursor.moveToNext()));
+        }
+        return users;
+    }
+
     public void insertProduct(String name, String description, int stock, double price, String image, int category) {
         SQLiteDatabase db = getWritableDatabase();
         int sold = 0;
@@ -293,6 +306,20 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         if (db != null) {
             try {
                 db.execSQL("UPDATE Orders SET estado = '" + state + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
+    public void deleteOrder(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        if (db != null) {
+            try {
+                db.execSQL("DELETE FROM Orders WHERE id = '" + id + "'");
                 db.close();
             } catch (Exception ex) {
                 Log.d("Tag", ex.toString());
