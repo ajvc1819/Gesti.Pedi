@@ -17,6 +17,7 @@ import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
+import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
 import com.anjovaca.gestipedi.R;
 
@@ -35,7 +36,7 @@ public class OrderDetail extends AppCompatActivity {
     public List<UserModel> userModelList;
     public String rol;
     public boolean login;
-    Button btnEdit, btnDelete;
+    Button btnEdit, btnDelete, btnCancel, btnSend;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
@@ -90,14 +91,23 @@ public class OrderDetail extends AppCompatActivity {
 
         btnEdit = findViewById(R.id.btnEditOrder);
         btnDelete = findViewById(R.id.btnDeleteOrder);
+        btnCancel = findViewById(R.id.btnCancelOrder);
+        btnSend = findViewById(R.id.btnSendOrder);
 
         if (orderModelList.get(0).getState() != "En Proceso") {
             btnDelete.setVisibility(View.INVISIBLE);
             btnEdit.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             btnDelete.setVisibility(View.VISIBLE);
             btnEdit.setVisibility(View.VISIBLE);
+        }
+
+        if(orderModelList.get(0).getState().equals("Confirmado") && rol.equals("Administrador")){
+            btnSend.setVisibility(View.VISIBLE);
+            btnCancel.setVisibility(View.VISIBLE);
+        } else {
+            btnSend.setVisibility(View.INVISIBLE);
+            btnCancel.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -148,6 +158,8 @@ public class OrderDetail extends AppCompatActivity {
 
         btnEdit = findViewById(R.id.btnEditOrder);
         btnDelete = findViewById(R.id.btnDeleteOrder);
+        btnCancel = findViewById(R.id.btnCancelOrder);
+        btnSend = findViewById(R.id.btnSendOrder);
 
         if (orderModelList.get(0).getState().equals("En Proceso")) {
             btnDelete.setVisibility(View.VISIBLE);
@@ -156,10 +168,18 @@ public class OrderDetail extends AppCompatActivity {
             btnDelete.setVisibility(View.INVISIBLE);
             btnEdit.setVisibility(View.INVISIBLE);
         }
+
+        if(orderModelList.get(0).getState().equals("Confirmado") && rol.equals("Administrador")){
+            btnSend.setVisibility(View.VISIBLE);
+            btnCancel.setVisibility(View.VISIBLE);
+        } else {
+            btnSend.setVisibility(View.INVISIBLE);
+            btnCancel.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void editOrder(View view) {
-        if(orderId == 0 || orderId == id){
+        if (orderId == 0 || orderId == id) {
             orderId = id;
             Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
             SharedPreferences.Editor preferencesEditor = mPreferences.edit();
@@ -179,5 +199,27 @@ public class OrderDetail extends AppCompatActivity {
         preferencesEditor.apply();
         Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
         startActivity(intent);
+    }
+
+    public void sendOrder(View view) {
+        dbGestiPedi.sendOrder(id);
+        finish();
+    }
+
+    public void cancelOrder(View view) {
+        List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(id);
+        for (OrderDetailModel orderDetailModel : orderDetailModelList) {
+            int quantity = orderDetailModel.getQuantity();
+            int idProd = orderDetailModel.getIdProduct();
+
+            List<ProductsModel> products = dbGestiPedi.selectProductById(idProd);
+            int stock = products.get(0).getStock();
+
+            dbGestiPedi.increaseStock(idProd, quantity, stock);
+
+        }
+
+        dbGestiPedi.cancelOrder(id);
+        finish();
     }
 }

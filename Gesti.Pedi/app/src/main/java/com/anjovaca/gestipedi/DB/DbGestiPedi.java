@@ -314,6 +314,36 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
+    public void sendOrder(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String state = "Enviado";
+
+        if (db != null) {
+            try {
+                db.execSQL("UPDATE Orders SET estado = '" + state + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
+    public void cancelOrder(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String state = "Cancelado";
+
+        if (db != null) {
+            try {
+                db.execSQL("UPDATE Orders SET estado = '" + state + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+
+        }
+    }
+
     public void deleteOrder(int id) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -455,6 +485,19 @@ public class DbGestiPedi extends SQLiteOpenHelper {
     public void decreaseStock(int id, int quantity, int stock) {
         SQLiteDatabase db = getWritableDatabase();
         stock = stock - quantity;
+        if (db != null) {
+            try {
+                db.execSQL("UPDATE Products SET stock = '" + stock + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+        }
+    }
+
+    public void increaseStock(int id, int quantity, int stock) {
+        SQLiteDatabase db = getWritableDatabase();
+        stock = stock + quantity;
         if (db != null) {
             try {
                 db.execSQL("UPDATE Products SET stock = '" + stock + "' WHERE id = '" + id + "'");
