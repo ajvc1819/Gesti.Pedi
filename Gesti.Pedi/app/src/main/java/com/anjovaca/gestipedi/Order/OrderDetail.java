@@ -7,18 +7,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
-import com.anjovaca.gestipedi.DB.Models.UserModel;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -30,10 +29,8 @@ public class OrderDetail extends AppCompatActivity {
     DbGestiPedi dbGestiPedi;
     int id;
     TextView idOrder, client, date, state, total, user;
-    public List<ClientModel> clientModelList;
     public List<OrderModel> orderModelList;
     public List<OrderDetailModel> orderDetailModelList;
-    public List<UserModel> userModelList;
     public String rol;
     public boolean login;
     Button btnEdit, btnDelete, btnCancel, btnSend;
@@ -65,15 +62,8 @@ public class OrderDetail extends AppCompatActivity {
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
         orderModelList = dbGestiPedi.getOrderById(id);
-        clientModelList = dbGestiPedi.getClientsById(orderModelList.get(0).getIdClient());
-        userModelList = dbGestiPedi.getUserById(orderModelList.get(0).getIdUser());
 
-        idOrder.setText(Integer.toString(orderModelList.get(0).getId()));
-        client.setText(clientModelList.get(0).getEnterprise());
-        date.setText(orderModelList.get(0).getDate());
-        state.setText(orderModelList.get(0).getState());
-        user.setText(userModelList.get(0).getUsername());
-        total.setText(orderModelList.get(0).getTotal() + "€");
+        getOrderDetailData();
 
         orderDetailModelList = dbGestiPedi.showOrderDetail(Integer.parseInt((String) idOrder.getText()));
 
@@ -102,7 +92,7 @@ public class OrderDetail extends AppCompatActivity {
             btnEdit.setVisibility(View.VISIBLE);
         }
 
-        if(orderModelList.get(0).getState().equals("Confirmado") && rol.equals("Administrador")){
+        if (orderModelList.get(0).getState().equals("Confirmado") && rol.equals("Administrador")) {
             btnSend.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
         } else {
@@ -130,15 +120,8 @@ public class OrderDetail extends AppCompatActivity {
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
         orderModelList = dbGestiPedi.getOrderById(id);
-        clientModelList = dbGestiPedi.getClientsById(orderModelList.get(0).getIdClient());
-        userModelList = dbGestiPedi.getUserById(orderModelList.get(0).getIdUser());
 
-        idOrder.setText(Integer.toString(orderModelList.get(0).getId()));
-        client.setText(clientModelList.get(0).getEnterprise());
-        date.setText(orderModelList.get(0).getDate());
-        state.setText(orderModelList.get(0).getState());
-        user.setText(userModelList.get(0).getUsername());
-        total.setText(orderModelList.get(0).getTotal() + "€");
+        getOrderDetailData();
 
         orderDetailModelList = dbGestiPedi.showOrderDetail(id);
 
@@ -169,7 +152,7 @@ public class OrderDetail extends AppCompatActivity {
             btnEdit.setVisibility(View.INVISIBLE);
         }
 
-        if(orderModelList.get(0).getState().equals("Confirmado") && rol.equals("Administrador")){
+        if (orderModelList.get(0).getState().equals("Confirmado") && rol.equals("Administrador")) {
             btnSend.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
         } else {
@@ -191,7 +174,13 @@ public class OrderDetail extends AppCompatActivity {
     }
 
     public void deleteOrder(View view) {
+
+        for (OrderDetailModel orderDetailModel : orderDetailModelList) {
+            dbGestiPedi.deleteOrderDetailById(orderDetailModel.getId());
+        }
+
         dbGestiPedi.deleteOrder(id);
+
         orderId = 0;
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         String ORDER_ID_KEY = "id";
@@ -221,5 +210,22 @@ public class OrderDetail extends AppCompatActivity {
 
         dbGestiPedi.cancelOrder(id);
         finish();
+    }
+
+    public void getOrderDetailData() {
+        SQLiteDatabase db = dbGestiPedi.getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT Orders.id, Clients.empresa, fecha, estado, Users.nombre, total  FROM Orders INNER JOIN Clients ON Orders.idCliente = Clients.id INNER JOIN Users ON Orders.idUsuario = Users.id WHERE Orders.id ='" + id + "'", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                idOrder.setText(Integer.toString(cursor.getInt(0)));
+                client.setText(cursor.getString(1));
+                date.setText(cursor.getString(2));
+                state.setText(cursor.getString(3));
+                user.setText(cursor.getString(4));
+                total.setText(cursor.getDouble(5) + "€");
+            } while ((cursor.moveToNext()));
+        }
+
     }
 }

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
@@ -71,11 +72,12 @@ public class AddProduct extends AppCompatActivity implements
     public void obtenerLista() {
         categoryList = new ArrayList<String>();
 
-        for (CategoryModel category : categoryModelList){
+        for (CategoryModel category : categoryModelList) {
             categoryList.add(category.getName());
         }
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void selectImage(View view) {
         Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -85,9 +87,13 @@ public class AddProduct extends AppCompatActivity implements
     public void insertProduct(View view) {
         int stockInt = Integer.parseInt(stock.getText().toString());
         double priceDouble = Double.parseDouble(price.getText().toString());
+        if (!imageUri.toString().isEmpty() && !name.getText().toString().isEmpty() && !description.getText().toString().isEmpty() && !stock.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
+            dbGestiPedi.insertProduct(name.getText().toString(), description.getText().toString(), stockInt, priceDouble, imageUri.toString(), category);
+            finish();
+        } else {
+            Toast.makeText(getApplicationContext(), "Falta algún campo por rellenar o se ha introducido un campo erroneo.", Toast.LENGTH_SHORT).show();
+        }
 
-        dbGestiPedi.insertProduct(name.getText().toString(), description.getText().toString(), stockInt, priceDouble, imageUri.toString(), category);
-        finish();
     }
 
     public void cancel(View view) {

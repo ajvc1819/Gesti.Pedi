@@ -113,7 +113,13 @@ public class ShoppingCart extends AppCompatActivity {
     }
 
     public void cancelOrder(View view) {
+
+        for (OrderDetailModel orderDetailModel : orderDetailModelList) {
+            dbGestiPedi.deleteOrderDetailById(orderDetailModel.getId());
+        }
+
         dbGestiPedi.deleteOrder(idOrder);
+
         orderId = 0;
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         String ORDER_ID_KEY = "id";

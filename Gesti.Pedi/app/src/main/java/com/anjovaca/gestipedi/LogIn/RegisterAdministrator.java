@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
@@ -34,9 +35,13 @@ public class RegisterAdministrator extends AppCompatActivity {
         try {
             userModelList = dbGestiPedi.checkUsers(username.getText().toString());
             if (userModelList.isEmpty()) {
-                dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Administrador");
+                if (!name.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
+                    dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Administrador");
+                } else {
+                    Toast.makeText(getApplicationContext(),"Ha introducido un campo vacío.", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Log.d("TAG", "El usuario ya existe.");
+                Toast.makeText(getApplicationContext(),"El usuario ya existe.", Toast.LENGTH_SHORT).show();
             }
             finish();
         } catch (Exception e) {

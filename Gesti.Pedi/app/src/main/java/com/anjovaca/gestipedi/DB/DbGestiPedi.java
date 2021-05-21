@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 
@@ -31,7 +32,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
     private static final String ORDERDETAIL_TABLE_CREATE = "CREATE TABLE OrderDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, precio DOUBLE NOT NULL, idPedido INTEGER NOT NULL, idProducto INTEGER NOT NULL, FOREIGN KEY (idPedido) REFERENCES Orders(id), FOREIGN KEY (idProducto) REFERENCES Products(id))";
     private static final String ORDER_TABLE_CREATE = "CREATE TABLE Orders(id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT NOT NULL, idCliente INTEGER NOT NULL, estado TEXT NOT NULL, total DOUBLE NOT NULL, idUsuario INTEGER NOT NULL, FOREIGN KEY (idCliente) REFERENCES Clients(id), FOREIGN KEY (idUsuario) REFERENCES Users(id))";
     private static final String CATEGORY_TABLE_CREATE = "CREATE TABLE Categories(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL)";
-    private static final String DB_NAME = "Gesti.Pedi.DataB";
+    private static final String DB_NAME = "Gesti.Pedi.Data";
     private static final int DB_VERSION = 1;
 
     public DbGestiPedi(@Nullable Context context) {
@@ -46,6 +47,16 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         db.execSQL(ORDERDETAIL_TABLE_CREATE);
         db.execSQL(ORDER_TABLE_CREATE);
         db.execSQL(CATEGORY_TABLE_CREATE);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            db.setForeignKeyConstraintsEnabled(true);
+        } else {
+            db.execSQL("PRAGMA foreign_keys=ON");
+        }
     }
 
     @Override
@@ -358,6 +369,10 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
+
+
+
+
     public void updateTotalPrice(int id, double totalPrice) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -419,6 +434,14 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
 
         updateTotalPrice(idOrder, priceDetail);
+    }
+
+    public void deleteOrderDetailById(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            db.execSQL("DELETE FROM OrderDetails WHERE id = '" + id + "'");
+            db.close();
+        }
     }
     public List<OrderModel> selectLastOrder() {
         SQLiteDatabase db = getReadableDatabase();

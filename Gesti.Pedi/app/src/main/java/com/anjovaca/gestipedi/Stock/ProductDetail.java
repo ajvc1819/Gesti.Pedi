@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -65,12 +67,7 @@ public class ProductDetail extends AppCompatActivity {
         productsModelList = dbGestiPedi.selectProductById(id);
         categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
 
-        name.setText(productsModelList.get(0).getName());
-        description.setText(productsModelList.get(0).getDescription());
-        stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        price.setText(Double.toString(productsModelList.get(0).getPrice()));
-        category.setText(categoryModelList.get(0).getName());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
+        getProductsData();
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -110,13 +107,7 @@ public class ProductDetail extends AppCompatActivity {
         productsModelList = dbGestiPedi.selectProductById(id);
         categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
 
-
-        name.setText(productsModelList.get(0).getName());
-        description.setText(productsModelList.get(0).getDescription());
-        stock.setText(Integer.toString(productsModelList.get(0).getStock()));
-        price.setText(Double.toString(productsModelList.get(0).getPrice()));
-        category.setText(categoryModelList.get(0).getName());
-        imageProduct.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
+        getProductsData();
 
         String sharedPrefFile = "com.example.android.hellosharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -192,5 +183,23 @@ public class ProductDetail extends AppCompatActivity {
     public void deleteProduct(View view) {
         dbGestiPedi.deleteProduct(id);
         finish();
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void getProductsData() {
+        SQLiteDatabase db = dbGestiPedi.getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT Products.nombre, Products.descripcion, Products.stock, Products.precio, Categories.nombre, Products.foto  FROM Products INNER JOIN Categories ON Products.idCategoria = Categories.id WHERE Products.id ='" + id + "'", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                name.setText(cursor.getString(0));
+                description.setText(cursor.getString(1));
+                stock.setText(Integer.toString(cursor.getInt(2)));
+                price.setText(cursor.getDouble(3) + "€");
+                category.setText(cursor.getString(4));
+                imageProduct.setImageURI(Uri.parse(cursor.getString(5)));
+            } while ((cursor.moveToNext()));
+        }
+
     }
 }

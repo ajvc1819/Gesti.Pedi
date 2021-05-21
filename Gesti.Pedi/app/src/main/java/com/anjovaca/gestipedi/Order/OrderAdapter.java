@@ -85,9 +85,4 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public int getItemCount() {
         return orderModelList.size();
     }
-
-    public void filter(ArrayList<OrderModel> filterList) {
-        this.orderModelList = filterList;
-        notifyDataSetChanged();
-    }
 }
