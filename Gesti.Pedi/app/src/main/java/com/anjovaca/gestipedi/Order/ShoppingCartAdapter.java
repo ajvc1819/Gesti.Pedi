@@ -2,7 +2,6 @@ package com.anjovaca.gestipedi.Order;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.R;
 
-import java.text.DecimalFormat;
-import java.text.Format;
-import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 
@@ -32,14 +25,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     Context context;
     public List<OrderDetailModel> orderDetailModelList;
     public List<ProductsModel> productsModelList;
-    private View.OnClickListener listener;
     public int idOrder;
     public int stock;
 
-    public void setOnClickListener(View.OnClickListener listener) {
-        this.listener = listener;
-    }
-
+    //Constructor que nos permite asignar la lista y el contexto que tendrá el RecyclerView.
     public ShoppingCartAdapter(Context context, List<OrderDetailModel> orderList, List<ProductsModel> productsModelList, int idOrder) {
         this.orderDetailModelList = orderList;
         this.productsModelList = productsModelList;
@@ -47,6 +36,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         this.idOrder = idOrder;
     }
 
+    //Función que permite la inicialización de los diferentes elementos que se mostrarán en el RecyclerView.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nameProd, quantity, price, idDetail;
         public ImageView imageProd;
@@ -89,18 +79,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             if (v.getId() == R.id.btnIncreaseQuantity || v.getId() == R.id.btnDecreaseQuantity) {
 
                 if (v.getId() == R.id.btnIncreaseQuantity) {
-                    db.increaseQuantity(orderDetailId,stock, quantity, priceDetail, priceProduct, idOrder);
+                    db.increaseQuantity(orderDetailId, stock, quantity, priceDetail, priceProduct, idOrder);
 
                 } else {
                     db.decreaseQuantity(orderDetailId, quantity, priceDetail, priceProduct, idOrder);
 
                 }
 
-
                 orderDetailModelList = db.showOrderDetail(idOrder);
 
                 update(orderDetailModelList);
-                quantity = orderDetailModelList.get(0).getQuantity();
                 double totalPrice = updateTotalPriceOrder();
                 db.updateTotalPrice(idOrder, totalPrice);
 
@@ -114,6 +102,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         }
     }
 
+    // Función que permite actualizar el precio total del pedido.
     public double updateTotalPriceOrder() {
         double totalPrice = 0;
 
@@ -125,6 +114,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         return totalPrice;
     }
 
+    //Función que permite inflar los elementos CardView que se mostrarán dentro del RecyclerView.
     @NonNull
     @Override
     public ShoppingCartAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -132,6 +122,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         return new ViewHolder(view);
     }
 
+    //Función que permite rellenar los diferentes elementos que componen el CardView.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -153,11 +144,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         holder.setOnClickListeners();
     }
 
+    //Función que permite obtener la cuenta de elementos que se mostrarán en el RecyclerView.
     @Override
     public int getItemCount() {
         return orderDetailModelList.size();
     }
 
+    //Función que permite la actualización de la lista que se muestra en el RecyclerView.
     public void update(List<OrderDetailModel> updatedList) {
         this.orderDetailModelList = updatedList;
         notifyDataSetChanged();

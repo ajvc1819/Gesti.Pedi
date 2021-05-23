@@ -34,6 +34,7 @@
         android:layout_marginLeft="16dp"
         android:contentDescription="@string/logo"
         android:src="@drawable/logotipo"
+        android:onClick="returnMainMenu"
         app:layout_constraintBottom_toBottomOf="@+id/txtTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtTitulo"
@@ -46,7 +47,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/iniciar_sesi_n"
+        android:text="@string/logInTitle"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +60,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="32dp"
-        android:text="@string/usuario"
+        android:text="@string/username"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCabecera" />
@@ -71,7 +72,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
-        android:text="@string/contrase_a"
+        android:text="@string/password"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsuario" />
@@ -86,6 +87,7 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvUsuario"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
         app:layout_constraintStart_toEndOf="@+id/tvUsuario"
         tools:ignore="LabelFor" />
 
@@ -99,6 +101,7 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvContraseña"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toEndOf="@+id/tvContraseña"
         tools:ignore="LabelFor" />
 
@@ -112,7 +115,7 @@
         android:background="@drawable/buttons_style"
         android:onClick="initSession"
         android:padding="5sp"
-        android:text="@string/iniciar_sesi_n"
+        android:text="@string/logInTitle"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContraseña" />
@@ -126,7 +129,7 @@
         android:background="@drawable/buttons_style"
         android:onClick="register"
         android:padding="5sp"
-        android:text="@string/registrarse"
+        android:text="@string/register"
         android:textColor="#FFFFFF"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnIniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2B2B2B"
-    tools:context=".Client.EditClient">
+    tools:context=".Client.AddClient">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/editClientButtonTitle"
+                android:text="@string/addClientButtonTitle"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,8 +120,7 @@
                     android:text="@string/name"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDNI"
-                    tools:targetApi="lollipop" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDNI" />
 
                 <EditText
                     android:id="@+id/etNombre"
@@ -324,12 +323,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:autofillHints=""
                     android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    tools:ignore="LabelFor"
+                    tools:ignore="Autofill,LabelFor"
                     tools:targetApi="lollipop" />
 
             </LinearLayout>
@@ -344,10 +342,12 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:backgroundTint="#FFFFFF"
                     android:text="@string/phone"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCiudad" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCiudad"
+                    tools:targetApi="lollipop" />
 
                 <EditText
                     android:id="@+id/etTelf"
@@ -405,16 +405,16 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnEditar"
+                    android:id="@+id/btnAñadir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/buttons_style"
-                    android:onClick="editClient"
-                    android:text="@string/save"
+                    android:onClick="insertClient"
+                    android:text="@string/add"
                     android:textColor="#FFFFFF"
-                    tools:ignore="ButtonStyle,OnClick" />
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnCancelar"

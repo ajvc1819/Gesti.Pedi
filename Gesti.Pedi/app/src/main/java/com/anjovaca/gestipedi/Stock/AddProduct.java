@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class AddProduct extends AppCompatActivity implements
         price = findViewById(R.id.etPrecioProdA);
     }
 
+    //Función que permite mostrar la imagen.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -69,6 +71,7 @@ public class AddProduct extends AppCompatActivity implements
         }
     }
 
+    //Función que permite obtener la lista de categorias.
     public void obtenerLista() {
         categoryList = new ArrayList<String>();
 
@@ -78,12 +81,14 @@ public class AddProduct extends AppCompatActivity implements
 
     }
 
+    //Función que permite la selección de imagenes de la galeria.
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void selectImage(View view) {
         Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
+    //Función que permite añadir nuevos productos a la base de datos.
     public void insertProduct(View view) {
         int stockInt = Integer.parseInt(stock.getText().toString());
         double priceDouble = Double.parseDouble(price.getText().toString());
@@ -96,10 +101,12 @@ public class AddProduct extends AppCompatActivity implements
 
     }
 
+    //Función que permite cancelar la acción y cerrar la actividad.
     public void cancel(View view) {
         finish();
     }
 
+    //Función que permite obtener el valor del Spinner que se he seleccionado.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         category = categoryModelList.get(position).getId();
@@ -108,5 +115,11 @@ public class AddProduct extends AppCompatActivity implements
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

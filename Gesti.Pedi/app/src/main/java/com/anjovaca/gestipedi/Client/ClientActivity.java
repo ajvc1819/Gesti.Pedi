@@ -21,6 +21,7 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -99,17 +100,6 @@ public class ClientActivity extends AppCompatActivity {
         }
     }
 
-    public void filtrar(String text) {
-        ArrayList<ClientModel> filterList = new ArrayList<>();
-
-        for (ClientModel client : clientModelList) {
-            if (client.getEnterprise().toLowerCase().contains(text.toLowerCase())) {
-                filterList.add(client);
-            }
-        }
-        clientAdapter.filter(filterList);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -155,9 +145,9 @@ public class ClientActivity extends AppCompatActivity {
         login = mPreferences.getBoolean(LOG_KEY, login);
     }
 
+    //Función que nos permite la creación de los elementos que aparecen en el menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
         MenuItem addAdmin = menu.findItem(R.id.Users);
@@ -175,14 +165,11 @@ public class ClientActivity extends AppCompatActivity {
         return true;
     }
 
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.initSession) {
             Intent intent;
             if (login) {
@@ -212,13 +199,27 @@ public class ClientActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite el filtrado de la información por un dato concreto.
+    public void filtrar(String text) {
+        ArrayList<ClientModel> filterList = new ArrayList<>();
+
+        for (ClientModel client : clientModelList) {
+            if (client.getEnterprise().toLowerCase().contains(text.toLowerCase())) {
+                filterList.add(client);
+            }
+        }
+        clientAdapter.filter(filterList);
+    }
+
+    //Función que permite permite abrir la actividad AddClient.
     public void addClient(View view) {
         Intent intent = new Intent(this, AddClient.class);
         startActivity(intent);
     }
 
-    public void deleteText(View view) {
-        buscar.setText("");
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
-
 }

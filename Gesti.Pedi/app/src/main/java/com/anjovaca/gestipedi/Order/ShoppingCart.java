@@ -74,6 +74,7 @@ public class ShoppingCart extends AppCompatActivity {
         recyclerViewShopping.setAdapter(orderAdapter);
     }
 
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -83,11 +84,13 @@ public class ShoppingCart extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite llamar a la actividad AddProductToShoppingCart.
     public void addProduct(View view) {
         Intent intent = new Intent(getApplicationContext(), AddProductToShoppingCart.class);
         startActivity(intent);
     }
 
+    //Función que permite la confirmación del pedido que está en curso.
     public void confirmOrder(View view) {
         List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(idOrder);
         for (OrderDetailModel orderDetailModel : orderDetailModelList) {
@@ -112,6 +115,7 @@ public class ShoppingCart extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Función que permite la eliminación del pedido que se encuentra en proceso.
     public void cancelOrder(View view) {
 
         for (OrderDetailModel orderDetailModel : orderDetailModelList) {
@@ -125,6 +129,12 @@ public class ShoppingCart extends AppCompatActivity {
         String ORDER_ID_KEY = "id";
         preferencesEditor.putInt(ORDER_ID_KEY, orderId);
         preferencesEditor.apply();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }

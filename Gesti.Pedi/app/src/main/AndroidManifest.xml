@@ -11,7 +11,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".LogIn.RegisterAdministrator"></activity>
+        <activity android:name=".Order.SelectClientForOrder"
+            android:label="Seleccionar Cliente"
+            android:parentActivityName=".Order.OrderActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Order.OrderActivity" />
+        </activity>
+        <activity android:name=".LogIn.RegisterAdministrator"
+            android:label="Registrar Administrador"
+            android:parentActivityName=".Main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.Main.MainActivity" />
+        </activity>
         <activity
             android:name=".Category.EditCategory"
             android:label="Editar Categoría"

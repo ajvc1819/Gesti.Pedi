@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 import com.anjovaca.gestipedi.Stock.ProductAdapter;
 
@@ -72,14 +74,13 @@ public class AddProductToShoppingCart extends AppCompatActivity {
                 }
 
                 finish();
-
-
             }
         });
 
         recyclerViewProduct.setAdapter(productAdapter);
     }
 
+    //Función que nos permite actualizar el precio total de pedido.
     public double updateTotalPriceOrder() {
         double totalPrice = 0;
         List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(orderId);
@@ -90,5 +91,11 @@ public class AddProductToShoppingCart extends AppCompatActivity {
         }
 
         return totalPrice;
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

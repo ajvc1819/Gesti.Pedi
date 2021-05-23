@@ -10,14 +10,21 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
+import com.anjovaca.gestipedi.LogIn.LogIn;
+import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -84,7 +91,7 @@ public class OrderDetail extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancelOrder);
         btnSend = findViewById(R.id.btnSendOrder);
 
-        if (orderModelList.get(0).getState() != "En Proceso") {
+        if (!orderModelList.get(0).getState().equals("En Proceso")) {
             btnDelete.setVisibility(View.INVISIBLE);
             btnEdit.setVisibility(View.INVISIBLE);
         } else {
@@ -161,6 +168,61 @@ public class OrderDetail extends AppCompatActivity {
         }
     }
 
+    //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
+        MenuItem addAdmin = menu.findItem(R.id.Users);
+        MenuItem categories = menu.findItem(R.id.Category);
+
+        if (orderId == 0) {
+            shoppingCart.setVisible(false);
+        }
+
+        if (rol == null || !rol.equals("Administrador")) {
+            addAdmin.setVisible(false);
+            categories.setVisible(false);
+        }
+
+        return true;
+    }
+
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.initSession) {
+            Intent intent;
+            if (login) {
+                intent = new Intent(getApplicationContext(), LogOut.class);
+                intent.putExtra(EXTRA_LOGED_IN, login);
+            } else {
+                intent = new Intent(this, LogIn.class);
+            }
+            startActivity(intent);
+        }
+
+        if (id == R.id.ShoppingCart) {
+            Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.Users) {
+            Intent intent = new Intent(getApplicationContext(), RegisterAdministrator.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.Category) {
+            Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Función que permite la edición de un pedido en proceso.
     public void editOrder(View view) {
         if (orderId == 0 || orderId == id) {
             orderId = id;
@@ -173,6 +235,7 @@ public class OrderDetail extends AppCompatActivity {
         }
     }
 
+    //Función que permite eliminar un pedido.
     public void deleteOrder(View view) {
 
         for (OrderDetailModel orderDetailModel : orderDetailModelList) {
@@ -190,11 +253,13 @@ public class OrderDetail extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Función que permite enviar un pedido.
     public void sendOrder(View view) {
         dbGestiPedi.sendOrder(id);
         finish();
     }
 
+    //Función que permite cancelar un pedido.
     public void cancelOrder(View view) {
         List<OrderDetailModel> orderDetailModelList = dbGestiPedi.showOrderDetail(id);
         for (OrderDetailModel orderDetailModel : orderDetailModelList) {
@@ -212,6 +277,8 @@ public class OrderDetail extends AppCompatActivity {
         finish();
     }
 
+    //Función que permite obtener datos relativos a los detalles de los pedidos.
+    @SuppressLint("SetTextI18n")
     public void getOrderDetailData() {
         SQLiteDatabase db = dbGestiPedi.getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT Orders.id, Clients.empresa, fecha, estado, Users.nombre, total  FROM Orders INNER JOIN Clients ON Orders.idCliente = Clients.id INNER JOIN Users ON Orders.idUsuario = Users.id WHERE Orders.id ='" + id + "'", null);
@@ -227,5 +294,11 @@ public class OrderDetail extends AppCompatActivity {
             } while ((cursor.moveToNext()));
         }
 
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

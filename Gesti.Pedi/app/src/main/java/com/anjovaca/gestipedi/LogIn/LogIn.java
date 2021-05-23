@@ -30,7 +30,7 @@ public class LogIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_init_session);
+        setContentView(R.layout.activity_log_in);
         username = findViewById(R.id.etUsuario);
         password = findViewById(R.id.etContraseña);
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
@@ -38,6 +38,7 @@ public class LogIn extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
     }
 
+    //Función que permite iniciar sesión.
     public void initSession(View view) {
         try {
             userModelList = dbGestiPedi.initSession(username.getText().toString(), password.getText().toString());
@@ -69,8 +70,15 @@ public class LogIn extends AppCompatActivity {
         }
     }
 
+    //Función que permite abrir la actividad Register.
     public void register(View view) {
         Intent intent = new Intent(this, Register.class);
+        startActivity(intent);
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

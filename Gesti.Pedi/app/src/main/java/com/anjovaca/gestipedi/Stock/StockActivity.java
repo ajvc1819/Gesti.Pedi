@@ -25,6 +25,7 @@ import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -53,7 +54,7 @@ public class StockActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stock);
+        setContentView(R.layout.activity_products);
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
         categoryModelList = dbGestiPedi.getCategories();
         obtenerLista();
@@ -202,15 +203,17 @@ public class StockActivity extends AppCompatActivity implements
         });
     }
 
+    //Función que permite obtener la lista de categorias.
     public void obtenerLista() {
-        categoryList = new ArrayList<String>();
+        categoryList = new ArrayList<>();
         categoryList.add("Todos");
-        for (CategoryModel category : categoryModelList){
+        for (CategoryModel category : categoryModelList) {
             categoryList.add(category.getName());
         }
 
     }
 
+    //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -231,6 +234,7 @@ public class StockActivity extends AppCompatActivity implements
         return true;
     }
 
+    //Función que nos permite asignar las funcionalides de los diferentes elementos que aparecen en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -268,11 +272,13 @@ public class StockActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite lanzar la actividad AddProduct.
     public void addProduct(View view) {
         Intent intent = new Intent(this, AddProduct.class);
         startActivity(intent);
     }
 
+    //Función que permite obtener la opción seleccionada en un Spinner.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         category = parent.getItemAtPosition(position).toString();
@@ -284,7 +290,9 @@ public class StockActivity extends AppCompatActivity implements
 
     }
 
-    public void deleteText(View view) {
-        buscar.setText("");
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

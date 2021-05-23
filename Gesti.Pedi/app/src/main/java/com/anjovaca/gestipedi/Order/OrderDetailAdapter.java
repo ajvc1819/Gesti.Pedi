@@ -27,6 +27,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public int idOrder;
     public int stock;
 
+    //Constructor que nos permite asignar la lista y el contexto que tendrá el RecyclerView.
     public OrderDetailAdapter(Context context, List<OrderDetailModel> orderList, List<ProductsModel> productsModelList, int idOrder) {
         this.orderDetailModelList = orderList;
         this.productsModelList = productsModelList;
@@ -34,6 +35,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         this.idOrder = idOrder;
     }
 
+    //Función que permite inflar los elementos CardView que se mostrarán dentro del RecyclerView.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,6 +43,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         return new OrderDetailAdapter.ViewHolder(view);
     }
 
+    //Función que permite rellenar los diferentes elementos que componen el CardView.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -61,11 +64,13 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.imageProd.setImageURI(Uri.parse(image));
     }
 
+    //Función que permite obtener la cuenta de elementos que se mostrarán en el RecyclerView.
     @Override
     public int getItemCount() {
         return orderDetailModelList.size();
     }
 
+    //Función que permite la inicialización de los diferentes elementos que se mostrarán en el RecyclerView.
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameProd, quantity, price, idDetail;
         public ImageView imageProd;

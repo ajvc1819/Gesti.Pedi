@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.UserModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
@@ -23,6 +24,8 @@ import com.anjovaca.gestipedi.Order.OrderActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 import com.anjovaca.gestipedi.Stock.StockActivity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public String rol;
     SQLiteDatabase db;
     boolean login;
+    List<UserModel> userModelList;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
@@ -41,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        userModelList = dbGestiPedi.getUsers();
+
+        if(userModelList.isEmpty()){
+            SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+            preferencesEditor.clear();
+            preferencesEditor.apply();
+
+            dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador");
+        }
 
         Intent intent = getIntent();
         login = intent.getBooleanExtra(LogIn.EXTRA_LOGED_IN, false);
@@ -48,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         DbGestiPedi dbHelper = new DbGestiPedi(this);
         db = dbHelper.getWritableDatabase();
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         login = mPreferences.getBoolean(LOG_KEY, login);
@@ -89,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
         preferencesEditor.apply();
     }
 
+    //Función que nos permite la creación de los elementos que aparecen en el menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
         MenuItem addAdmin = menu.findItem(R.id.Users);
@@ -109,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -146,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que nos permite lanzar la actividad ClientActivity.
     public void launchClientes(View view) {
         Intent intent;
         if (login) {
@@ -156,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Función que nos permite lanzar la actividad StockActivity.
     public void launchStock(View view) {
         Intent intent;
         if (login) {
@@ -166,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Función que nos permite lanzar la actividad OrderActivity.
     public void launchPedidos(View view) {
         Intent intent;
         if (login) {

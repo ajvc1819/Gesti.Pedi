@@ -18,6 +18,7 @@ import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class OrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pedidos);
+        setContentView(R.layout.activity_orders);
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
         recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
@@ -101,9 +102,9 @@ public class OrderActivity extends AppCompatActivity {
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
+    //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
         MenuItem addAdmin = menu.findItem(R.id.Users);
@@ -121,14 +122,11 @@ public class OrderActivity extends AppCompatActivity {
         return true;
     }
 
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.initSession) {
             Intent intent;
             if (login) {
@@ -156,5 +154,16 @@ public class OrderActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void addOrder(View view) {
+        Intent intent = new Intent(getApplicationContext(),SelectClientForOrder.class);
+        startActivity(intent);
     }
 }

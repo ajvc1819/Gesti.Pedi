@@ -29,6 +29,7 @@ public class LogOut extends AppCompatActivity {
 
     }
 
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -38,6 +39,7 @@ public class LogOut extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite cerrar la sesión.
     public void logOut(View view) {
         login = false;
 
@@ -47,6 +49,12 @@ public class LogOut extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra(EXTRA_LOGED_IN, login);
+        startActivity(intent);
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

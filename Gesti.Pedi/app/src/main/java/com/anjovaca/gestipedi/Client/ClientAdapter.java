@@ -21,12 +21,13 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
     public List<ClientModel> clientModelList;
     private View.OnClickListener listener;
 
-
+    //Constructor que nos permite asignar la lista y el contexto que tendrá el RecyclerView.
     public ClientAdapter(Context context, List<ClientModel> clientList) {
         this.clientModelList = clientList;
         this.context = context;
     }
 
+    //Función que permitirá la creación de eventos onClick a los elementos del RecyclerView.
     @Override
     public void onClick(View v) {
         if (listener != null) {
@@ -34,6 +35,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
         }
     }
 
+    //Función que permite la inicialización de los diferentes elementos que se mostrarán en el RecyclerView.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView enterprise;
         private final TextView name;
@@ -49,6 +51,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
         }
     }
 
+    //Función que permite inflar los elementos CardView que se mostrarán dentro del RecyclerView.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,6 +60,7 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    //Función que permite rellenar los diferentes elementos que componen el CardView.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -66,15 +70,18 @@ public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder
         holder.email.setText(clientModelList.get(position).getEmail());
     }
 
+    //Función que permite asignar un listener a la hora de hacer click en algunos de los elementos que se muestran en el RecyclerView.
     public void setOnClickListener(View.OnClickListener listener) {
         this.listener = listener;
     }
 
+    //Función que permite obtener la cuenta de elementos que se mostrarán en el RecyclerView.
     @Override
     public int getItemCount() {
         return clientModelList.size();
     }
 
+    //Función que permite la inicialización de una lista filtrada de datos.
     public void filter(ArrayList<ClientModel> filterList) {
         this.clientModelList = filterList;
         notifyDataSetChanged();

@@ -22,6 +22,7 @@ import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -38,6 +39,7 @@ public class CategoryActivity extends AppCompatActivity {
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
     public CategoryAdapter categoryAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,9 +105,10 @@ public class CategoryActivity extends AppCompatActivity {
         String ORDER_ID_KEY = "id";
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
+
+    //Función que permite mostrar los botones del menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
         MenuItem addAdmin = menu.findItem(R.id.Users);
@@ -123,14 +126,11 @@ public class CategoryActivity extends AppCompatActivity {
         return true;
     }
 
+    //Función que permite dar funcionalidades a los diferentes botones que aparecen en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.initSession) {
             Intent intent;
             if (login) {
@@ -159,8 +159,16 @@ public class CategoryActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //Función que nos permite acceder a la actividad AddCategory.
     public void addCategory(View view) {
-        Intent intent = new Intent(getApplicationContext(),AddCategory.class);
+        Intent intent = new Intent(getApplicationContext(), AddCategory.class);
+        startActivity(intent);
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

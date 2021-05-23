@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2B2B2B"
-    tools:context=".Client.AddClient">
+    tools:context=".Client.EditClient">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,6 +50,7 @@
                     android:layout_marginLeft="16dp"
                     android:contentDescription="@string/logo"
                     android:src="@drawable/logotipo"
+                    android:onClick="returnMainMenu"
                     app:layout_constraintBottom_toBottomOf="@+id/txtTitulo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txtTitulo"
@@ -63,7 +64,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/a_adir_clientes"
+                android:text="@string/editClientButtonTitle"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +80,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="@string/dni"
+                    android:text="@string/dniClient"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvAñadirCli" />
@@ -116,10 +117,11 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="124dp"
-                    android:text="@string/nombre"
+                    android:text="@string/name"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDNI" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDNI"
+                    tools:targetApi="lollipop" />
 
                 <EditText
                     android:id="@+id/etNombre"
@@ -149,7 +151,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="@string/apellidos"
+                    android:text="@string/lastNameE"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStockProd" />
@@ -182,7 +184,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="@string/empresa"
+                    android:text="@string/enterprise"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvApellidos" />
@@ -249,7 +251,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="@string/direcci_n"
+                    android:text="@string/address"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCP" />
@@ -282,7 +284,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="@string/ciudad"
+                    android:text="@string/city"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDirección" />
@@ -312,7 +314,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="@string/pa_s"
+                    android:text="@string/country"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTelf" />
@@ -322,11 +324,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:autofillHints=""
                     android:backgroundTint="#FFFFFF"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:textColor="#FFFFFF"
-                    tools:ignore="Autofill,LabelFor"
+                    tools:ignore="LabelFor"
                     tools:targetApi="lollipop" />
 
             </LinearLayout>
@@ -341,12 +344,10 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:backgroundTint="#FFFFFF"
-                    android:text="@string/telefono"
+                    android:text="@string/phone"
                     android:textColor="#FFFFFF"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCiudad"
-                    tools:targetApi="lollipop" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCiudad" />
 
                 <EditText
                     android:id="@+id/etTelf"
@@ -404,16 +405,16 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnAñadir"
+                    android:id="@+id/btnEditar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/buttons_style"
-                    android:onClick="insertClient"
-                    android:text="@string/a_adir"
+                    android:onClick="editClient"
+                    android:text="@string/save"
                     android:textColor="#FFFFFF"
-                    tools:ignore="ButtonStyle" />
+                    tools:ignore="ButtonStyle,OnClick" />
 
                 <Button
                     android:id="@+id/btnCancelar"
@@ -423,7 +424,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/buttons_style"
                     android:onClick="cancel"
-                    android:text="@string/cancelar"
+                    android:text="@string/cancel"
                     android:textColor="#FFFFFF"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>

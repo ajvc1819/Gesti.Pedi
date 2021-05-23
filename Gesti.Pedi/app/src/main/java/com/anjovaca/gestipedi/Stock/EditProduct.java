@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class EditProduct extends AppCompatActivity implements
         image.setImageURI(Uri.parse(productsModelList.get(0).getImage()));
     }
 
+    //Función que permite la edición de los datos de un producto en la base de datos.
     public void editProduct(View view) {
         int stockInt;
         double priceDouble;
@@ -106,6 +108,7 @@ public class EditProduct extends AppCompatActivity implements
         finish();
     }
 
+    //Función que permite obtener la lista de categorias.
     public void obtenerLista() {
         categoryList = new ArrayList<>();
 
@@ -115,16 +118,19 @@ public class EditProduct extends AppCompatActivity implements
 
     }
 
+    //Función que permite cancelar la acción y cerrar la actividad.
     public void cancel(View view) {
         finish();
     }
 
+    //Función que permite seleccionar una imagen de la galería.
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void selectImage(View view) {
         Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
+    // Función que permite establecer la imagen.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -134,6 +140,7 @@ public class EditProduct extends AppCompatActivity implements
         }
     }
 
+    //Función que permite crear las funcionalidades de los botones que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -143,6 +150,7 @@ public class EditProduct extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite la selección de categorias en el spinner.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         category = categoryModelList.get(position).getId();
@@ -153,6 +161,7 @@ public class EditProduct extends AppCompatActivity implements
 
     }
 
+    //Función que permite mostrar la opción del spinner guaradada en la base de datos.
     private void selectValue(Spinner spinner, String value) {
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).equals(value)) {
@@ -160,5 +169,11 @@ public class EditProduct extends AppCompatActivity implements
                 break;
             }
         }
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

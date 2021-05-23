@@ -18,6 +18,7 @@ import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -44,7 +45,7 @@ public class ClientDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cliente_detalle);
+        setContentView(R.layout.activity_client_detail);
         Intent intent = getIntent();
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
         dni = findViewById(R.id.tvmDni);
@@ -127,6 +128,7 @@ public class ClientDetail extends AppCompatActivity {
         login = mPreferences.getBoolean(LOG_KEY, login);
     }
 
+    //Función que nos permite la creación de los elementos que aparecen en el menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -147,6 +149,7 @@ public class ClientDetail extends AppCompatActivity {
         return true;
     }
 
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -184,18 +187,20 @@ public class ClientDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite la eliminación de un cliente de la base de datos.
     public void deleteClient(View view) {
         dbGestiPedi.deleteClient(id);
         finish();
     }
 
+    //Función que nos permite hacer la llamada a la actividad EditClient.
     public void editClient(View view) {
         Intent intent = new Intent(getApplicationContext(), EditClient.class);
         intent.putExtra(EXTRA_ID, id);
         startActivity(intent);
     }
 
-
+    //Función que permite la creación de un nuevo pedido.
     public void addOrder(View view) {
         String USER_KEY = "user";
         idUser = mPreferences.getInt(USER_KEY, idUser);
@@ -212,6 +217,12 @@ public class ClientDetail extends AppCompatActivity {
         preferencesEditor.apply();
 
         Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+        startActivity(intent);
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

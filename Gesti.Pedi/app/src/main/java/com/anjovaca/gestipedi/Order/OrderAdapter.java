@@ -12,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
-import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> implements View.OnClickListener {
@@ -24,12 +22,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public List<ClientModel> clientModelList;
     private View.OnClickListener listener;
 
+    //Constructor que nos permite asignar la lista y el contexto que tendrá el RecyclerView.
     public OrderAdapter(Context context, List<OrderModel> orderList, List<ClientModel> clientList) {
         this.orderModelList = orderList;
         this.clientModelList = clientList;
         this.context = context;
     }
 
+    //Función que permitirá la creación de eventos onClick a los elementos del RecyclerView.
     @Override
     public void onClick(View v) {
         if (listener != null) {
@@ -37,6 +37,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
     }
 
+    //Función que permite la inicialización de los diferentes elementos que se mostrarán en el RecyclerView.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView id, nameClient, date, state, total;
 
@@ -50,15 +51,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
     }
 
+    //Función que permite inflar los elementos CardView que se mostrarán dentro del RecyclerView.
     @NonNull
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_order, parent, false);
         view.setOnClickListener(this);
-        OrderAdapter.ViewHolder viewHolder = new OrderAdapter.ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
+    //Función que permite rellenar los diferentes elementos que componen el CardView.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -77,10 +79,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.total.setText(total + "€");
     }
 
+    //Función que permite asignar un listener a la hora de hacer click en algunos de los elementos que se muestran en el RecyclerView.
     public void setOnClickListener(View.OnClickListener listener) {
         this.listener = listener;
     }
 
+    //Función que permite obtener la cuenta de elementos que se mostrarán en el RecyclerView.
     @Override
     public int getItemCount() {
         return orderModelList.size();

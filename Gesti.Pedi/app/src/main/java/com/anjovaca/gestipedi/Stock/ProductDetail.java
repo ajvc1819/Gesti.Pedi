@@ -23,6 +23,7 @@ import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -117,6 +118,7 @@ public class ProductDetail extends AppCompatActivity {
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
+    //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -137,6 +139,7 @@ public class ProductDetail extends AppCompatActivity {
         return true;
     }
 
+    //Función que nos permite asignar las funcionalides de los diferentes elementos que aparecen en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -174,17 +177,20 @@ public class ProductDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite abrir la actividad EditProduct.
     public void editProduct(View view) {
         Intent intent = new Intent(getApplicationContext(), EditProduct.class);
         intent.putExtra(EXTRA_ID, id);
         startActivity(intent);
     }
 
+    //Función que permite eliminar productos de la base de datos.
     public void deleteProduct(View view) {
         dbGestiPedi.deleteProduct(id);
         finish();
     }
 
+    //Función que se utiliza para obtener y mostrar los datos relativos a los productos.
     @SuppressLint("SetTextI18n")
     public void getProductsData() {
         SQLiteDatabase db = dbGestiPedi.getReadableDatabase();
@@ -201,5 +207,11 @@ public class ProductDetail extends AppCompatActivity {
             } while ((cursor.moveToNext()));
         }
 
+    }
+
+    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
