@@ -8,13 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
-import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.LogOut;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
@@ -29,11 +27,10 @@ public class CategoryDetail extends AppCompatActivity {
             "com.example.android.twoactivities.extra.id";
     DbGestiPedi dbGestiPedi;
     int id;
-    TextView dni, name, lastname, enterprise, cp, address, city, country, phone, email;
+    TextView name;
     public List<CategoryModel> categoryModelList;
     public String rol;
     public boolean login;
-    Button btnEdit, btnDelete;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 

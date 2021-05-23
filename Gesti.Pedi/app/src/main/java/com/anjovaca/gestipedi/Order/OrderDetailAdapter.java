@@ -6,14 +6,11 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.R;
@@ -40,7 +37,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_order_detail, parent, false);
-        return new OrderDetailAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     //Función que permite rellenar los diferentes elementos que componen el CardView.
@@ -71,10 +68,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     }
 
     //Función que permite la inicialización de los diferentes elementos que se mostrarán en el RecyclerView.
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameProd, quantity, price, idDetail;
         public ImageView imageProd;
-        Context context;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,8 +80,5 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             price = itemView.findViewById(R.id.tvTotalSho);
             imageProd = itemView.findViewById(R.id.imgProdSho);
         }
-
-
-
     }
 }

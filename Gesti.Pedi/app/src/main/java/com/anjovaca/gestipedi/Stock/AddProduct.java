@@ -73,7 +73,7 @@ public class AddProduct extends AppCompatActivity implements
 
     //Función que permite obtener la lista de categorias.
     public void obtenerLista() {
-        categoryList = new ArrayList<String>();
+        categoryList = new ArrayList<>();
 
         for (CategoryModel category : categoryModelList) {
             categoryList.add(category.getName());

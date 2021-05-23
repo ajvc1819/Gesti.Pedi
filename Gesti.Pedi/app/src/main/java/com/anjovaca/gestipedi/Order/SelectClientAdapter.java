@@ -84,5 +84,5 @@ public class SelectClientAdapter extends RecyclerView.Adapter<SelectClientAdapte
     public void filter(ArrayList<ClientModel> filterList) {
         this.clientModelList = filterList;
         notifyDataSetChanged();
-}
+    }
 }

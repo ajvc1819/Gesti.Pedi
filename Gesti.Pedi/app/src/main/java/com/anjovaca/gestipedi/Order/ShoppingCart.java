@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.anjovaca.gestipedi.Client.ClientDetail;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
@@ -25,7 +24,6 @@ public class ShoppingCart extends AppCompatActivity {
             "com.example.android.twoactivities.extra.id";
     public boolean login;
     public List<OrderDetailModel> orderDetailModelList;
-    public List<ProductsModel> productsModelList;
     int idOrder;
     public DbGestiPedi dbGestiPedi;
     public static final String EXTRA_LOGED_IN =

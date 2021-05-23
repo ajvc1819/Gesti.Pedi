@@ -7,34 +7,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
-import com.anjovaca.gestipedi.Client.ClientActivity;
-import com.anjovaca.gestipedi.Client.ClientAdapter;
-import com.anjovaca.gestipedi.Client.ClientDetail;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
+import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectClientForOrder extends AppCompatActivity {
 
-    public Button btnAddClient;
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
     public boolean login;
     public List<ClientModel> clientModelList;
     public String rol;
-    public String ROL_KEY = "rol";
-    int orderId;
     int idUser;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
-    public ClientAdapter clientAdapter;
+    public SelectClientAdapter clientAdapter;
     EditText buscar;
     String sharedPrefFile = "com.example.android.hellosharedprefs";
     SharedPreferences mPreferences;
@@ -51,7 +48,7 @@ public class SelectClientForOrder extends AppCompatActivity {
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        clientAdapter = new ClientAdapter(SelectClientForOrder.this, dbGestiPedi.showClients());
+        clientAdapter = new SelectClientAdapter(SelectClientForOrder.this, dbGestiPedi.showClients());
 
         clientModelList = dbGestiPedi.showClients();
 
@@ -74,8 +71,40 @@ public class SelectClientForOrder extends AppCompatActivity {
         });
 
         recyclerViewClient.setAdapter(clientAdapter);
+
+        buscar = findViewById(R.id.etBuscar);
+        buscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filtrar(s.toString());
+            }
+        });
+    }
+
+    //Función que permite el filtrado de la información por un dato concreto.
+    public void filtrar(String text) {
+        ArrayList<ClientModel> filterList = new ArrayList<>();
+
+        for (ClientModel client : clientModelList) {
+            if (client.getEnterprise().toLowerCase().contains(text.toLowerCase())) {
+                filterList.add(client);
+            }
+        }
+        clientAdapter.filter(filterList);
     }
 
     public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
