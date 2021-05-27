@@ -17,7 +17,7 @@
     <string name="logInTitle">Iniciar Sesión</string>
     <string name="register">Registrarse</string>
     <string name="logout">Cerrar Sesión</string>
-    <string name="editProductTitle">Editar Producto</string>
+    <string name="editProductTitle2">Editar Producto</string>
     <string name="descriptionTitle">Descripción</string>
     <string name="description">Descripción:</string>
     <string name="category">Categoria:</string>
@@ -49,7 +49,6 @@
     <string name="shoppingCart">Carrito</string>
     <string name="confirmOrder">Confirmar Pedido</string>
     <string name="users">Users</string>
-    <string name="categories">Categorias</string>
     <string name="addCategory">Añadir Categoria</string>
     <string name="category_detail">Detalle Categoria</string>
     <string name="edit_category">Editar Categoria</string>
@@ -71,6 +70,12 @@
     <string name="products_title">Productos</string>
     <string name="add_order_btntext">Añadir Pedido</string>
     <string name="cancel_orderbtntext">Cancelar Pedido</string>
+    <string name="addProductTitle">Añadir Producto</string>
+    <string name="editProductTitle">Editar Producto</string>
+    <string name="editProfile">Editar Perfil</string>
+    <string name="registrerAdmin">Registrar Administrador</string>
+    <string name="profile">Perfil</string>
+    <string name="categories">Categorias</string>
 
 
     <string-array name="labels_array">

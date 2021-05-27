@@ -18,7 +18,7 @@ import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.UserModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
-import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.LogIn.Profile;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Order.OrderActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     List<UserModel> userModelList;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
+    DbGestiPedi dbGestiPedi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +46,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        String sharedPrefFile = "com.example.android.sharedprefs";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userModelList = dbGestiPedi.getUsers();
 
-        if(userModelList.isEmpty()){
+        if (userModelList.isEmpty()) {
             SharedPreferences.Editor preferencesEditor = mPreferences.edit();
             preferencesEditor.clear();
             preferencesEditor.apply();
-
-            dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador");
         }
 
         Intent intent = getIntent();
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         DbGestiPedi dbHelper = new DbGestiPedi(this);
         db = dbHelper.getWritableDatabase();
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         login = mPreferences.getBoolean(LOG_KEY, login);
@@ -135,8 +134,13 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.initSession) {
             Intent intent;
+
+            if (userModelList.isEmpty()) {
+                dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador");
+            }
+
             if (login) {
-                intent = new Intent(getApplicationContext(), LogOut.class);
+                intent = new Intent(getApplicationContext(), Profile.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
             } else {
                 intent = new Intent(this, LogIn.class);

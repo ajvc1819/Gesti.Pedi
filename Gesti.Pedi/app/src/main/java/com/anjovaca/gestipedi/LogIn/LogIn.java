@@ -34,7 +34,7 @@ public class LogIn extends AppCompatActivity {
         username = findViewById(R.id.etUsuario);
         password = findViewById(R.id.etContraseña);
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
     }
 

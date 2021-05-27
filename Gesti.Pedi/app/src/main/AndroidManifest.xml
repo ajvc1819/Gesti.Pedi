@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.anjovaca.gestipedi">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,14 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".Order.SelectClientForOrder"
+        <activity android:name=".LogIn.EditProfile"></activity>
+        <activity
+            android:name=".Order.SelectClientForOrder"
             android:label="Seleccionar Cliente"
             android:parentActivityName=".Order.OrderActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.anjovaca.gestipedi.Order.OrderActivity" />
         </activity>
-        <activity android:name=".LogIn.RegisterAdministrator"
+        <activity
+            android:name=".LogIn.RegisterAdministrator"
             android:label="Registrar Administrador"
             android:parentActivityName=".Main.MainActivity">
             <meta-data
@@ -106,7 +111,7 @@
                 android:value="com.anjovaca.gestipedi.Stock.StockActivity" />
         </activity>
         <activity
-            android:name=".LogIn.LogOut"
+            android:name=".LogIn.Profile"
             android:label="Cerrar Sesión"
             android:parentActivityName=".Main.MainActivity">
             <meta-data

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.OrderDetailModel;
@@ -30,7 +31,7 @@ public class ShoppingCart extends AppCompatActivity {
             "com.example.android.twoactivities.extra.login";
     public ShoppingCartAdapter orderAdapter;
     int orderId;
-    String sharedPrefFile = "com.example.android.hellosharedprefs";
+    String sharedPrefFile = "com.example.android.sharedprefs";
     SharedPreferences mPreferences;
     RecyclerView recyclerViewShopping;
 
@@ -102,7 +103,12 @@ public class ShoppingCart extends AppCompatActivity {
 
         }
 
-        dbGestiPedi.confirmOrder(idOrder);
+        if (!orderDetailModelList.isEmpty()) {
+            dbGestiPedi.confirmOrder(idOrder);
+        } else {
+            Toast.makeText(getApplicationContext(), "No se puede confirmar un pedido vacío.", Toast.LENGTH_SHORT).show();
+        }
+
         orderId = 0;
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         String ORDER_ID_KEY = "id";

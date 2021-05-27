@@ -1,4 +1,4 @@
-package com.anjovaca.gestipedi.Category;
+package com.anjovaca.gestipedi.LogIn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,19 +8,22 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.anjovaca.gestipedi.Client.ClientDetail;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.DB.Models.CategoryModel;
+import com.anjovaca.gestipedi.DB.Models.ClientModel;
+import com.anjovaca.gestipedi.DB.Models.UserModel;
 import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
 
-public class EditCategory extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity {
     DbGestiPedi dbGestiPedi;
     int id;
-    EditText name;
-    public List<CategoryModel> categoryModelList;
+    EditText name, lastname;
+    public List<UserModel> userModelList;
     public boolean login;
 
     public static final String EXTRA_LOGED_IN =
@@ -29,18 +32,20 @@ public class EditCategory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_category);
+        setContentView(R.layout.activity_edit_profile);
 
         Intent intent = getIntent();
-        id = intent.getIntExtra(CategoryDetail.EXTRA_ID, 0);
+        id = intent.getIntExtra(Profile.EXTRA_ID, 0);
 
-        name = findViewById(R.id.etNameCatE);
+        name = findViewById(R.id.etName);
+        lastname = findViewById(R.id.etLastName);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        categoryModelList = dbGestiPedi.selectCategoryById(id);
+        userModelList = dbGestiPedi.getUsersById(id);
 
-        name.setText(categoryModelList.get(0).getName());
+        name.setText(userModelList.get(0).getName());
+        lastname.setText(userModelList.get(0).getLastname());
 
         String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -58,19 +63,21 @@ public class EditCategory extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Función que permite la cancelación de la acción y el cierre de la actividad.
+    public void returnMainMenu(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
     public void cancel(View view) {
         finish();
     }
 
-    //Función que permite la edición de una categoría en la base de datos.
-    public void editCategory(View view) {
-        dbGestiPedi.updateCategory(id, name.getText().toString());
-    }
-
-    //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
-    public void returnMainMenu(View view) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+    public void editClient(View view) {
+        if (!name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty()) {
+            dbGestiPedi.updateProfile(id, name.getText().toString(), lastname.getText().toString());
+        } else {
+            Toast.makeText(getApplicationContext(), "No se han podido editar los datos del perfil.", Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 }

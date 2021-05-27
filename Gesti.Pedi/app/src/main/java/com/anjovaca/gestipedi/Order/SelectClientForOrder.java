@@ -33,7 +33,7 @@ public class SelectClientForOrder extends AppCompatActivity {
             "com.example.android.twoactivities.extra.login";
     public SelectClientAdapter clientAdapter;
     EditText buscar;
-    String sharedPrefFile = "com.example.android.hellosharedprefs";
+    String sharedPrefFile = "com.example.android.sharedprefs";
     SharedPreferences mPreferences;
 
     @Override

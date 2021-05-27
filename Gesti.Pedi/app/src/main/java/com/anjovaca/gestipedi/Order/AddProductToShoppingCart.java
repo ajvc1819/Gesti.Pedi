@@ -31,7 +31,7 @@ public class AddProductToShoppingCart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product_to_shopping_cart);
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);

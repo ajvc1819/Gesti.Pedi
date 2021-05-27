@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
@@ -59,7 +60,7 @@ public class EditClient extends AppCompatActivity {
         phone.setText(clientModelList.get(0).getPhone());
         email.setText(clientModelList.get(0).getEmail());
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
@@ -85,6 +86,8 @@ public class EditClient extends AppCompatActivity {
     public void editClient(View view) {
         if (dni.getText().toString().length() == 9 && !name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty() && !enterprise.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !address.getText().toString().isEmpty() && !city.getText().toString().isEmpty() && !country.getText().toString().isEmpty() && phone.getText().toString().length() == 9 && !email.getText().toString().isEmpty()) {
             dbGestiPedi.editClient(id, dni.getText().toString(), name.getText().toString(), lastname.getText().toString(), enterprise.getText().toString(), address.getText().toString(), cp.getText().toString(), city.getText().toString(), country.getText().toString(), phone.getText().toString(), email.getText().toString());
+        } else {
+            Toast.makeText(getApplicationContext(), "No se han podido editar los datos del cliente.", Toast.LENGTH_SHORT).show();
         }
         finish();
     }

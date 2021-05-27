@@ -153,7 +153,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             try {
-                db.execSQL("DELETE FROM Clients WHERE id = '" + idClient + "'");
+                db.execSQL("DELETE FROM Users WHERE id = '" + idClient + "'");
                 db.close();
             } catch (Exception ex) {
                 Log.d("Tag", ex.toString());
@@ -188,6 +188,34 @@ public class DbGestiPedi extends SQLiteOpenHelper {
                 Log.d("Tag", ex.toString());
             }
         }
+    }
+
+    //Función que permite actualizar el perfil de un usuario de la aplicación.
+    public void updateProfile(int id, String name, String lastname) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        if (db != null) {
+            try {
+                db.execSQL("UPDATE Users SET nombre = '" + name + "', apellidos ='" + lastname + "' WHERE id = '" + id + "'");
+                db.close();
+            } catch (Exception ex) {
+                Log.d("Tag", ex.toString());
+            }
+        }
+    }
+
+    //Función que permite obtener los datos de un cliente por su id en la base de datos.
+    public List<UserModel> getUsersById(int idUser) {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE id = '" + idUser + "' ", null);
+        List<UserModel> users = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                users.add(new UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+            } while ((cursor.moveToNext()));
+        }
+        return users;
     }
 
     //Función que permite realizar las comprobaciones necesarias para el inicio de sesión de un usario en la aplicación.

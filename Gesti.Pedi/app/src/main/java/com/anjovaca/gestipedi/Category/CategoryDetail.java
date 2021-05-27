@@ -14,7 +14,7 @@ import com.anjovaca.gestipedi.Client.ClientActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
-import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.LogIn.Profile;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
@@ -34,7 +34,7 @@ public class CategoryDetail extends AppCompatActivity {
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
-    String sharedPrefFile = "com.example.android.hellosharedprefs";
+    String sharedPrefFile = "com.example.android.sharedprefs";
     SharedPreferences mPreferences;
     int orderId;
 
@@ -113,7 +113,7 @@ public class CategoryDetail extends AppCompatActivity {
         if (id == R.id.initSession) {
             Intent intent;
             if (login) {
-                intent = new Intent(getApplicationContext(), LogOut.class);
+                intent = new Intent(getApplicationContext(), Profile.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
             } else {
                 intent = new Intent(this, LogIn.class);

@@ -43,7 +43,7 @@ public class AddClient extends AppCompatActivity {
         phone = findViewById(R.id.etTelf);
         email = findViewById(R.id.etEmail);
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);

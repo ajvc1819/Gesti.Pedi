@@ -5,8 +5,8 @@
 
     <item
         android:id="@+id/Category"
-        android:orderInCategory="50"
-        android:title="@string/category"
+        android:orderInCategory="150"
+        android:title="@string/categories"
         android:icon="@drawable/category"
         app:showAsAction="ifRoom" />
 
@@ -19,13 +19,13 @@
     <item
         android:id="@+id/Users"
         android:orderInCategory="150"
-        android:title="@string/users"
+        android:title="@string/registrerAdmin"
         android:icon="@drawable/add_administrator"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/initSession"
-        android:orderInCategory="200"
-        android:title="@string/logInTitle"
+        android:orderInCategory="101"
+        android:title="@string/profile"
         android:icon="@drawable/init_session_icon"
         app:showAsAction="ifRoom" />
 </menu>

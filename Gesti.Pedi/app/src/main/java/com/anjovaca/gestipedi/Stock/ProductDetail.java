@@ -21,7 +21,7 @@ import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
-import com.anjovaca.gestipedi.LogIn.LogOut;
+import com.anjovaca.gestipedi.LogIn.Profile;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
@@ -70,7 +70,7 @@ public class ProductDetail extends AppCompatActivity {
 
         getProductsData();
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
@@ -110,7 +110,7 @@ public class ProductDetail extends AppCompatActivity {
 
         getProductsData();
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);
@@ -151,7 +151,7 @@ public class ProductDetail extends AppCompatActivity {
         if (id == R.id.initSession) {
             Intent intent;
             if (login) {
-                intent = new Intent(getApplicationContext(), LogOut.class);
+                intent = new Intent(getApplicationContext(), Profile.class);
                 intent.putExtra(EXTRA_LOGED_IN, login);
             } else {
                 intent = new Intent(this, LogIn.class);
