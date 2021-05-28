@@ -135,9 +135,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.initSession) {
             Intent intent;
 
-            if (userModelList.isEmpty()) {
-                dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador");
-            }
+            addAdmin();
 
             if (login) {
                 intent = new Intent(getApplicationContext(), Profile.class);
@@ -172,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         if (login) {
             intent = new Intent(this, ClientActivity.class);
         } else {
+            addAdmin();
             intent = new Intent(this, LogIn.class);
         }
         startActivity(intent);
@@ -183,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
         if (login) {
             intent = new Intent(this, StockActivity.class);
         } else {
+            addAdmin();
             intent = new Intent(this, LogIn.class);
         }
         startActivity(intent);
@@ -194,8 +194,16 @@ public class MainActivity extends AppCompatActivity {
         if (login) {
             intent = new Intent(this, OrderActivity.class);
         } else {
+            addAdmin();
             intent = new Intent(this, LogIn.class);
         }
         startActivity(intent);
+    }
+
+    //Función que añade automáticamente un usuario con rol de Administrador en la base de datos en caso de no existir ningún usuario.
+    private void addAdmin(){
+        if (userModelList.isEmpty()) {
+            dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador");
+        }
     }
 }

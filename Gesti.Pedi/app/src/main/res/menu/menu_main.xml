@@ -15,7 +15,7 @@
         android:orderInCategory="100"
         android:title="@string/shoppingCart"
         android:icon="@drawable/shopping_cart_icon"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/Users"
         android:orderInCategory="150"
@@ -24,8 +24,8 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/initSession"
-        android:orderInCategory="101"
+        android:orderInCategory="250"
         android:title="@string/profile"
         android:icon="@drawable/init_session_icon"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

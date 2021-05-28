@@ -90,7 +90,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(categoryAdapter);
 
-        String sharedPrefFile = "com.example.android.hellosharedprefs";
+        String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
         login = mPreferences.getBoolean(LOG_KEY, login);

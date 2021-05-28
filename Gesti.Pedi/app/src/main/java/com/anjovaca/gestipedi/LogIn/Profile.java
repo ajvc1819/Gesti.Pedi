@@ -121,6 +121,7 @@ public class Profile extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Función permite lanzar la actividad EditProfile para editar los datos personales de un usuario.
     public void editProfile(View view) {
         Intent intent = new Intent(getApplicationContext(), EditProfile.class);
         intent.putExtra(EXTRA_ID, idUser);

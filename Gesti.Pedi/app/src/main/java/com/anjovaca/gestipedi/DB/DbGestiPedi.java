@@ -204,7 +204,7 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         }
     }
 
-    //Función que permite obtener los datos de un cliente por su id en la base de datos.
+    //Función que permite obtener los datos de un usuario por su id en la base de datos.
     public List<UserModel> getUsersById(int idUser) {
         SQLiteDatabase db = getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Users WHERE id = '" + idUser + "' ", null);

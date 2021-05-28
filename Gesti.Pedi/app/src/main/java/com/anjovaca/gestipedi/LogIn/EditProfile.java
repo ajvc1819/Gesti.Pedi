@@ -63,15 +63,18 @@ public class EditProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite regresar al menú principal en el caso de hacer click sobre el logo de la empresa.
     public void returnMainMenu(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
+    //Función que permite cancelar la acción que se esta desarrollando y cerrar la actividad.
     public void cancel(View view) {
         finish();
     }
 
+    //Función que permite la edición de los datos de un usuario.
     public void editClient(View view) {
         if (!name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty()) {
             dbGestiPedi.updateProfile(id, name.getText().toString(), lastname.getText().toString());
