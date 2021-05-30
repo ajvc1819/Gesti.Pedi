@@ -332,6 +332,20 @@ public class DbGestiPedi extends SQLiteOpenHelper {
         return orders;
     }
 
+    //Función que permite obtener los datos de todos los pedidos de la base de datos filtrados por usuarios.
+    public List<OrderModel> showOrdersByUser(int idUser) {
+        SQLiteDatabase db = getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM Orders WHERE idUsuario = '" + idUser + "'", null);
+        List<OrderModel> orders = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                orders.add(new OrderModel(cursor.getInt(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getDouble(4), cursor.getInt(5)));
+            } while ((cursor.moveToNext()));
+        }
+        return orders;
+    }
+
     //Función que permite obtener los datos de un pedido por su id.
     public List<OrderModel> getOrderById(int id) {
         SQLiteDatabase db = getReadableDatabase();

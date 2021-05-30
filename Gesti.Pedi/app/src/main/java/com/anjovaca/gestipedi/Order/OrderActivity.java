@@ -31,7 +31,7 @@ public class OrderActivity extends AppCompatActivity {
     public List<OrderModel> orderModelList;
     public List<ClientModel> clientModelList;
     public String rol;
-    int orderId;
+    int orderId, idUser;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
     public OrderAdapter orderAdapter;
@@ -40,14 +40,33 @@ public class OrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        String USER_KEY = "user";
+        idUser = mPreferences.getInt(USER_KEY, idUser);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
         recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
 
         clientModelList = dbGestiPedi.showClients();
-        orderAdapter = new OrderAdapter(OrderActivity.this, dbGestiPedi.showOrders(), clientModelList);
 
-        orderModelList = dbGestiPedi.showOrders();
+        if (rol.equals("Administrador")) {
+            orderModelList = dbGestiPedi.showOrders();
+        } else {
+            orderModelList = dbGestiPedi.showOrdersByUser(idUser);
+        }
+
+
+        orderAdapter = new OrderAdapter(OrderActivity.this, orderModelList, clientModelList);
+
 
         orderAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,27 +79,38 @@ public class OrderActivity extends AppCompatActivity {
         });
 
         recyclerViewOrder.setAdapter(orderAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        String USER_KEY = "user";
+        idUser = mPreferences.getInt(USER_KEY, idUser);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
         recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
 
         clientModelList = dbGestiPedi.showClients();
-        orderAdapter = new OrderAdapter(OrderActivity.this, dbGestiPedi.showOrders(), clientModelList);
 
-        orderModelList = dbGestiPedi.showOrders();
+        if (rol.equals("Administrador")) {
+            orderModelList = dbGestiPedi.showOrders();
+        } else {
+            orderModelList = dbGestiPedi.showOrdersByUser(idUser);
+        }
+
+
+        orderAdapter = new OrderAdapter(OrderActivity.this, orderModelList, clientModelList);
+
 
         orderAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,13 +123,6 @@ public class OrderActivity extends AppCompatActivity {
         });
 
         recyclerViewOrder.setAdapter(orderAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
@@ -163,7 +186,7 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void addOrder(View view) {
-        Intent intent = new Intent(getApplicationContext(),SelectClientForOrder.class);
+        Intent intent = new Intent(getApplicationContext(), SelectClientForOrder.class);
         startActivity(intent);
     }
 }
