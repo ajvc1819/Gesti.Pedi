@@ -105,18 +105,19 @@ public class ShoppingCart extends AppCompatActivity {
 
         if (!orderDetailModelList.isEmpty()) {
             dbGestiPedi.confirmOrder(idOrder);
+
+            orderId = 0;
+            SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+            String ORDER_ID_KEY = "id";
+            preferencesEditor.putInt(ORDER_ID_KEY, orderId);
+            preferencesEditor.apply();
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            
         } else {
             Toast.makeText(getApplicationContext(), "No se puede confirmar un pedido vacío.", Toast.LENGTH_SHORT).show();
         }
-
-        orderId = 0;
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        String ORDER_ID_KEY = "id";
-        preferencesEditor.putInt(ORDER_ID_KEY, orderId);
-        preferencesEditor.apply();
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
     }
 
     //Función que permite la eliminación del pedido que se encuentra en proceso.

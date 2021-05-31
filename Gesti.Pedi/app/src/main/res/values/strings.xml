@@ -78,10 +78,12 @@
     <string name="categories">Categorias</string>
 
 
-    <string-array name="labels_array">
-        <item>Perros</item>
-        <item>Gatos</item>
-        <item>Peces</item>
+    <string-array name="states_array">
+        <item>Todos</item>
+        <item>En Proceso</item>
+        <item>Confirmado</item>
+        <item>Enviado</item>
+        <item>Cancelado</item>
     </string-array>
 
     <string-array name="labels_array_search">

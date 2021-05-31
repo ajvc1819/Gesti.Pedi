@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
+import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.R;
 
 import java.util.List;
@@ -88,5 +89,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return orderModelList.size();
+    }
+
+    //Función que permite filtrar la lista que se muestra en el RecyclerView por nombre de productos.
+    public void filter(List<OrderModel> filterList) {
+        this.orderModelList = filterList;
+        notifyDataSetChanged();
     }
 }

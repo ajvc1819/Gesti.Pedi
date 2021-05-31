@@ -10,20 +10,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
+import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
+import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.Profile;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Main.MainActivity;
 import com.anjovaca.gestipedi.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class OrderActivity extends AppCompatActivity {
+public class OrderActivity extends AppCompatActivity implements
+        AdapterView.OnItemSelectedListener {
 
     public static final String EXTRA_ID =
             "com.example.android.twoactivities.extra.id";
@@ -35,6 +42,7 @@ public class OrderActivity extends AppCompatActivity {
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
     public OrderAdapter orderAdapter;
+    String state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,20 @@ public class OrderActivity extends AppCompatActivity {
         idUser = mPreferences.getInt(USER_KEY, idUser);
         String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
+
+        Spinner spinner = findViewById(R.id.spnState);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener(this);
+        }
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.states_array, R.layout.spinner_item);
+
+        adapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+        }
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
@@ -95,6 +117,20 @@ public class OrderActivity extends AppCompatActivity {
         idUser = mPreferences.getInt(USER_KEY, idUser);
         String ROL_KEY = "rol";
         rol = mPreferences.getString(ROL_KEY, rol);
+
+        Spinner spinner = findViewById(R.id.spnState);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener(this);
+        }
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.states_array, R.layout.spinner_item);
+
+        adapter.setDropDownViewResource
+                (R.layout.spinner_item);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+        }
 
         final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
         final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
@@ -185,8 +221,36 @@ public class OrderActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void filter(String state) {
+        ArrayList<OrderModel> filterList = new ArrayList<>();
+        if (!state.equals("Todos")) {
+            for (OrderModel order : orderModelList) {
+                if (order.getState().toLowerCase().contains(state.toLowerCase())) {
+                    filterList.add(order);
+                }
+            }
+        } else {
+            for (OrderModel order : orderModelList) {
+                filterList.add(order);
+            }
+        }
+
+        orderAdapter.filter(filterList);
+    }
+
     public void addOrder(View view) {
         Intent intent = new Intent(getApplicationContext(), SelectClientForOrder.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        state = parent.getItemAtPosition(position).toString();
+        filter(state);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
