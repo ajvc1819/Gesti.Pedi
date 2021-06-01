@@ -22,7 +22,7 @@ import java.util.List;
 public class EditProfile extends AppCompatActivity {
     DbGestiPedi dbGestiPedi;
     int id;
-    EditText name, lastname;
+    EditText name, lastName, dni, city, country, phone, email;
     public List<UserModel> userModelList;
     public boolean login;
 
@@ -37,15 +37,26 @@ public class EditProfile extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getIntExtra(Profile.EXTRA_ID, 0);
 
-        name = findViewById(R.id.etName);
-        lastname = findViewById(R.id.etLastName);
+
+        name = findViewById(R.id.etNombre);
+        lastName = findViewById(R.id.etApellidos);
+        dni = findViewById(R.id.etDni);
+        city = findViewById(R.id.etCiudad);
+        country = findViewById(R.id.etPais);
+        phone = findViewById(R.id.etTelf);
+        email = findViewById(R.id.etEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
         userModelList = dbGestiPedi.getUsersById(id);
 
         name.setText(userModelList.get(0).getName());
-        lastname.setText(userModelList.get(0).getLastname());
+        lastName.setText(userModelList.get(0).getLastname());
+        dni.setText(userModelList.get(0).getDni());
+        city.setText(userModelList.get(0).getCity());
+        country.setText(userModelList.get(0).getCountry());
+        phone.setText(userModelList.get(0).getPhone());
+        email.setText(userModelList.get(0).getEmail());
 
         String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
@@ -75,9 +86,9 @@ public class EditProfile extends AppCompatActivity {
     }
 
     //Función que permite la edición de los datos de un usuario.
-    public void editClient(View view) {
-        if (!name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty()) {
-            dbGestiPedi.updateProfile(id, name.getText().toString(), lastname.getText().toString());
+    public void editProfile(View view) {
+        if (!name.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty()) {
+            dbGestiPedi.updateProfile(id, name.getText().toString(), lastName.getText().toString(), dni.getText().toString(), city.getText().toString(),country.getText().toString(),phone.getText().toString(),email.getText().toString());
         } else {
             Toast.makeText(getApplicationContext(), "No se han podido editar los datos del perfil.", Toast.LENGTH_SHORT).show();
         }

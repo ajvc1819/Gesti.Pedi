@@ -19,7 +19,7 @@ import java.util.List;
 public class RegisterAdministrator extends AppCompatActivity {
     public List<UserModel> userModelList;
     DbGestiPedi dbGestiPedi;
-    EditText username, password, name, lastName;
+    EditText username, password, name, lastName, dni, city, country, phone, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,15 @@ public class RegisterAdministrator extends AppCompatActivity {
         setContentView(R.layout.activity_register_administrator);
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        username = findViewById(R.id.etUsuario);
-        password = findViewById(R.id.etContraseña);
-        name = findViewById(R.id.etNombreReg);
-        lastName = findViewById(R.id.etApellidosReg);
+        username = findViewById(R.id.etUser);
+        password = findViewById(R.id.etPass);
+        name = findViewById(R.id.etNombre);
+        lastName = findViewById(R.id.etApellidos);
+        dni = findViewById(R.id.etDni);
+        city = findViewById(R.id.etCiudad);
+        country = findViewById(R.id.etPais);
+        phone = findViewById(R.id.etTelf);
+        email = findViewById(R.id.etEmail);
     }
 
     //Función que permite el registro de un administrador en la base de datos.
@@ -39,7 +44,8 @@ public class RegisterAdministrator extends AppCompatActivity {
             userModelList = dbGestiPedi.checkUsers(username.getText().toString());
             if (userModelList.isEmpty()) {
                 if (!name.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                    dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Administrador");
+                    dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Administrador", dni.getText().toString(),phone.getText().toString(), email.getText().toString(), city
+                            .getText().toString(), country.getText().toString());
                 } else {
                     Toast.makeText(getApplicationContext(), "Ha introducido un campo vacío.", Toast.LENGTH_SHORT).show();
                 }

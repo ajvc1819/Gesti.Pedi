@@ -2,16 +2,21 @@ package com.anjovaca.gestipedi.DB.Models;
 
 public class UserModel {
     int id;
-    String name, lastname, username, password, rol;
+    String dni, name, lastname, username, password, rol, city, country,  phone, email;
 
-
-    public UserModel(int id, String name, String lastname, String username, String password, String rol) {
+    public UserModel(int id, String dni, String name, String lastname, String username, String password, String rol, String phone, String email, String city, String country) {
         this.id = id;
+        this.dni = dni;
         this.name = name;
         this.lastname = lastname;
         this.username = username;
         this.password = password;
         this.rol = rol;
+        this.phone = phone;
+        this.email = email;
+        this.city = city;
+        this.country = country;
+
     }
 
     public UserModel() {
@@ -63,5 +68,45 @@ public class UserModel {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -13,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".LogIn.EditProfile"></activity>
+        <activity android:name=".LogIn.EditProfile"
+            android:label="Editar Perfil"
+            android:parentActivityName=".LogIn.Profile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anjovaca.gestipedi.LogIn.Profile" />
+        </activity>
         <activity
             android:name=".Order.SelectClientForOrder"
             android:label="Seleccionar Cliente"

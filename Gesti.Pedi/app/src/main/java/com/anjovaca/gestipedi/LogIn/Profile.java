@@ -26,7 +26,7 @@ public class Profile extends AppCompatActivity {
             "com.example.android.twoactivities.extra.id";
     DbGestiPedi dbGestiPedi;
     int idUser;
-    TextView name, lastname;
+    TextView name, lastname, dni, city, country, phone, email;
     public List<UserModel> userModelList;
     public String rol;
     int orderId;
@@ -43,8 +43,13 @@ public class Profile extends AppCompatActivity {
         String USER_KEY = "user";
         idUser = mPreferences.getInt(USER_KEY,idUser);
 
-        name = findViewById(R.id.tvmName);
-        lastname = findViewById(R.id.tvmLastName);
+        name = findViewById(R.id.tvmNombre);
+        lastname = findViewById(R.id.tvmApellidos);
+        dni = findViewById(R.id.tvmDni);
+        city = findViewById(R.id.tvmCiudad);
+        country = findViewById(R.id.tvmPais);
+        phone = findViewById(R.id.tvmTelf);
+        email = findViewById(R.id.tvmEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
@@ -52,6 +57,11 @@ public class Profile extends AppCompatActivity {
 
         name.setText(userModelList.get(0).getName());
         lastname.setText(userModelList.get(0).getLastname());
+        dni.setText(userModelList.get(0).getDni());
+        city.setText(userModelList.get(0).getCity());
+        country.setText(userModelList.get(0).getCountry());
+        phone.setText(userModelList.get(0).getPhone());
+        email.setText(userModelList.get(0).getEmail());
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
@@ -73,8 +83,13 @@ public class Profile extends AppCompatActivity {
         String USER_KEY = "user";
         idUser = mPreferences.getInt(USER_KEY,idUser);
 
-        name = findViewById(R.id.tvmName);
-        lastname = findViewById(R.id.tvmLastName);
+        name = findViewById(R.id.tvmNombre);
+        lastname = findViewById(R.id.tvmApellidos);
+        dni = findViewById(R.id.tvmDni);
+        city = findViewById(R.id.tvmCiudad);
+        country = findViewById(R.id.tvmPais);
+        phone = findViewById(R.id.tvmTelf);
+        email = findViewById(R.id.tvmEmail);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
@@ -82,6 +97,11 @@ public class Profile extends AppCompatActivity {
 
         name.setText(userModelList.get(0).getName());
         lastname.setText(userModelList.get(0).getLastname());
+        dni.setText(userModelList.get(0).getDni());
+        city.setText(userModelList.get(0).getCity());
+        country.setText(userModelList.get(0).getCountry());
+        phone.setText(userModelList.get(0).getPhone());
+        email.setText(userModelList.get(0).getEmail());
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";

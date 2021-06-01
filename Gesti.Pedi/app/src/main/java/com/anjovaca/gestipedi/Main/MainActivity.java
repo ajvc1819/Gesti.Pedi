@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     //Función que añade automáticamente un usuario con rol de Administrador en la base de datos en caso de no existir ningún usuario.
     private void addAdmin(){
         if (userModelList.isEmpty()) {
-            dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador");
+            dbGestiPedi.insertUser("Admin", "Administrador", "Admin", "Admin", "Administrador", "11111111a", "965343434", "admin@gmail.com", "Alicante", "España");
         }
     }
 }
