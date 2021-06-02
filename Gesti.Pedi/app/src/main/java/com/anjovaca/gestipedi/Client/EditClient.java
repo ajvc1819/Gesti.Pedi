@@ -84,7 +84,8 @@ public class EditClient extends AppCompatActivity {
 
     //Función que permite la edición de los datos de un cliente en la base de datos.
     public void editClient(View view) {
-        if (dni.getText().toString().length() == 9 && !name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty() && !enterprise.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !address.getText().toString().isEmpty() && !city.getText().toString().isEmpty() && !country.getText().toString().isEmpty() && phone.getText().toString().length() == 9 && !email.getText().toString().isEmpty()) {
+        boolean dniValid = dni.getText().toString().matches("^[0-9]{8}[A-Za-z]$");
+        if (dni.getText().toString().length() == 9 && dniValid && !name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty() && !enterprise.getText().toString().isEmpty() && cp.getText().toString().length() == 5 && !address.getText().toString().isEmpty() && !city.getText().toString().isEmpty() && !country.getText().toString().isEmpty() && phone.getText().toString().length() == 9 && !email.getText().toString().isEmpty()) {
             dbGestiPedi.editClient(id, dni.getText().toString(), name.getText().toString(), lastname.getText().toString(), enterprise.getText().toString(), address.getText().toString(), cp.getText().toString(), city.getText().toString(), country.getText().toString(), phone.getText().toString(), email.getText().toString());
         } else {
             Toast.makeText(getApplicationContext(), "No se han podido editar los datos del cliente.", Toast.LENGTH_SHORT).show();

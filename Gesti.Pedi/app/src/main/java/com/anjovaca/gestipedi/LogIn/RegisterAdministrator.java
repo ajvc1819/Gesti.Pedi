@@ -40,21 +40,18 @@ public class RegisterAdministrator extends AppCompatActivity {
 
     //Función que permite el registro de un administrador en la base de datos.
     public void register(View view) {
-        try {
-            userModelList = dbGestiPedi.checkUsers(username.getText().toString());
-            if (userModelList.isEmpty()) {
-                if (!name.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                    dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Administrador", dni.getText().toString(),phone.getText().toString(), email.getText().toString(), city
-                            .getText().toString(), country.getText().toString());
-                } else {
-                    Toast.makeText(getApplicationContext(), "Ha introducido un campo vacío.", Toast.LENGTH_SHORT).show();
-                }
+        userModelList = dbGestiPedi.checkUsers(username.getText().toString());
+        if (userModelList.isEmpty()) {
+            boolean dniValid = dni.getText().toString().matches("^[0-9]{8}[A-Za-z]$");
+            if (dni.getText().toString().length() == 9 && dniValid && !name.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !city.getText().toString().isEmpty() && !country.getText().toString().isEmpty() && phone.getText().toString().length() == 9 && !email.getText().toString().isEmpty()) {
+                dbGestiPedi.insertUser(name.getText().toString(), lastName.getText().toString(), username.getText().toString(), password.getText().toString(), "Administrador", dni.getText().toString(), phone.getText().toString(), email.getText().toString(), city
+                        .getText().toString(), country.getText().toString());
+                finish();
             } else {
-                Toast.makeText(getApplicationContext(), "El usuario ya existe.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ha introducido un campo vacío.", Toast.LENGTH_SHORT).show();
             }
-            finish();
-        } catch (Exception e) {
-            Log.d("TAG", e.toString());
+        } else {
+            Toast.makeText(getApplicationContext(), "El usuario ya existe.", Toast.LENGTH_SHORT).show();
         }
     }
 

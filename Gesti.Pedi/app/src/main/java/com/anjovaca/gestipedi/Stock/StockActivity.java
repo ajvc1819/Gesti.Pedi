@@ -123,7 +123,7 @@ public class StockActivity extends AppCompatActivity implements
 
     public void filter(String nombre, String category) {
         ArrayList<ProductsModel> filterList = new ArrayList<>();
-        if (!category.equals("Todos")) {
+        if (!category.equals("Todos") && (category != null)) {
             for (ProductsModel product : productsModelList) {
                 List<CategoryModel> categoryModelList = dbGestiPedi.selectCategoryById(product.getCategory());
                 if (product.getName().toLowerCase().contains(nombre.toLowerCase()) && categoryModelList.get(0).getName().toLowerCase().contains(category.toLowerCase())) {

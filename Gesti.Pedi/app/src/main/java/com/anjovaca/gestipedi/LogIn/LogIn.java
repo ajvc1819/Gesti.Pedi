@@ -60,13 +60,9 @@ public class LogIn extends AppCompatActivity {
                 intent.putExtra(EXTRA_LOGED_IN, login);
                 startActivity(intent);
                 finish();
-            } else {
-                Toast.makeText(getApplicationContext(), "El usuario introducido no es correcto.", Toast.LENGTH_SHORT).show();
             }
-
-
         } catch (Exception e) {
-            Log.d("TAG", e.toString());
+            Toast.makeText(getApplicationContext(), "El usuario introducido no es correcto.", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -90,14 +90,17 @@ public class AddProduct extends AppCompatActivity implements
 
     //Función que permite añadir nuevos productos a la base de datos.
     public void insertProduct(View view) {
-        int stockInt = Integer.parseInt(stock.getText().toString());
-        double priceDouble = Double.parseDouble(price.getText().toString());
-        if (!imageUri.toString().isEmpty() && !name.getText().toString().isEmpty() && !description.getText().toString().isEmpty() && !stock.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
-            dbGestiPedi.insertProduct(name.getText().toString(), description.getText().toString(), stockInt, priceDouble, imageUri.toString(), category);
-            finish();
-        } else {
+        try {
+            if (!imageUri.toString().isEmpty() && !name.getText().toString().isEmpty() && !description.getText().toString().isEmpty() && !stock.getText().toString().isEmpty() && !price.getText().toString().isEmpty()) {
+                int stockInt = Integer.parseInt(stock.getText().toString());
+                double priceDouble = Double.parseDouble(price.getText().toString());
+                dbGestiPedi.insertProduct(name.getText().toString(), description.getText().toString(), stockInt, priceDouble, imageUri.toString(), category);
+                finish();
+            }
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Falta algún campo por rellenar o se ha introducido un campo erroneo.", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
