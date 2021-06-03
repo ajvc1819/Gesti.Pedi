@@ -38,7 +38,6 @@ public class ClientDetail extends AppCompatActivity {
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
 
-    String sharedPrefFile = "com.example.android.sharedprefs";
     SharedPreferences mPreferences;
     int orderId;
 
@@ -47,6 +46,7 @@ public class ClientDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_detail);
         Intent intent = getIntent();
+
         id = intent.getIntExtra(ClientActivity.EXTRA_ID, 0);
         dni = findViewById(R.id.tvmDni);
         name = findViewById(R.id.tvmNombre);
@@ -74,13 +74,7 @@ public class ClientDetail extends AppCompatActivity {
         phone.setText(clientModelList.get(0).getPhone());
         email.setText(clientModelList.get(0).getEmail());
 
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        getPreferences();
 
         btnEdit = findViewById(R.id.btnEditClient);
         btnDelete = findViewById(R.id.btnDeleteClient);
@@ -123,9 +117,7 @@ public class ClientDetail extends AppCompatActivity {
         phone.setText(clientModelList.get(0).getPhone());
         email.setText(clientModelList.get(0).getEmail());
 
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
+        getPreferences();
     }
 
     //Función que nos permite la creación de los elementos que aparecen en el menú superior.
@@ -185,6 +177,18 @@ public class ClientDetail extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     //Función que permite la eliminación de un cliente de la base de datos.

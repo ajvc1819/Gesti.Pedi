@@ -33,9 +33,6 @@ public class CategoryDetail extends AppCompatActivity {
     public boolean login;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
-
-    String sharedPrefFile = "com.example.android.sharedprefs";
-    SharedPreferences mPreferences;
     int orderId;
 
     @Override
@@ -48,18 +45,11 @@ public class CategoryDetail extends AppCompatActivity {
         name = findViewById(R.id.tvmName);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
         categoryModelList = dbGestiPedi.selectCategoryById(id);
 
         name.setText(categoryModelList.get(0).getName());
 
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        getPreferences();
     }
 
     @Override
@@ -71,18 +61,11 @@ public class CategoryDetail extends AppCompatActivity {
         name = findViewById(R.id.tvmName);
 
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
         categoryModelList = dbGestiPedi.selectCategoryById(id);
 
         name.setText(categoryModelList.get(0).getName());
 
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        getPreferences();
     }
 
     //Función que permite la creación de los botones que se muestran en el menú superior.
@@ -137,6 +120,18 @@ public class CategoryDetail extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     //Función que permite la eliminación de una categoria de la base de datos.

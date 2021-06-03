@@ -16,10 +16,8 @@ import android.widget.Spinner;
 
 import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
-import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ClientModel;
 import com.anjovaca.gestipedi.DB.Models.OrderModel;
-import com.anjovaca.gestipedi.DB.Models.ProductsModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.Profile;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
@@ -43,122 +41,25 @@ public class OrderActivity extends AppCompatActivity implements
             "com.example.android.twoactivities.extra.login";
     public OrderAdapter orderAdapter;
     String state;
+    DbGestiPedi dbGestiPedi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-        String USER_KEY = "user";
-        idUser = mPreferences.getInt(USER_KEY, idUser);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-
-        Spinner spinner = findViewById(R.id.spnState);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(this);
-        }
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.states_array, R.layout.spinner_item);
-
-        adapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-        }
-
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
-        recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
-
-        clientModelList = dbGestiPedi.showClients();
-
-        if (rol.equals("Administrador")) {
-            orderModelList = dbGestiPedi.showOrders();
-        } else {
-            orderModelList = dbGestiPedi.showOrdersByUser(idUser);
-        }
-
-
-        orderAdapter = new OrderAdapter(OrderActivity.this, orderModelList, clientModelList);
-
-
-        orderAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int orderId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
-                intent.putExtra(EXTRA_ID, orderId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerViewOrder.setAdapter(orderAdapter);
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        getPreferences();
+        setSpinner();
+        setRecyclerView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-        String USER_KEY = "user";
-        idUser = mPreferences.getInt(USER_KEY, idUser);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-
-        Spinner spinner = findViewById(R.id.spnState);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(this);
-        }
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.states_array, R.layout.spinner_item);
-
-        adapter.setDropDownViewResource
-                (R.layout.spinner_item);
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-        }
-
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
-        recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
-
-        clientModelList = dbGestiPedi.showClients();
-
-        if (rol.equals("Administrador")) {
-            orderModelList = dbGestiPedi.showOrders();
-        } else {
-            orderModelList = dbGestiPedi.showOrdersByUser(idUser);
-        }
-
-
-        orderAdapter = new OrderAdapter(OrderActivity.this, orderModelList, clientModelList);
-
-
-        orderAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int orderId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
-                intent.putExtra(EXTRA_ID, orderId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerViewOrder.setAdapter(orderAdapter);
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        getPreferences();
+        setSpinner();
+        setRecyclerView();
     }
 
     //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
@@ -215,6 +116,67 @@ public class OrderActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    //Función que permite establecer los elementos necesarios para el funcionamiento correcto del RecyclerView.
+    private void setRecyclerView() {
+        final RecyclerView recyclerViewOrder = findViewById(R.id.rvOrders);
+        recyclerViewOrder.setLayoutManager(new LinearLayoutManager(this));
+
+        clientModelList = dbGestiPedi.showClients();
+
+        if (rol.equals("Administrador")) {
+            orderModelList = dbGestiPedi.showOrders();
+        } else {
+            orderModelList = dbGestiPedi.showOrdersByUser(idUser);
+        }
+
+
+        orderAdapter = new OrderAdapter(OrderActivity.this, orderModelList, clientModelList);
+
+
+        orderAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int orderId = orderAdapter.orderModelList.get(recyclerViewOrder.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), OrderDetail.class);
+                intent.putExtra(EXTRA_ID, orderId);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewOrder.setAdapter(orderAdapter);
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        String USER_KEY = "user";
+        idUser = mPreferences.getInt(USER_KEY, idUser);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+    }
+
+    //Función que establecer los datos que se mostrarán en el Spinner.
+    private void setSpinner() {
+        Spinner spinner = findViewById(R.id.spnState);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener(this);
+        }
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.states_array, R.layout.spinner_item);
+
+        adapter.setDropDownViewResource
+                (R.layout.spinner_item);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+        }
+    }
+
     //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.
     public void returnMainMenu(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -230,9 +192,7 @@ public class OrderActivity extends AppCompatActivity implements
                 }
             }
         } else {
-            for (OrderModel order : orderModelList) {
-                filterList.add(order);
-            }
+            filterList.addAll(orderModelList);
         }
 
         orderAdapter.filter(filterList);

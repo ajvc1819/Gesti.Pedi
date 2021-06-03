@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.LogIn.LogIn;
@@ -27,7 +28,6 @@ public class CategoryActivity extends AppCompatActivity {
     public boolean login;
     public List<CategoryModel> categoryModelList;
     public String rol;
-    public String ROL_KEY = "rol";
     int orderId;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
@@ -37,66 +37,15 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-
-        final RecyclerView recyclerView = findViewById(R.id.rvCategory);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        categoryAdapter = new CategoryAdapter(CategoryActivity.this, dbGestiPedi.getCategories());
-
-        categoryModelList = dbGestiPedi.getCategories();
-
-        categoryAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int categoryId = categoryAdapter.categoryModelList.get(recyclerView.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), CategoryDetail.class);
-                intent.putExtra(EXTRA_ID, categoryId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerView.setAdapter(categoryAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        setRecyclerAdapter();
+        getPreferences();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        final RecyclerView recyclerView = findViewById(R.id.rvCategory);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-        categoryAdapter = new CategoryAdapter(CategoryActivity.this, dbGestiPedi.getCategories());
-
-        categoryModelList = dbGestiPedi.getCategories();
-
-        categoryAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int categoryId = categoryAdapter.categoryModelList.get(recyclerView.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), CategoryDetail.class);
-                intent.putExtra(EXTRA_ID, categoryId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerView.setAdapter(categoryAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        setRecyclerAdapter();
+        getPreferences();
     }
 
     //Función que permite mostrar los botones del menú superior.
@@ -123,6 +72,10 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            finish();
+        }
 
         if (id == R.id.initSession) {
             Intent intent;
@@ -151,6 +104,41 @@ public class CategoryActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Función que permite establecer los elementos necesarios para el funcionamiento correcto del RecyclerView.
+    private void setRecyclerAdapter() {
+        final RecyclerView recyclerView = findViewById(R.id.rvCategory);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryAdapter = new CategoryAdapter(CategoryActivity.this, dbGestiPedi.getCategories());
+
+        categoryModelList = dbGestiPedi.getCategories();
+
+        categoryAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int categoryId = categoryAdapter.categoryModelList.get(recyclerView.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), CategoryDetail.class);
+                intent.putExtra(EXTRA_ID, categoryId);
+                startActivity(intent);
+            }
+        });
+
+        recyclerView.setAdapter(categoryAdapter);
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
     }
 
     //Función que nos permite acceder a la actividad AddCategory.

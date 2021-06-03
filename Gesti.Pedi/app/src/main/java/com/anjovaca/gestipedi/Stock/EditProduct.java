@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,10 +20,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.anjovaca.gestipedi.Category.CategoryActivity;
 import com.anjovaca.gestipedi.DB.DbGestiPedi;
 import com.anjovaca.gestipedi.DB.Models.CategoryModel;
 import com.anjovaca.gestipedi.DB.Models.ProductsModel;
+import com.anjovaca.gestipedi.LogIn.LogIn;
+import com.anjovaca.gestipedi.LogIn.Profile;
+import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Main.MainActivity;
+import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
 import java.util.ArrayList;
@@ -41,37 +48,26 @@ public class EditProduct extends AppCompatActivity implements
     List<CategoryModel> categoryModelList;
     List<CategoryModel> categoryModelListId;
     ArrayList<String> categoryList;
+    boolean login;
+    int orderId;
+    String rol;
+    public static final String EXTRA_LOGED_IN =
+            "com.example.android.twoactivities.extra.login";
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
-
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         Intent intent = getIntent();
         id = intent.getIntExtra(ProductDetail.EXTRA_ID, 0);
 
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
         productsModelList = dbGestiPedi.selectProductById(id);
-
         categoryModelList = dbGestiPedi.getCategories();
         obtenerLista();
-
-        Spinner spinner = findViewById(R.id.spnCategoriasProdE);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(this);
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
-        adapter.setDropDownViewResource
-                (R.layout.spinner_item);
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-        }
-        categoryModelListId = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
-
-        assert spinner != null;
-        selectValue(spinner, categoryModelListId.get(0).getName());
+        setSpinner();
+        getPreferences();
 
         image = findViewById(R.id.imgImageProdE);
         name = findViewById(R.id.etNameProdE);
@@ -106,6 +102,24 @@ public class EditProduct extends AppCompatActivity implements
         finish();
     }
 
+    //Función que establecer los datos que se mostrarán en el Spinner.
+    private void setSpinner() {
+        Spinner spinner = findViewById(R.id.spnCategoriasProdE);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener(this);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
+        adapter.setDropDownViewResource
+                (R.layout.spinner_item);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+        }
+        categoryModelListId = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
+
+        assert spinner != null;
+        selectValue(spinner, categoryModelListId.get(0).getName());
+    }
+
     //Función que permite obtener la lista de categorias.
     public void obtenerLista() {
         categoryList = new ArrayList<>();
@@ -138,14 +152,64 @@ public class EditProduct extends AppCompatActivity implements
         }
     }
 
-    //Función que permite crear las funcionalidades de los botones que se muestran en el menú superior.
+    //Función que permite la creación de funcionalidades de los elementos que se muestran en el menú superior.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+
+        if(id == android.R.id.home){
             finish();
             return true;
         }
+
+        if (id == R.id.initSession) {
+            Intent intent;
+            if (login) {
+                intent = new Intent(getApplicationContext(), Profile.class);
+                intent.putExtra(EXTRA_LOGED_IN, login);
+            } else {
+                intent = new Intent(this, LogIn.class);
+            }
+            startActivity(intent);
+        }
+
+        if (id == R.id.ShoppingCart) {
+            Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.Users) {
+            Intent intent = new Intent(getApplicationContext(), RegisterAdministrator.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.Category) {
+            Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem shoppingCart = menu.findItem(R.id.ShoppingCart);
+        MenuItem addAdmin = menu.findItem(R.id.Users);
+        MenuItem categories = menu.findItem(R.id.Category);
+
+        if (orderId == 0) {
+            shoppingCart.setVisible(false);
+        }
+
+        if (rol == null || !rol.equals("Administrador")) {
+            addAdmin.setVisible(false);
+            categories.setVisible(false);
+        }
+
+        return true;
     }
 
     //Función que permite la selección de categorias en el spinner.
@@ -167,6 +231,18 @@ public class EditProduct extends AppCompatActivity implements
                 break;
             }
         }
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
     }
 
     //Función que permite regresar al menú principal al pulsar sobre el logotipo de la empresa.

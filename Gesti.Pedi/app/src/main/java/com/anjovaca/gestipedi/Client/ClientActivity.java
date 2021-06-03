@@ -41,59 +41,18 @@ public class ClientActivity extends AppCompatActivity {
             "com.example.android.twoactivities.extra.login";
     public ClientAdapter clientAdapter;
     EditText buscar;
+    DbGestiPedi dbGestiPedi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        final RecyclerView recyclerViewClient = findViewById(R.id.rvClient);
-        recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
 
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
-        buscar = findViewById(R.id.etBuscar);
-        buscar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                filtrar(s.toString());
-            }
-        });
-
-        clientAdapter = new ClientAdapter(ClientActivity.this, dbGestiPedi.showClients());
-
-        clientModelList = dbGestiPedi.showClients();
-
-        clientAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int clientId = clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
-                intent.putExtra(EXTRA_ID, clientId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerViewClient.setAdapter(clientAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-        btnAddClient = findViewById(R.id.btnAddClient);
+        setEditTextEvent();
+        setRecyclerView();
+        getPreferences();
 
         if (!rol.equals("Administrador")) {
             btnAddClient.setVisibility(View.INVISIBLE);
@@ -103,46 +62,10 @@ public class ClientActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        final RecyclerView recyclerViewClient = findViewById(R.id.rvClient);
-        recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
-        final DbGestiPedi dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
-        buscar = findViewById(R.id.etBuscar);
-        buscar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                filtrar(s.toString());
-            }
-        });
-        clientAdapter = new ClientAdapter(ClientActivity.this, dbGestiPedi.showClients());
-
-        clientAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int clientId = clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
-                intent.putExtra(EXTRA_ID, clientId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerViewClient.setAdapter(clientAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        setEditTextEvent();
+        setRecyclerView();
+        getPreferences();
     }
 
     //Función que nos permite la creación de los elementos que aparecen en el menú superior.
@@ -209,6 +132,59 @@ public class ClientActivity extends AppCompatActivity {
             }
         }
         clientAdapter.filter(filterList);
+    }
+
+    //Función que permite establecer los elementos necesarios para el funcionamiento correcto del RecyclerView.
+    private void setRecyclerView() {
+        final RecyclerView recyclerViewClient = findViewById(R.id.rvClient);
+        recyclerViewClient.setLayoutManager(new LinearLayoutManager(this));
+
+        clientAdapter = new ClientAdapter(ClientActivity.this, dbGestiPedi.showClients());
+
+        clientAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int clientId = clientAdapter.clientModelList.get(recyclerViewClient.getChildAdapterPosition(v)).getId();
+                Intent intent = new Intent(getApplicationContext(), ClientDetail.class);
+                intent.putExtra(EXTRA_ID, clientId);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewClient.setAdapter(clientAdapter);
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+    }
+
+    //Función que permite establecer el evento TextChangedListener.
+    private void setEditTextEvent() {
+        buscar = findViewById(R.id.etBuscar);
+        buscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filtrar(s.toString());
+            }
+        });
     }
 
     //Función que permite permite abrir la actividad AddClient.

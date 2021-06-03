@@ -43,8 +43,6 @@ public class OrderDetail extends AppCompatActivity {
     Button btnEdit, btnDelete, btnCancel, btnSend;
     public static final String EXTRA_LOGED_IN =
             "com.example.android.twoactivities.extra.login";
-
-    String sharedPrefFile = "com.example.android.sharedprefs";
     SharedPreferences mPreferences;
     int orderId;
     public OrderDetailAdapter orderDetailAdapter;
@@ -54,10 +52,11 @@ public class OrderDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         Intent intent = getIntent();
-        final RecyclerView recyclerViewOrder = findViewById(R.id.rvProductsOrder);
-
         id = intent.getIntExtra(OrderActivity.EXTRA_ID, 0);
+        orderModelList = dbGestiPedi.getOrderById(id);
+        orderDetailModelList = dbGestiPedi.showOrderDetail(id);
 
         idOrder = findViewById(R.id.tvmIdOrderD);
         client = findViewById(R.id.tvmClientOrderD);
@@ -65,31 +64,14 @@ public class OrderDetail extends AppCompatActivity {
         state = findViewById(R.id.tvmStateOrderD);
         total = findViewById(R.id.tvmTotalOrderD);
         user = findViewById(R.id.tvmUsuarioOrderD);
-
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
-        orderModelList = dbGestiPedi.getOrderById(id);
-
-        getOrderDetailData();
-
-        orderDetailModelList = dbGestiPedi.showOrderDetail(Integer.parseInt((String) idOrder.getText()));
-
-        orderDetailAdapter = new OrderDetailAdapter(OrderDetail.this, dbGestiPedi.showOrderDetail(Integer.parseInt((String) idOrder.getText())), dbGestiPedi.showProducts(), Integer.parseInt((String) idOrder.getText()));
-
-        recyclerViewOrder.setAdapter(orderDetailAdapter);
-
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-
         btnEdit = findViewById(R.id.btnEditOrder);
         btnDelete = findViewById(R.id.btnDeleteOrder);
         btnCancel = findViewById(R.id.btnCancelOrder);
         btnSend = findViewById(R.id.btnSendOrder);
+
+        getOrderDetailData();
+        setRecyclerView();
+        getPreferences();
 
         if (!orderModelList.get(0).getState().equals("En Proceso")) {
             btnDelete.setVisibility(View.INVISIBLE);
@@ -112,9 +94,11 @@ public class OrderDetail extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        orderModelList = dbGestiPedi.getOrderById(id);
+        orderDetailModelList = dbGestiPedi.showOrderDetail(id);
 
         Intent intent = getIntent();
-        final RecyclerView recyclerViewOrder = findViewById(R.id.rvProductsOrder);
 
         id = intent.getIntExtra(OrderActivity.EXTRA_ID, 0);
 
@@ -123,33 +107,14 @@ public class OrderDetail extends AppCompatActivity {
         date = findViewById(R.id.tvmDateOrderD);
         state = findViewById(R.id.tvmStateOrderD);
         total = findViewById(R.id.tvmTotalOrderD);
-
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
-        orderModelList = dbGestiPedi.getOrderById(id);
-
-        getOrderDetailData();
-
-        orderDetailModelList = dbGestiPedi.showOrderDetail(id);
-
-        orderDetailAdapter = new OrderDetailAdapter(OrderDetail.this, orderDetailModelList, dbGestiPedi.showProducts(), id);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerViewOrder.setLayoutManager(manager);
-        recyclerViewOrder.setHasFixedSize(true);
-        recyclerViewOrder.setAdapter(orderDetailAdapter);
-
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-
         btnEdit = findViewById(R.id.btnEditOrder);
         btnDelete = findViewById(R.id.btnDeleteOrder);
         btnCancel = findViewById(R.id.btnCancelOrder);
         btnSend = findViewById(R.id.btnSendOrder);
+
+        getOrderDetailData();
+        setRecyclerView();
+        getPreferences();
 
         if (orderModelList.get(0).getState().equals("En Proceso")) {
             btnDelete.setVisibility(View.VISIBLE);
@@ -220,6 +185,30 @@ public class OrderDetail extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Función que permite establecer los elementos necesarios para el funcionamiento correcto del RecyclerView.
+    private void setRecyclerView() {
+        final RecyclerView recyclerViewOrder = findViewById(R.id.rvProductsOrder);
+
+        orderDetailAdapter = new OrderDetailAdapter(OrderDetail.this, orderDetailModelList, dbGestiPedi.showProducts(), id);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerViewOrder.setLayoutManager(manager);
+        recyclerViewOrder.setHasFixedSize(true);
+        recyclerViewOrder.setAdapter(orderDetailAdapter);
+
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
     }
 
     //Función que permite la edición de un pedido en proceso.

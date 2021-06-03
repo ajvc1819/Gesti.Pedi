@@ -26,6 +26,9 @@ import com.anjovaca.gestipedi.LogIn.LogIn;
 import com.anjovaca.gestipedi.LogIn.Profile;
 import com.anjovaca.gestipedi.LogIn.RegisterAdministrator;
 import com.anjovaca.gestipedi.Main.MainActivity;
+import com.anjovaca.gestipedi.Order.OrderActivity;
+import com.anjovaca.gestipedi.Order.OrderAdapter;
+import com.anjovaca.gestipedi.Order.OrderDetail;
 import com.anjovaca.gestipedi.Order.ShoppingCart;
 import com.anjovaca.gestipedi.R;
 
@@ -57,23 +60,36 @@ public class StockActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_products);
         dbGestiPedi = new DbGestiPedi(getApplicationContext());
         categoryModelList = dbGestiPedi.getCategories();
+        btnAddProduct = findViewById(R.id.btnAddProduct);
         obtenerLista();
-        Spinner spinner = findViewById(R.id.spnSearchCategory);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(this);
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
-        adapter.setDropDownViewResource
-                (R.layout.spinner_item);
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-        }
+        setSpinner();
+        getPreferences();
+        setRecyclerView();
+        setEditTextEvent();
 
+        if(!rol.equals("Administrador")){
+            btnAddProduct.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        categoryModelList = dbGestiPedi.getCategories();
+        obtenerLista();
+        setSpinner();
+        getPreferences();
+        setRecyclerView();
+        setEditTextEvent();
+    }
+
+    //Función que permite establecer los elementos necesarios para el funcionamiento correcto del RecyclerView.
+    private void setRecyclerView() {
         final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
 
         productsModelList = dbGestiPedi.showProducts();
-
         productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
 
         productAdapter.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +103,24 @@ public class StockActivity extends AppCompatActivity implements
         });
 
         recyclerViewProduct.setAdapter(productAdapter);
+    }
 
+    //Función que establecer los datos que se mostrarán en el Spinner.
+    private void setSpinner() {
+        Spinner spinner = findViewById(R.id.spnSearchCategory);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener(this);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
+        adapter.setDropDownViewResource
+                (R.layout.spinner_item);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+        }
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
         String sharedPrefFile = "com.example.android.sharedprefs";
         SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         String LOG_KEY = "log";
@@ -95,13 +128,11 @@ public class StockActivity extends AppCompatActivity implements
         String ORDER_ID_KEY = "id";
         orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
         String ROL_KEY = "rol";
-        btnAddProduct = findViewById(R.id.btnAddProduct);
         rol = mPreferences.getString(ROL_KEY, rol);
+    }
 
-        if (!rol.equals("Administrador")) {
-            btnAddProduct.setVisibility(View.INVISIBLE);
-        }
-
+    //Función que permite establecer el evento TextChangedListener.
+    private void setEditTextEvent() {
         buscar = findViewById(R.id.etBuscarN);
         buscar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -121,6 +152,7 @@ public class StockActivity extends AppCompatActivity implements
         });
     }
 
+    //Función que permite establecer filtros de busqueda a un RecyclerView.
     public void filter(String nombre, String category) {
         ArrayList<ProductsModel> filterList = new ArrayList<>();
         if (!category.equals("Todos") && (category != null)) {
@@ -141,68 +173,6 @@ public class StockActivity extends AppCompatActivity implements
         productAdapter.filter(filterList);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        final RecyclerView recyclerViewProduct = findViewById(R.id.rvProducts);
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
-
-        recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this));
-        categoryModelList = dbGestiPedi.getCategories();
-        obtenerLista();
-        Spinner spinner = findViewById(R.id.spnSearchCategory);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(this);
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryList);
-        adapter.setDropDownViewResource
-                (R.layout.spinner_item);
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-        }
-
-
-        productsModelList = dbGestiPedi.showProducts();
-        productAdapter = new ProductAdapter(dbGestiPedi.showProducts());
-
-        productAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int productId = productAdapter.productsModelList.get(recyclerViewProduct.getChildAdapterPosition(v)).getId();
-                Intent intent = new Intent(getApplicationContext(), ProductDetail.class);
-                intent.putExtra(EXTRA_PRODUCT_ID, productId);
-                startActivity(intent);
-            }
-        });
-
-        recyclerViewProduct.setAdapter(productAdapter);
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-
-        buscar = findViewById(R.id.etBuscarN);
-        buscar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                filter(s.toString(), category);
-            }
-        });
-    }
-
     //Función que permite obtener la lista de categorias.
     public void obtenerLista() {
         categoryList = new ArrayList<>();
@@ -210,7 +180,6 @@ public class StockActivity extends AppCompatActivity implements
         for (CategoryModel category : categoryModelList) {
             categoryList.add(category.getName());
         }
-
     }
 
     //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.

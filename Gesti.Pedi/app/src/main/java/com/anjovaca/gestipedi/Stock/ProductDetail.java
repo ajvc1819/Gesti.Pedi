@@ -52,7 +52,7 @@ public class ProductDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         Intent intent = getIntent();
         id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
 
@@ -62,25 +62,14 @@ public class ProductDetail extends AppCompatActivity {
         price = findViewById(R.id.tvmPrecioProdD);
         category = findViewById(R.id.tvmCategoriaProdD);
         imageProduct = findViewById(R.id.imgProduct);
-
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        btnDelete = findViewById(R.id.btnDeleteProduct);
+        btnEdit = findViewById((R.id.btnEditProd));
 
         productsModelList = dbGestiPedi.selectProductById(id);
         categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
 
         getProductsData();
-
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ROL_KEY = "rol";
-        rol = mPreferences.getString(ROL_KEY, rol);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
-
-        btnDelete = findViewById(R.id.btnDeleteProduct);
-        btnEdit = findViewById((R.id.btnEditProd));
+        getPreferences();
 
         if (!rol.equals("Administrador")) {
             btnDelete.setVisibility(View.INVISIBLE);
@@ -93,6 +82,7 @@ public class ProductDetail extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        dbGestiPedi = new DbGestiPedi(getApplicationContext());
         Intent intent = getIntent();
         id = intent.getIntExtra(StockActivity.EXTRA_PRODUCT_ID, 0);
 
@@ -102,20 +92,19 @@ public class ProductDetail extends AppCompatActivity {
         price = findViewById(R.id.tvmPrecioProdD);
         category = findViewById(R.id.tvmCategoriaProdD);
         imageProduct = findViewById(R.id.imgProduct);
-
-        dbGestiPedi = new DbGestiPedi(getApplicationContext());
+        btnDelete = findViewById(R.id.btnDeleteProduct);
+        btnEdit = findViewById((R.id.btnEditProd));
 
         productsModelList = dbGestiPedi.selectProductById(id);
         categoryModelList = dbGestiPedi.selectCategoryById(productsModelList.get(0).getCategory());
 
         getProductsData();
+        getPreferences();
 
-        String sharedPrefFile = "com.example.android.sharedprefs";
-        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String LOG_KEY = "log";
-        login = mPreferences.getBoolean(LOG_KEY, login);
-        String ORDER_ID_KEY = "id";
-        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        if (!rol.equals("Administrador")) {
+            btnDelete.setVisibility(View.INVISIBLE);
+            btnEdit.setVisibility(View.INVISIBLE);
+        }
     }
 
     //Función que nos permite crear los diferentes elementos que aparecen en el menú superior.
@@ -188,6 +177,18 @@ public class ProductDetail extends AppCompatActivity {
     public void deleteProduct(View view) {
         dbGestiPedi.deleteProduct(id);
         finish();
+    }
+
+    //Función que permite la obtención de los datos almacenados en SharedPreferences.
+    private void getPreferences() {
+        String sharedPrefFile = "com.example.android.sharedprefs";
+        SharedPreferences mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String LOG_KEY = "log";
+        login = mPreferences.getBoolean(LOG_KEY, login);
+        String ORDER_ID_KEY = "id";
+        orderId = mPreferences.getInt(ORDER_ID_KEY, orderId);
+        String ROL_KEY = "rol";
+        rol = mPreferences.getString(ROL_KEY, rol);
     }
 
     //Función que se utiliza para obtener y mostrar los datos relativos a los productos.
